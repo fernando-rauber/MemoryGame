@@ -6,8 +6,8 @@ import java.io.Serializable
 
 @Entity(tableName = MapEntity.NAME)
 data class MapEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int? = null,
+    @PrimaryKey
+    val id: Int,
 ) : Serializable {
 
     companion object {

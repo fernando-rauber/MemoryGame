@@ -1,8 +1,9 @@
 package uk.fernando.memory.viewmodel
 
 import uk.fernando.memory.datastore.PrefsStore
+import uk.fernando.memory.usecase.SetUpUseCase
 
-class SplashViewModel(private val prefs: PrefsStore) : BaseViewModel() {
+class SplashViewModel(private val prefs: PrefsStore, private val setUpUseCase: SetUpUseCase) : BaseViewModel() {
 
     fun firstSetUp(isDarkMode: Boolean) {
         launchIO {
@@ -10,6 +11,8 @@ class SplashViewModel(private val prefs: PrefsStore) : BaseViewModel() {
                 prefs.storeDarkMode(isDarkMode)
                 prefs.storeVersion(2)
 
+                // Create all Levels
+                setUpUseCase.invoke()
             }
         }
     }

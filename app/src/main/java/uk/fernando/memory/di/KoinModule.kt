@@ -13,9 +13,12 @@ import uk.fernando.memory.BuildConfig
 import uk.fernando.memory.database.MyDatabase
 import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.datastore.PrefsStoreImpl
+import uk.fernando.memory.repository.LevelRepository
+import uk.fernando.memory.repository.LevelRepositoryImpl
 import uk.fernando.memory.repository.MapRepository
 import uk.fernando.memory.repository.MapRepositoryImpl
 import uk.fernando.memory.usecase.GetMapListUseCase
+import uk.fernando.memory.usecase.SetUpUseCase
 import uk.fernando.memory.viewmodel.HomeViewModel
 import uk.fernando.memory.viewmodel.SplashViewModel
 
@@ -49,18 +52,19 @@ object KoinModule {
     private val repositoryModule: Module
         get() = module {
             factory<MapRepository> { MapRepositoryImpl(get()) }
+            factory<LevelRepository> { LevelRepositoryImpl(get()) }
         }
 
     private val useCaseModule: Module
         get() = module {
             single { GetMapListUseCase(get()) }
-//            single { GetTimeListUseCase(get()) }
+            single { SetUpUseCase(get(), get(), get()) }
         }
 
     private val viewModelModule: Module
         get() = module {
 
-            viewModel { SplashViewModel(get()) }
+            viewModel { SplashViewModel(get(), get()) }
             viewModel { HomeViewModel(get()) }
         }
 
