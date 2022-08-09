@@ -13,6 +13,10 @@ import uk.fernando.memory.BuildConfig
 import uk.fernando.memory.database.MyDatabase
 import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.datastore.PrefsStoreImpl
+import uk.fernando.memory.repository.MapRepository
+import uk.fernando.memory.repository.MapRepositoryImpl
+import uk.fernando.memory.usecase.GetMapListUseCase
+import uk.fernando.memory.viewmodel.HomeViewModel
 import uk.fernando.memory.viewmodel.SplashViewModel
 
 object KoinModule {
@@ -44,12 +48,12 @@ object KoinModule {
 
     private val repositoryModule: Module
         get() = module {
-//            factory<TimeRepository> { TimeRepositoryImpl(get()) }
+            factory<MapRepository> { MapRepositoryImpl(get()) }
         }
 
     private val useCaseModule: Module
         get() = module {
-//            single { InsertTimeUseCase(get(), get()) }
+            single { GetMapListUseCase(get()) }
 //            single { GetTimeListUseCase(get()) }
         }
 
@@ -57,7 +61,7 @@ object KoinModule {
         get() = module {
 
             viewModel { SplashViewModel(get()) }
-//            viewModel { SettingsViewModel(get()) }
+            viewModel { HomeViewModel(get()) }
         }
 
     private const val DB_NAME = "memory_game.db"

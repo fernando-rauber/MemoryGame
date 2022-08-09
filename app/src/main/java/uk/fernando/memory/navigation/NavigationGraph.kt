@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
+import uk.fernando.memory.screen.HomePage
 import uk.fernando.memory.screen.SplashPage
 
 
@@ -17,7 +18,7 @@ fun NavGraphBuilder.buildGraph(navController: NavController) {
     }
 
     composable(Directions.home.path) {
-//        HomePage(navController)
+        HomePage(navController)
     }
 
 //    composable(Directions.countDown.withArgsFormat(SECONDS, REST_TYPE)) {
