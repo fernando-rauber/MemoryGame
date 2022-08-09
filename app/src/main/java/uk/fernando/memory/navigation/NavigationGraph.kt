@@ -6,13 +6,14 @@ import androidx.compose.animation.core.tween
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
+import uk.fernando.memory.screen.SplashPage
 
 
 @ExperimentalAnimationApi
 fun NavGraphBuilder.buildGraph(navController: NavController) {
     composable(Directions.splash.path,
         exitTransition = { slideOutOfContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700)) }) {
-//        SplashPage(navController)
+        SplashPage(navController)
     }
 
     composable(Directions.home.path) {

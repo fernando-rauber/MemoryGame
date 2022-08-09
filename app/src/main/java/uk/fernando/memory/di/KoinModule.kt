@@ -4,6 +4,7 @@ package uk.fernando.memory.di
 import android.app.Application
 import androidx.room.Room
 import org.koin.android.ext.koin.androidApplication
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import uk.fernando.logger.AndroidLogger
@@ -12,6 +13,7 @@ import uk.fernando.memory.BuildConfig
 import uk.fernando.memory.database.MyDatabase
 import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.datastore.PrefsStoreImpl
+import uk.fernando.memory.viewmodel.SplashViewModel
 
 object KoinModule {
 
@@ -54,7 +56,7 @@ object KoinModule {
     private val viewModelModule: Module
         get() = module {
 
-//            viewModel { SplashViewModel(get()) }
+            viewModel { SplashViewModel(get()) }
 //            viewModel { SettingsViewModel(get()) }
         }
 
