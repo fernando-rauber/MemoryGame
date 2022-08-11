@@ -15,6 +15,10 @@
         android:name=".BaseApplication"
         tools:targetApi="31">
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-5791754615168338~4093493683" />
+
         <activity
             android:name=".activity.MainActivity"
             android:exported="true"
