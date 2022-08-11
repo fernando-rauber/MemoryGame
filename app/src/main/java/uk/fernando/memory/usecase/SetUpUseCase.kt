@@ -21,6 +21,9 @@ class SetUpUseCase(
                 createLevel1()
                 createLevel2()
                 createLevel3()
+
+                // Enable First Level
+                levelRepo.enableLevel(1)
             }.onFailure { e ->
                 logger.e(TAG, e.message.toString())
                 logger.addExceptionToCrashlytics(e)

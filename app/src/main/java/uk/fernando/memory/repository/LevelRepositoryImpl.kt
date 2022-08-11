@@ -13,4 +13,16 @@ open class LevelRepositoryImpl(private val dao: LevelDao) : LevelRepository {
             dao.insert(list)
         }
     }
+
+    override suspend fun enableLevel(levelID: Int) {
+        withContext(Dispatchers.IO) {
+            dao.enableLevel(levelID)
+        }
+    }
+
+    override suspend fun updateLevel(stars: Int, time: Int, levelID: Int) {
+        withContext(Dispatchers.IO) {
+            dao.updateLevel(stars, time, levelID)
+        }
+    }
 }

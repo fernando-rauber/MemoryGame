@@ -22,6 +22,7 @@ import uk.fernando.memory.R
 import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
+import uk.fernando.memory.theme.grey
 import uk.fernando.memory.viewmodel.HomeViewModel
 
 @OptIn(ExperimentalPagerApi::class)
@@ -49,7 +50,10 @@ fun HomePage(
             modifier = Modifier
                 .weight(1f)
         ) { page ->
-            MapContent(list = viewModel.mapList.value[page].levelList)
+            MapContent(
+                list = viewModel.mapList.value[page].levelList,
+                onLevelClick = { levelID -> navController.safeNav(Directions.game.withArgs("$levelID")) }
+            )
         }
 
     }
@@ -76,7 +80,7 @@ private fun NavigationTopBar(onSettingsClick: () -> Unit) {
 }
 
 @Composable
-private fun MapContent(list: List<LevelEntity>) {
+private fun MapContent(list: List<LevelEntity>, onLevelClick: (Int) -> Unit) {
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
@@ -85,24 +89,25 @@ private fun MapContent(list: List<LevelEntity>) {
         columns = GridCells.Fixed(5)
     ) {
         items(list) { level ->
-            LevelCard(level)
+            LevelCard(level, onLevelClick)
         }
     }
 }
 
 @Composable
-private fun LevelCard(level: LevelEntity) {
+private fun LevelCard(level: LevelEntity, onClick: (Int) -> Unit) {
 
     Surface(
         modifier = Modifier.aspectRatio(1f),
         shadowElevation = 4.dp,
-        shape = MaterialTheme.shapes.small
+        shape = MaterialTheme.shapes.small,
+        color = if (level.isDisabled) grey else MaterialTheme.colorScheme.surface
     ) {
         Box(
             Modifier
                 .fillMaxSize()
                 .clip(MaterialTheme.shapes.small)
-                .clickable { }) {
+                .clickable { if (!level.isDisabled) onClick(level.id!!) }) {
 
             Text(
                 modifier = Modifier.align(Alignment.Center),

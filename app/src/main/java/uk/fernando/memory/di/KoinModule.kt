@@ -19,6 +19,8 @@ import uk.fernando.memory.repository.MapRepository
 import uk.fernando.memory.repository.MapRepositoryImpl
 import uk.fernando.memory.usecase.GetMapListUseCase
 import uk.fernando.memory.usecase.SetUpUseCase
+import uk.fernando.memory.usecase.UpdateLevelUseCase
+import uk.fernando.memory.viewmodel.GameViewModel
 import uk.fernando.memory.viewmodel.HomeViewModel
 import uk.fernando.memory.viewmodel.SplashViewModel
 
@@ -58,6 +60,7 @@ object KoinModule {
     private val useCaseModule: Module
         get() = module {
             single { GetMapListUseCase(get()) }
+            single { UpdateLevelUseCase(get()) }
             single { SetUpUseCase(get(), get(), get()) }
         }
 
@@ -66,6 +69,7 @@ object KoinModule {
 
             viewModel { SplashViewModel(get(), get()) }
             viewModel { HomeViewModel(get()) }
+            viewModel { GameViewModel(get()) }
         }
 
     private const val DB_NAME = "memory_game.db"

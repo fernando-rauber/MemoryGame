@@ -44,13 +44,12 @@ object Directions {
             get() = emptyList()
     }
 
-    val countDown = object : NavigationCommand {
+    val game = object : NavigationCommand {
         override val path: String
-            get() = "countDown"
+            get() = "game"
         override val arguments: List<NamedNavArgument>
             get() = listOf(
-                navArgument(SECONDS) { type = NavType.StringType },
-                navArgument(REST_TYPE) { type = NavType.StringType }
+                navArgument(LEVEL_ID) { type = NavType.StringType },
             )
     }
 
@@ -61,8 +60,7 @@ object Directions {
             get() = emptyList()
     }
 
-    const val SECONDS = "seconds"
-    const val REST_TYPE = "rest_type"
+    const val LEVEL_ID = "levelId"
 }
 
 

@@ -6,6 +6,8 @@ import androidx.compose.animation.core.tween
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
+import uk.fernando.memory.navigation.Directions.LEVEL_ID
+import uk.fernando.memory.screen.GamePage
 import uk.fernando.memory.screen.HomePage
 import uk.fernando.memory.screen.SplashPage
 
@@ -21,14 +23,13 @@ fun NavGraphBuilder.buildGraph(navController: NavController) {
         HomePage(navController)
     }
 
-//    composable(Directions.countDown.withArgsFormat(SECONDS, REST_TYPE)) {
-//        val seconds = it.arguments?.getString(SECONDS)
-//        val isExerciseRest = it.arguments?.getString(REST_TYPE) == "true"
-//        if (seconds == null)
-//            navController.popBackStack()
-//        else
-//            CountDownPage(navController, seconds.toInt(),isExerciseRest)
-//    }
+    composable(Directions.game.withArgsFormat(LEVEL_ID)) {
+        val levelId = it.arguments?.getString(LEVEL_ID)
+        if (levelId == null)
+            navController.popBackStack()
+        else
+            GamePage(navController, levelId.toInt())
+    }
 
 //    composable(Directions.settings.path,
 //        enterTransition = { slideIntoContainer(AnimatedContentScope.SlideDirection.Down, animationSpec = tween(700)) },
