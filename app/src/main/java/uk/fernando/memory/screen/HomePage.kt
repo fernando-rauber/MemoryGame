@@ -6,12 +6,13 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -19,10 +20,14 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.memory.R
+import uk.fernando.memory.component.MyAnimation
+import uk.fernando.memory.component.MyButton
+import uk.fernando.memory.component.MyDialog
 import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.theme.grey
+import uk.fernando.memory.theme.red
 import uk.fernando.memory.viewmodel.HomeViewModel
 
 @OptIn(ExperimentalPagerApi::class)
@@ -31,30 +36,48 @@ fun HomePage(
     navController: NavController = NavController(LocalContext.current),
     viewModel: HomeViewModel = getViewModel()
 ) {
+    var currentLevel by remember { mutableStateOf<LevelEntity?>(null) }
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Box {
 
-        NavigationTopBar(
-            onSettingsClick = { navController.safeNav(Directions.settings.path) }
-        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize()
+        ) {
 
-        //val pagerState = rememberPagerState(pageCount = 3)
-
-        // Page Content
-        HorizontalPager(
-            //state = pagerState,
-            count = viewModel.mapList.value.count(),
-            modifier = Modifier
-                .weight(1f)
-        ) { page ->
-            MapContent(
-                list = viewModel.mapList.value[page].levelList,
-                onLevelClick = { levelID -> navController.safeNav(Directions.game.withArgs("$levelID")) }
+            NavigationTopBar(
+                onSettingsClick = { navController.safeNav(Directions.settings.path) }
             )
+
+            //val pagerState = rememberPagerState(pageCount = 3)
+
+            // Page Content
+            HorizontalPager(
+                //state = pagerState,
+                count = viewModel.mapList.value.count(),
+                modifier = Modifier
+                    .weight(1f)
+            ) { page ->
+                MapContent(
+                    list = viewModel.mapList.value[page].levelList,
+                    onLevelClick = { level ->
+                        if (level.starCount != null)
+                            currentLevel = level
+                        else
+                            navController.safeNav(Directions.game.withArgs("${level.id}"))
+                    }
+                )
+            }
+
         }
+
+        LevelDialog(level = currentLevel,
+            onCancel = { currentLevel = null },
+            onPlay = {
+                navController.safeNav(Directions.game.withArgs("${currentLevel?.id}"))
+                currentLevel = null
+            }
+        )
 
     }
 
@@ -80,7 +103,7 @@ private fun NavigationTopBar(onSettingsClick: () -> Unit) {
 }
 
 @Composable
-private fun MapContent(list: List<LevelEntity>, onLevelClick: (Int) -> Unit) {
+private fun MapContent(list: List<LevelEntity>, onLevelClick: (LevelEntity) -> Unit) {
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
@@ -95,7 +118,7 @@ private fun MapContent(list: List<LevelEntity>, onLevelClick: (Int) -> Unit) {
 }
 
 @Composable
-private fun LevelCard(level: LevelEntity, onClick: (Int) -> Unit) {
+private fun LevelCard(level: LevelEntity, onClick: (LevelEntity) -> Unit) {
 
     Surface(
         modifier = Modifier.aspectRatio(1f),
@@ -107,7 +130,7 @@ private fun LevelCard(level: LevelEntity, onClick: (Int) -> Unit) {
             Modifier
                 .fillMaxSize()
                 .clip(MaterialTheme.shapes.small)
-                .clickable { if (!level.isDisabled) onClick(level.id!!) }) {
+                .clickable { if (!level.isDisabled) onClick(level) }) {
 
             Text(
                 modifier = Modifier.align(Alignment.Center),
@@ -115,6 +138,45 @@ private fun LevelCard(level: LevelEntity, onClick: (Int) -> Unit) {
                 color = MaterialTheme.colorScheme.onBackground,
                 fontWeight = FontWeight.Bold
             )
+        }
+    }
+}
+
+@Composable
+private fun LevelDialog(level: LevelEntity?, onCancel: () -> Unit, onPlay: () -> Unit) {
+
+    MyAnimation(level != null) {
+
+        MyDialog {
+            Column(Modifier.padding(16.dp)) {
+
+                Text(
+                    text = "Stars: ${level?.starCount} ",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+
+                Text(
+                    text = "Time: ${level?.time} ",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+
+                Row(Modifier.padding(top = 32.dp)) {
+                    MyButton(
+                        modifier = Modifier.weight(1f),
+                        onClick = onCancel,
+                        color = red,
+                        text = stringResource(R.string.close_action)
+                    )
+
+                    Spacer(Modifier.width(16.dp))
+
+                    MyButton(
+                        modifier = Modifier.weight(1f),
+                        onClick = onPlay,
+                        text = stringResource(R.string.play_action)
+                    )
+                }
+            }
         }
     }
 }
