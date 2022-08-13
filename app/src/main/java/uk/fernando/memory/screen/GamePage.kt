@@ -43,5 +43,22 @@ fun GamePage(
             navController.popBackStack()
         }, text = "Update Level and popup")
 
+        TopBar()
+
+        CardList()
     }
+}
+
+@Composable
+private fun TopBar(){
+    // Time
+
+    // Level Text
+
+    // Pause or Close?
+}
+
+@Composable
+private fun CardList(){
+
 }

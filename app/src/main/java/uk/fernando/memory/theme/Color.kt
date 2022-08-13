@@ -21,7 +21,7 @@ val orange = Color(0xFFff8e12)
 val red = Color(0xFFd94443)
 val whiteBackGround = Color(0xFFEEEEEE)
 
-val lightDark = Color(0xFF1C2939)
-val dark = Color(0xFF141C28)
+val lightDark = Color(0xFF172231)
+val dark = Color(0xFF090D13)
 
 val steel = Color(0xFF8A8B99)
