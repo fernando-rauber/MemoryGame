@@ -20,7 +20,7 @@ data class LevelEntity(
     val isDisabled: Boolean = true,
 
     @ColumnInfo(name = "star_count")
-    val starCount: Int? = null,
+    val starCount: Int = 0,
 
     val time: Int = 0,
 

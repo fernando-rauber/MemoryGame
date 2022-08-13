@@ -5,11 +5,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.BottomCenter
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -26,7 +31,9 @@ import uk.fernando.memory.component.MyDialog
 import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
+import uk.fernando.memory.theme.gold
 import uk.fernando.memory.theme.grey
+import uk.fernando.memory.theme.greyLight
 import uk.fernando.memory.theme.red
 import uk.fernando.memory.viewmodel.HomeViewModel
 
@@ -61,7 +68,7 @@ fun HomePage(
                 MapContent(
                     list = viewModel.mapList.value[page].levelList,
                     onLevelClick = { level ->
-                        if (level.starCount != null)
+                        if (level.starCount > 0)
                             currentLevel = level
                         else
                             navController.safeNav(Directions.game.withArgs("${level.id}"))
@@ -124,27 +131,72 @@ private fun LevelCard(level: LevelEntity, onClick: (LevelEntity) -> Unit) {
         modifier = Modifier.aspectRatio(1f),
         shadowElevation = 4.dp,
         shape = MaterialTheme.shapes.small,
-        color = if (level.isDisabled) grey else MaterialTheme.colorScheme.surface
+        color = if (level.isDisabled) greyLight else MaterialTheme.colorScheme.surface
     ) {
-        Box(
+        Column(
             Modifier
                 .fillMaxSize()
                 .clip(MaterialTheme.shapes.small)
-                .clickable { if (!level.isDisabled) onClick(level) }) {
+                .clickable { if (!level.isDisabled) onClick(level) },
+            verticalArrangement = Arrangement.Center
+        ) {
 
-            Text(
-                modifier = Modifier.align(Alignment.Center),
-                text = level.position.toString(),
-                color = MaterialTheme.colorScheme.onBackground,
-                fontWeight = FontWeight.Bold
-            )
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Center
+            ) {
+
+                if (level.isDisabled) {
+                    Icon(
+                        painterResource(id = R.drawable.ic_lock),
+                        modifier = Modifier.fillMaxSize(0.8f),
+                        contentDescription = null,
+                        tint = Color.White.copy(0.8f)
+                    )
+                } else {
+                    Text(
+                        text = level.position.toString(),
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+
+                if (level.starCount > 0) {
+                    Box(
+                        Modifier
+                            .fillMaxHeight(0.3f)
+                            .align(BottomCenter)
+                    ) {
+                        Icon(
+                            Icons.Filled.Star,
+                            contentDescription = null,
+                            tint = gold
+                        )
+
+                        Icon(
+                            Icons.Filled.Star,
+                            modifier = Modifier.padding(start = 8.dp),
+                            contentDescription = null,
+                            tint = if (level.starCount > 1) gold else grey
+                        )
+
+                        Icon(
+                            Icons.Filled.Star,
+                            modifier = Modifier.padding(start = 16.dp),
+                            contentDescription = null,
+                            tint = if (level.starCount > 2) gold else grey
+                        )
+                    }
+                }
+
+            }
         }
     }
 }
 
 @Composable
 private fun LevelDialog(level: LevelEntity?, onCancel: () -> Unit, onPlay: () -> Unit) {
-
     MyAnimation(level != null) {
 
         MyDialog {
