@@ -14,58 +14,61 @@ data class MyCard(
 
 class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase) : BaseViewModel() {
 
-    private var cardOne: MyCard? = null
+    private var firstCard: MyCard? = null
+    private var secondCard: MyCard? = null
     private val _cardList = mutableStateListOf<MyCard>()
     val cardList: List<MyCard> = _cardList
 
     init {
         _cardList.addAll(
             listOf(
-                MyCard( id=1),
-                MyCard( id=2),
-                MyCard( id=3),
-                MyCard( id=4),
-                MyCard( id=1),
-                MyCard( id=2),
-                MyCard( id=3),
-                MyCard( id=4),
+                MyCard(id = 1),
+                MyCard(id = 2),
+                MyCard(id = 3),
+                MyCard(id = 4),
+                MyCard(id = 1),
+                MyCard(id = 2),
+                MyCard(id = 3),
+                MyCard(id = 4),
             )
         )
 
+        // Hide all cards after 10 secs
         launchDefault {
-            delay(10000)
+            delay(3000)
             (0 until _cardList.size).forEach { index ->
-                delay(200)
-                _cardList[index] =  _cardList[index].copy(status = CardFace.Front)
+                delay(150)
+                _cardList[index] = _cardList[index].copy(status = CardFace.Front)
             }
         }
 
     }
 
     fun setSelectedCard(card: MyCard) {
+        if (card.status == CardFace.Back || card.status == CardFace.Hidden || firstCard != null && secondCard != null)
+            return
+
         val newCard = updateListItem(card, CardFace.Back)
 
-        if (cardOne == null)
-            cardOne = newCard
-        else if (cardOne != newCard) {
-            if (newCard.id != cardOne!!.id) {// Incorrect
-                launchDefault {
-                    delay(800)
+        if (firstCard == null)
+            firstCard = newCard
+        else if (firstCard != null && secondCard == null)
+            secondCard = newCard
 
-                    updateListItem(cardOne!!, CardFace.Front)
-                    updateListItem(newCard, CardFace.Front)
+        if (firstCard != null && secondCard != null) {
+            launchDefault {
+                delay(800)
 
-                    cardOne = null
-                }
-            }else{ // Correct
-                launchDefault {
-                    delay(800)
+                val newStatus = if (firstCard!!.id != secondCard!!.id) // Incorrect
+                    CardFace.Front
+                else // Correct
+                    CardFace.Hidden
 
-                    updateListItem(cardOne!!, CardFace.Hide)
-                    updateListItem(newCard, CardFace.Hide)
+                updateListItem(firstCard!!, newStatus)
+                updateListItem(secondCard!!, newStatus)
 
-                    cardOne = null
-                }
+                firstCard = null
+                secondCard = null
             }
         }
     }

@@ -30,9 +30,9 @@ enum class CardFace(val angle: Float) {
         override val next: CardFace
             get() = Front
     },
-    Hide(0f) {
+    Hidden(0f) {
         override val next: CardFace
-            get() = Hide
+            get() = Hidden
     };
 
     abstract val next: CardFace
@@ -61,7 +61,7 @@ fun MyFlipCard(
     ) {
 
         AnimatedVisibility(
-            visible = cardFace != CardFace.Hide,
+            visible = cardFace != CardFace.Hidden,
             enter = scaleIn(),
             exit = scaleOut()
         ) {
