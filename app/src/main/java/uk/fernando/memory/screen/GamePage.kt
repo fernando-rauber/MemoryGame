@@ -22,6 +22,7 @@ import uk.fernando.memory.component.MyButton
 import uk.fernando.memory.component.MyFlipCard
 import uk.fernando.memory.ext.TAG
 import uk.fernando.memory.navigation.Directions
+import uk.fernando.memory.theme.green
 import uk.fernando.memory.viewmodel.GameViewModel
 
 @Composable
@@ -82,29 +83,20 @@ private fun CardList(viewModel: GameViewModel) {
 
             state = card.status
 
-            Log.e(TAG, "CardList updated $card ", )
-//            var state by remember { mutableStateOf(CardFace.Front) }
-
-//            viewModel.flipBackCard.value.let { update ->
-//                if (state == CardFace.Back) {
-//                    state = CardFace.Front
-//                }
-//            }
-//                if (update % 2 == 0 && state == CardFace.Back) {
-//                    state = CardFace.Front
-//                }
-
-
             MyFlipCard(
                 cardFace = state,
                 onClick = {
                     viewModel.setSelectedCard(card)
                 },
                 back = {
-                    Text(
-                        text = "Front ${card.id}", Modifier
-                            .background(Color.Red)
-                    )
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .background(green),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = "${card.id}")
+                    }
                 }
             )
         }

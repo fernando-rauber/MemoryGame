@@ -9,7 +9,7 @@ import java.util.*
 data class MyCard(
     val uuid: String = UUID.randomUUID().toString(),
     val id: Int,
-    val status: CardFace = CardFace.Front
+    val status: CardFace = CardFace.Back
 )
 
 class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase) : BaseViewModel() {
@@ -23,10 +23,23 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase) : BaseVi
             listOf(
                 MyCard( id=1),
                 MyCard( id=2),
+                MyCard( id=3),
+                MyCard( id=4),
                 MyCard( id=1),
+                MyCard( id=2),
+                MyCard( id=3),
                 MyCard( id=4),
             )
         )
+
+        launchDefault {
+            delay(10000)
+            (0 until _cardList.size).forEach { index ->
+                delay(200)
+                _cardList[index] =  _cardList[index].copy(status = CardFace.Front)
+            }
+        }
+
     }
 
     fun setSelectedCard(card: MyCard) {
