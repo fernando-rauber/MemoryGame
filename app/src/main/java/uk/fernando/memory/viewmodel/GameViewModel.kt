@@ -2,9 +2,15 @@ package uk.fernando.memory.viewmodel
 
 import androidx.compose.runtime.mutableStateListOf
 import kotlinx.coroutines.delay
+import uk.fernando.memory.component.CardFace
 import uk.fernando.memory.usecase.UpdateLevelUseCase
+import java.util.*
 
-data class MyCard(val id: Int, val hide: Boolean, var front: Boolean)
+data class MyCard(
+    val uuid: String = UUID.randomUUID().toString(),
+    val id: Int,
+    val status: CardFace = CardFace.Front
+)
 
 class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase) : BaseViewModel() {
 
@@ -15,26 +21,35 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase) : BaseVi
     init {
         _cardList.addAll(
             listOf(
-                MyCard(1, false, true),
-                MyCard(2, false, true),
-                MyCard(3, false, true),
-                MyCard(4, false, true),
+                MyCard( id=1),
+                MyCard( id=2),
+                MyCard( id=1),
+                MyCard( id=4),
             )
         )
     }
 
     fun setSelectedCard(card: MyCard) {
-        val newCard = updateListItem(card, false)
+        val newCard = updateListItem(card, CardFace.Back)
 
         if (cardOne == null)
             cardOne = newCard
         else if (cardOne != newCard) {
-            if (newCard.id != cardOne!!.id) {
+            if (newCard.id != cardOne!!.id) {// Incorrect
                 launchDefault {
-                    delay(1000)
+                    delay(800)
 
-                    updateListItem(cardOne!!, true)
-                    updateListItem(newCard, true)
+                    updateListItem(cardOne!!, CardFace.Front)
+                    updateListItem(newCard, CardFace.Front)
+
+                    cardOne = null
+                }
+            }else{ // Correct
+                launchDefault {
+                    delay(800)
+
+                    updateListItem(cardOne!!, CardFace.Hide)
+                    updateListItem(newCard, CardFace.Hide)
 
                     cardOne = null
                 }
@@ -42,9 +57,9 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase) : BaseVi
         }
     }
 
-    private fun updateListItem(card: MyCard, isFront: Boolean): MyCard {
+    private fun updateListItem(card: MyCard, status: CardFace): MyCard {
         val index = _cardList.indexOf(card)
-        _cardList[index] = _cardList[index].copy(front = isFront)
+        _cardList[index] = _cardList[index].copy(status = status)
         return _cardList[index]
     }
 

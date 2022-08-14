@@ -78,9 +78,9 @@ private fun CardList(viewModel: GameViewModel) {
     ) {
         items(viewModel.cardList) { card ->
 
-            var state by remember { mutableStateOf(if (card.front) CardFace.Front else CardFace.Back) }
+            var state by remember { mutableStateOf(card.status) }
 
-            state = if (card.front) CardFace.Front else CardFace.Back
+            state = card.status
 
             Log.e(TAG, "CardList updated $card ", )
 //            var state by remember { mutableStateOf(CardFace.Front) }
@@ -98,7 +98,6 @@ private fun CardList(viewModel: GameViewModel) {
             MyFlipCard(
                 cardFace = state,
                 onClick = {
-                    //state = it.next
                     viewModel.setSelectedCard(card)
                 },
                 back = {
