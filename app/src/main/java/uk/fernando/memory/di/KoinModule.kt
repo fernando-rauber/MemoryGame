@@ -69,7 +69,7 @@ object KoinModule {
 
             viewModel { SplashViewModel(get(), get()) }
             viewModel { HomeViewModel(get()) }
-            viewModel { GameViewModel(get()) }
+            viewModel { GameViewModel(get(), get()) }
         }
 
     private const val DB_NAME = "memory_game.db"

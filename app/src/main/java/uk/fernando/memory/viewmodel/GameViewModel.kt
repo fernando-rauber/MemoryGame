@@ -1,8 +1,13 @@
 package uk.fernando.memory.viewmodel
 
+import android.os.CountDownTimer
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
+import uk.fernando.logger.MyLogger
 import uk.fernando.memory.component.CardFace
+import uk.fernando.memory.ext.TAG
 import uk.fernando.memory.usecase.UpdateLevelUseCase
 import java.util.*
 
@@ -12,14 +17,25 @@ data class MyCard(
     val status: CardFace = CardFace.Back
 )
 
-class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase) : BaseViewModel() {
+class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase, private val logger: MyLogger) : BaseViewModel() {
 
     private var firstCard: MyCard? = null
     private var secondCard: MyCard? = null
     private val _cardList = mutableStateListOf<MyCard>()
     val cardList: List<MyCard> = _cardList
+    val chronometerSeconds = mutableStateOf(0)
 
-    init {
+    private val chronometer = object : CountDownTimer(7200000, 1000) {
+        override fun onTick(millisUntilFinished: Long) {
+            chronometerSeconds.value++
+        }
+
+        override fun onFinish() {
+            chronometerSeconds.value = 0
+        }
+    }
+
+   init {
         _cardList.addAll(
             listOf(
                 MyCard(id = 1),
@@ -44,6 +60,10 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase) : BaseVi
 
     }
 
+    fun startChronometer() {
+        chronometer.start()
+    }
+
     fun setSelectedCard(card: MyCard) {
         if (card.status == CardFace.Back || card.status == CardFace.Hidden || firstCard != null && secondCard != null)
             return
@@ -55,6 +75,7 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase) : BaseVi
         else if (firstCard != null && secondCard == null)
             secondCard = newCard
 
+        // Validate both cards
         if (firstCard != null && secondCard != null) {
             launchDefault {
                 delay(800)
@@ -79,10 +100,21 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase) : BaseVi
         return _cardList[index]
     }
 
-    fun updateLevel(stars: Int, time: Int, levelID: Int) {
+    fun updateLevel(levelID: Int) {
         launchDefault {
-            updateLevelUseCase.invoke(stars, time, levelID)
+            kotlin.runCatching {
+                val timer = chronometerSeconds.value
+                chronometer.cancel()
+
+                updateLevelUseCase.invoke(1, timer, levelID)
+            }.onFailure { e ->
+                logger.e(TAG, e.message.toString())
+                logger.addMessageToCrashlytics(TAG, "Error update level: msg: ${e.message}")
+                logger.addExceptionToCrashlytics(e)
+            }
         }
     }
+
+
 
 }
