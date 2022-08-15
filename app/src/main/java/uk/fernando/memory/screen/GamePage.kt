@@ -12,13 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.memory.R
 import uk.fernando.memory.component.MyFlipCard
+import uk.fernando.memory.ext.getCellCount
+import uk.fernando.memory.ext.getWidthSize
 import uk.fernando.memory.ext.timerFormat
 import uk.fernando.memory.theme.green
 import uk.fernando.memory.viewmodel.GameViewModel
@@ -27,8 +27,10 @@ import uk.fernando.memory.viewmodel.GameViewModel
 fun GamePage(
     navController: NavController = NavController(LocalContext.current),
     levelId: Int,
+    cardQtd: Int,
     viewModel: GameViewModel = getViewModel()
 ) {
+    LaunchedEffect(Unit) { viewModel.setUpGame(levelId, cardQtd) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -41,7 +43,7 @@ fun GamePage(
             onClose = { navController.popBackStack() }
         )
 
-        CardList(viewModel)
+        CardList(viewModel, cardQtd)
     }
 }
 
@@ -117,37 +119,41 @@ private fun BoxScope.TopBarItemCard(alignment: Alignment, content: @Composable (
 }
 
 @Composable
-private fun CardList(viewModel: GameViewModel) {
+private fun CardList(viewModel: GameViewModel, cardQtd: Int) {
+    Box(Modifier.fillMaxSize()) {
 
-    LazyVerticalGrid(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        columns = GridCells.Fixed(4)
-    ) {
-        items(viewModel.cardList) { card ->
+        LazyVerticalGrid(
+            modifier = Modifier
+                .fillMaxSize(cardQtd.getWidthSize())
+                .align(Alignment.Center),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            columns = GridCells.Fixed(cardQtd.getCellCount())
+        ) {
+            items(viewModel.cardList) { card ->
 
-            var state by remember { mutableStateOf(card.status) }
+                var state by remember { mutableStateOf(card.status) }
 
-            state = card.status
+                state = card.status
 
-            MyFlipCard(
-                cardFace = state,
-                onClick = {
-                    viewModel.setSelectedCard(card)
-                },
-                back = {
-                    Box(
-                        Modifier
-                            .fillMaxSize()
-                            .background(green),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "${card.id}")
+                MyFlipCard(
+                    cardFace = state,
+                    onClick = {
+                        viewModel.setSelectedCard(card)
+                    },
+                    back = {
+                        Box(
+                            Modifier
+                                .fillMaxSize()
+                                .background(green),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(text = "${card.id}")
+                        }
                     }
-                }
-            )
+                )
+            }
         }
     }
 }

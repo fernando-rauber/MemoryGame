@@ -20,7 +20,7 @@ class SetUpUseCase(
             runCatching {
                 createLevel1()
                 createLevel2()
-                createLevel3()
+               // createLevel3()
 
                 // Enable First Level
                 levelRepo.enableLevel(1)
@@ -53,7 +53,15 @@ class SetUpUseCase(
         val levelList = mutableListOf<LevelEntity>()
 
         (1..30).forEach { position ->
-            levelList.add(LevelEntity(position = position, mapID = mapID))
+            val quantity = when (position) {
+                1 -> 4
+                2 -> 6
+                3 -> 8
+                4 -> 12
+                else -> 20
+            }
+
+            levelList.add(LevelEntity(position = position, cardQuantity = quantity, mapID = mapID))
         }
 
         return levelList

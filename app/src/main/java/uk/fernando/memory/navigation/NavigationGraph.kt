@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
+import uk.fernando.memory.navigation.Directions.CARD_QUANTITY
 import uk.fernando.memory.navigation.Directions.LEVEL_ID
 import uk.fernando.memory.screen.GamePage
 import uk.fernando.memory.screen.HomePage
@@ -23,12 +24,14 @@ fun NavGraphBuilder.buildGraph(navController: NavController) {
         HomePage(navController)
     }
 
-    composable(Directions.game.withArgsFormat(LEVEL_ID)) {
+    composable(Directions.game.withArgsFormat(LEVEL_ID, CARD_QUANTITY)) {
         val levelId = it.arguments?.getString(LEVEL_ID)
-        if (levelId == null)
+        val cardQuantity = it.arguments?.getString(CARD_QUANTITY)
+
+        if (levelId == null || cardQuantity == null)
             navController.popBackStack()
         else
-            GamePage(navController, levelId.toInt())
+            GamePage(navController, levelId.toInt(), cardQuantity.toInt())
     }
 
 //    composable(Directions.settings.path,

@@ -19,6 +19,9 @@ data class LevelEntity(
     @ColumnInfo(name = "is_disabled")
     val isDisabled: Boolean = true,
 
+    @ColumnInfo(name = "card_quantity")
+    val cardQuantity: Int ,
+
     @ColumnInfo(name = "star_count")
     val starCount: Int = 0,
 
