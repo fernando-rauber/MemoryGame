@@ -28,18 +28,10 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase, private 
     private val _mistakes = mutableStateOf(5)
     val mistakes: Int = _mistakes.value
     private var totalCards = 0
+    val isGameFinished = mutableStateOf(false)
 
     init {
 
-
-//        // Hide all cards after 10 secs
-//        launchDefault {
-//            delay(3000)
-//            (0 until _cardList.size).forEach { index ->
-//                delay(150)
-//                _cardList[index] = _cardList[index].copy(status = CardFace.Front)
-//            }
-//        }
 
     }
 
@@ -53,8 +45,16 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase, private 
         totalCards = _cardList.size
     }
 
-    fun startChronometer() {
-        chronometer.start()
+    fun startGame() {
+        // Hide all cards after some secs
+        launchDefault {
+            (0 until _cardList.size).forEach { index ->
+                delay(150)
+                _cardList[index] = _cardList[index].copy(status = CardFace.Front)
+            }
+
+            chronometer.start()
+        }
     }
 
     fun setSelectedCard(card: MyCard) {
@@ -77,7 +77,7 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase, private 
                     _mistakes.value--
                     CardFace.Front
                 } else { // Correct
-                    totalCards - 2
+                    totalCards -= 2
                     CardFace.Hidden
                 }
 
@@ -102,6 +102,8 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase, private 
     private fun updateLevel() {
         launchDefault {
             kotlin.runCatching {
+                isGameFinished.value = true
+
                 val timer = chronometerSeconds.value
                 chronometer.cancel()
 

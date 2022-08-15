@@ -25,8 +25,8 @@ fun Int.timerFormat(): String {
     return "${minutes.toString().padStart(2, '0')}:${(this % 60).toString().padStart(2, '0')}"
 }
 
-fun MediaPlayer.playAudio(disableSound: Boolean = false) {
-    if (disableSound)
+fun MediaPlayer.playAudio(enableSound: Boolean = true) {
+    if (!enableSound)
         return
 
     if (isPlaying) {
