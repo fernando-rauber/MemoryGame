@@ -98,19 +98,29 @@ private fun TopBar(viewModel: GameViewModel, levelId: Int, onClose: () -> Unit) 
     ) {
 
         TopBarItemCard(Alignment.CenterStart) {
-            Row(
-                modifier = Modifier.padding(start = 4.dp, end = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    modifier = Modifier.size(36.dp),
-                    painter = painterResource(id = R.drawable.ic_timer),
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
-                )
+            Column {
+
+                Row(
+                    modifier = Modifier.padding(start = 4.dp, end = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        modifier = Modifier.size(36.dp),
+                        painter = painterResource(id = R.drawable.ic_timer),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onBackground
+                    )
+                    Text(
+                        modifier = Modifier.padding(start = 2.dp),
+                        text = viewModel.chronometerSeconds.value.timerFormat(),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                }
+
                 Text(
-                    modifier = Modifier.padding(start = 2.dp),
-                    text = viewModel.chronometerSeconds.value.timerFormat(),
+                    modifier = Modifier.padding(start = 4.dp),
+                    text = "Mistakes: ${viewModel.mistakes.value}",
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onBackground
                 )
@@ -293,8 +303,8 @@ fun DialogResult(
                         .padding(bottom = 16.dp)
                         .fillMaxWidth()
                         .defaultMinSize(minHeight = 50.dp),
-                    onClick = {},
-                    text = "Retry or next level"
+                    onClick = {viewModel.retryOrNextLevel()},
+                    text = if (viewModel.mistakes.value <= 0) "Retry" else "Next Level"
                 )
             }
         }

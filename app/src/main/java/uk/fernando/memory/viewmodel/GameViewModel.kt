@@ -25,8 +25,7 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase, private 
 
     private val _cardList = mutableStateListOf<MyCard>()
     val cardList: List<MyCard> = _cardList
-    private val _mistakes = mutableStateOf(5)
-    val mistakes: Int = _mistakes.value
+    val mistakes = mutableStateOf(5)
     private var totalCards = 0
     val isGameFinished = mutableStateOf(false)
 
@@ -38,8 +37,8 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase, private 
     fun setUpGame(levelID: Int, cardQuantity: Int) {
         this.levelID = levelID
 
-        (1..cardQuantity).forEach {
-            _cardList.add(MyCard(id = 1))
+        (1..cardQuantity).forEach { id ->
+            _cardList.add(MyCard(id = id))
         }
 
         totalCards = _cardList.size
@@ -74,7 +73,7 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase, private 
                 delay(800)
 
                 val newStatus = if (firstCard!!.id != secondCard!!.id) { // Incorrect
-                    _mistakes.value--
+                    mistakes.value -= 1
                     CardFace.Front
                 } else { // Correct
                     totalCards -= 2
@@ -87,6 +86,9 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase, private 
                 firstCard = null
                 secondCard = null
 
+                if (mistakes.value <= 0)
+                    isGameFinished.value = true
+
                 if (totalCards == 0)
                     updateLevel()
             }
@@ -97,6 +99,16 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase, private 
         val index = _cardList.indexOf(card)
         _cardList[index] = _cardList[index].copy(status = status)
         return _cardList[index]
+    }
+
+    fun retryOrNextLevel() {
+        chronometerSeconds.value = 0
+        _cardList.clear()
+        mistakes.value = 5
+        isGameFinished.value = false
+
+        // Retry Level
+        setUpGame(levelID, totalCards)
     }
 
     private fun updateLevel() {
@@ -117,7 +129,7 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase, private 
     }
 
     private fun getStars(): Int {
-        return when (mistakes) {
+        return when (mistakes.value) {
             5 -> 3
             4, 3 -> 2
             else -> 1
