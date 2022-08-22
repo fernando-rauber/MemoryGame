@@ -13,6 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterStart
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -26,10 +27,12 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.inject
 import uk.fernando.memory.R
 import uk.fernando.memory.component.MyAnimation
 import uk.fernando.memory.component.MyResultDialog
 import uk.fernando.memory.database.entity.LevelEntity
+import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.theme.dark
@@ -100,7 +103,32 @@ fun HomePage(
 
 @Composable
 private fun NavigationTopBar(onSettingsClick: () -> Unit) {
+    val prefs: PrefsStore by inject()
+    val starsCount = prefs.getStarCount().collectAsState(initial = 0)
+
     Box(Modifier.fillMaxWidth()) {
+
+        Row(
+            Modifier
+                .align(CenterStart)
+                .padding(start = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                Icons.Filled.Star,
+                modifier = Modifier.size(32.dp),
+                contentDescription = null,
+                tint = gold
+            )
+
+            Text(
+                text = "${starsCount.value}",
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Medium
+            )
+
+        }
 
         IconButton(
             modifier = Modifier
@@ -126,6 +154,15 @@ private fun MapContent(list: List<LevelEntity>, onLevelClick: (LevelEntity) -> U
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         columns = GridCells.Fixed(4)
     ) {
+        item {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = "animals 999",
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.labelMedium,
+                fontWeight = FontWeight.Medium
+            )
+        }
         items(list) { level ->
             LevelCard(level, onLevelClick)
         }
@@ -148,7 +185,8 @@ private fun LevelCard(level: LevelEntity, onClick: (LevelEntity) -> Unit) {
                     Brush.verticalGradient(
                         .3f to MaterialTheme.colorScheme.primary,
                         1f to green.copy(0.7f)
-                    )                )
+                    )
+                )
                 .clip(MaterialTheme.shapes.small)
                 .clickable { if (!level.isDisabled) onClick(level) },
             verticalArrangement = Arrangement.Center

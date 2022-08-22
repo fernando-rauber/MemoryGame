@@ -34,6 +34,10 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
         return dataStore.data.map { prefs -> prefs[PreferencesKeys.SOUND_ENABLED] ?: true }
     }
 
+    override fun getStarCount(): Flow<Int> {
+        return dataStore.data.map { prefs -> prefs[PreferencesKeys.STAR] ?: 0 }
+    }
+
     override suspend fun storeVersion(value: Int) {
         dataStore.edit { prefs -> prefs[PreferencesKeys.VERSION] = value }
     }
@@ -50,10 +54,15 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
         dataStore.edit { prefs -> prefs[PreferencesKeys.SOUND_ENABLED] = enabled }
     }
 
+    override suspend fun storeStar(value: Int) {
+        dataStore.edit { prefs -> prefs[PreferencesKeys.STAR] = getStarCount().first() + value }
+    }
+
     private object PreferencesKeys {
         val VERSION = intPreferencesKey("version")
         val DARK_MODE = booleanPreferencesKey("dark_mode")
         val PREMIUM = booleanPreferencesKey("premium")
         val SOUND_ENABLED = booleanPreferencesKey("sound_enabled")
+        val STAR = intPreferencesKey("star")
     }
 }
