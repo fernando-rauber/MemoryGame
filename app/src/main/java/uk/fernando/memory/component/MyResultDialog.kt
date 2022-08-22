@@ -38,7 +38,7 @@ fun MyResultDialog(
 ) {
     MyDialog {
         Column(
-            Modifier.padding(horizontal = 16.dp),
+            Modifier.padding(horizontal = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -68,7 +68,7 @@ fun MyResultDialog(
             )
 
             // Buttons
-            Row(Modifier.padding(top = 32.dp, bottom = 16.dp)) {
+            Row(Modifier.padding(top = 32.dp, bottom = 8.dp)) {
                 MyButton(
                     modifier = Modifier.weight(1f),
                     onClick = onLeftButton,
@@ -76,7 +76,7 @@ fun MyResultDialog(
                     text = stringResource(leftButtonText)
                 )
 
-                Spacer(Modifier.width(16.dp))
+                Spacer(Modifier.width(8.dp))
 
                 MyButton(
                     modifier = Modifier.weight(1f),

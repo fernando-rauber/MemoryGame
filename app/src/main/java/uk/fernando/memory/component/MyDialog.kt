@@ -14,7 +14,7 @@ fun MyDialog(content: @Composable () -> Unit) {
         onDismissRequest = { },
         properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
     ) {
-        Column(Modifier.background(MaterialTheme.colorScheme.surface, MaterialTheme.shapes.medium)) {
+        Column(Modifier.background(MaterialTheme.colorScheme.surface, MaterialTheme.shapes.small)) {
             content()
         }
     }
