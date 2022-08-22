@@ -17,7 +17,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -26,15 +25,13 @@ import com.google.accompanist.pager.HorizontalPager
 import org.koin.androidx.compose.getViewModel
 import uk.fernando.memory.R
 import uk.fernando.memory.component.MyAnimation
-import uk.fernando.memory.component.MyButton
-import uk.fernando.memory.component.MyDialog
+import uk.fernando.memory.component.MyResultDialog
 import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.theme.gold
 import uk.fernando.memory.theme.grey
 import uk.fernando.memory.theme.greyLight
-import uk.fernando.memory.theme.red
 import uk.fernando.memory.viewmodel.HomeViewModel
 
 @OptIn(ExperimentalPagerApi::class)
@@ -199,36 +196,15 @@ private fun LevelCard(level: LevelEntity, onClick: (LevelEntity) -> Unit) {
 private fun LevelDialog(level: LevelEntity?, onCancel: () -> Unit, onPlay: () -> Unit) {
     MyAnimation(level != null) {
 
-        MyDialog {
-            Column(Modifier.padding(16.dp)) {
-
-                Text(
-                    text = "Stars: ${level?.starCount} ",
-                    style = MaterialTheme.typography.bodyLarge
-                )
-
-                Text(
-                    text = "Time: ${level?.time} ",
-                    style = MaterialTheme.typography.bodyLarge
-                )
-
-                Row(Modifier.padding(top = 32.dp)) {
-                    MyButton(
-                        modifier = Modifier.weight(1f),
-                        onClick = onCancel,
-                        color = red,
-                        text = stringResource(R.string.close_action)
-                    )
-
-                    Spacer(Modifier.width(16.dp))
-
-                    MyButton(
-                        modifier = Modifier.weight(1f),
-                        onClick = onPlay,
-                        text = stringResource(R.string.play_action)
-                    )
-                }
-            }
+        level?.let {
+            MyResultDialog(
+                level = level,
+                isFail = false,
+                leftButtonText = R.string.close_action,
+                rightButtonText = R.string.replay_action,
+                onLeftButton = onCancel,
+                onRightButton = onPlay,
+            )
         }
     }
 }

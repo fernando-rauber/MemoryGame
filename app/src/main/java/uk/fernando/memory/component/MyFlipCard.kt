@@ -10,15 +10,13 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import uk.fernando.memory.R
 
 enum class CardFace(val angle: Float) {
@@ -68,6 +66,7 @@ fun MyFlipCard(
             Card(
                 onClick = { onClick(cardFace) },
                 shape = MaterialTheme.shapes.small,
+                elevation = CardDefaults.cardElevation(4.dp),
                 modifier = modifier
                     .graphicsLayer {
                         rotationY = rotation.value
