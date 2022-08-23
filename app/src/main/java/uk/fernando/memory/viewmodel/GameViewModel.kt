@@ -8,38 +8,29 @@ import uk.fernando.logger.MyLogger
 import uk.fernando.memory.component.CardFace
 import uk.fernando.memory.ext.TAG
 import uk.fernando.memory.usecase.UpdateLevelUseCase
+import uk.fernando.memory.util.CardGenerator
+import uk.fernando.memory.util.CardModel
 import java.util.*
 
-data class MyCard(
-    val uuid: String = UUID.randomUUID().toString(),
-    val id: Int,
-    val status: CardFace = CardFace.Back
-)
 
 class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase, private val logger: MyLogger) : BaseViewModel() {
 
     private var levelID: Int = 0
-    private var firstCard: MyCard? = null
-    private var secondCard: MyCard? = null
+    private var firstCard: CardModel? = null
+    private var secondCard: CardModel? = null
     val chronometerSeconds = mutableStateOf(0)
 
-    private val _cardList = mutableStateListOf<MyCard>()
-    val cardList: List<MyCard> = _cardList
+    private val _cardList = mutableStateListOf<CardModel>()
+    val cardList: List<CardModel> = _cardList
     val attemptsLeft = mutableStateOf(5)
     private var totalCards = 0
     val isGameFinished = mutableStateOf(false)
 
-    init {
-
-
-    }
-
     fun setUpGame(levelID: Int, cardQuantity: Int) {
         this.levelID = levelID
 
-        (1..cardQuantity).forEach { id ->
-            _cardList.add(MyCard(id = id))
-        }
+        _cardList.clear()
+        _cardList.addAll(CardGenerator().generateCards(cardQuantity, 1))
 
         totalCards = _cardList.size
     }
@@ -56,7 +47,7 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase, private 
         }
     }
 
-    fun setSelectedCard(card: MyCard) {
+    fun setSelectedCard(card: CardModel) {
         if (card.status == CardFace.Back || card.status == CardFace.Hidden || firstCard != null && secondCard != null)
             return
 
@@ -95,7 +86,7 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase, private 
         }
     }
 
-    private fun updateListItem(card: MyCard, status: CardFace): MyCard {
+    private fun updateListItem(card: CardModel, status: CardFace): CardModel {
         val index = _cardList.indexOf(card)
         _cardList[index] = _cardList[index].copy(status = status)
         return _cardList[index]
