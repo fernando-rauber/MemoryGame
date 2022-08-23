@@ -6,5 +6,5 @@ import java.util.*
 data class CardModel(
     val uuid: String = UUID.randomUUID().toString(),
     val id: Int,
-    val status: CardFace = CardFace.Back
+    val status: CardFace = CardFace.BackDisabled
 )
