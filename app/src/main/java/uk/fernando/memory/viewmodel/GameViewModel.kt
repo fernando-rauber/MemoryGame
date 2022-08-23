@@ -25,7 +25,7 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase, private 
 
     private val _cardList = mutableStateListOf<MyCard>()
     val cardList: List<MyCard> = _cardList
-    val mistakes = mutableStateOf(5)
+    val attemptsLeft = mutableStateOf(5)
     private var totalCards = 0
     val isGameFinished = mutableStateOf(false)
 
@@ -73,7 +73,7 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase, private 
                 delay(800)
 
                 val newStatus = if (firstCard!!.id != secondCard!!.id) { // Incorrect
-                    mistakes.value -= 1
+                    attemptsLeft.value -= 1
                     CardFace.Front
                 } else { // Correct
                     totalCards -= 2
@@ -86,7 +86,7 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase, private 
                 firstCard = null
                 secondCard = null
 
-                if (mistakes.value <= 0)
+                if (attemptsLeft.value <= 0)
                     isGameFinished.value = true
 
                 if (totalCards == 0)
@@ -104,7 +104,7 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase, private 
     fun retryOrNextLevel() {
         chronometerSeconds.value = 0
         _cardList.clear()
-        mistakes.value = 5
+        attemptsLeft.value = 5
         isGameFinished.value = false
 
         // Retry Level
@@ -129,7 +129,7 @@ class GameViewModel(private val updateLevelUseCase: UpdateLevelUseCase, private 
     }
 
     private fun getStars(): Int {
-        return when (mistakes.value) {
+        return when (attemptsLeft.value) {
             5 -> 3
             4, 3 -> 2
             else -> 1

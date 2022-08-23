@@ -24,6 +24,7 @@ import uk.fernando.memory.navigation.buildGraph
 import uk.fernando.memory.theme.MemoryTheme
 import uk.fernando.memory.theme.dark
 import uk.fernando.memory.R
+import uk.fernando.memory.theme.greenLight
 import uk.fernando.memory.theme.whiteBackGround
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
@@ -47,7 +48,7 @@ class MainActivity : ComponentActivity() {
                     Icon(
                         painter = painterResource(R.drawable.img_moon),
                         contentDescription = null,
-                        tint = Color.Unspecified
+                        tint = Color.Blue.copy(0.15f)
                     )
 
                     AnimatedNavHost(

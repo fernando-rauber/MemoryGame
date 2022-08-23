@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -61,7 +62,7 @@ fun HomePage(
             )
 
             Text(
-                modifier = Modifier.padding(bottom = 20.dp),
+                modifier = Modifier.padding(bottom = 10.dp),
                 text = stringResource(id = R.string.select_level_title),
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.titleLarge,
@@ -76,15 +77,26 @@ fun HomePage(
                 count = viewModel.mapList.value.count(),
                 modifier = Modifier.weight(1f)
             ) { page ->
-                MapContent(
-                    list = viewModel.mapList.value[page].levelList,
-                    onLevelClick = { level ->
-                        if (level.starCount > 0)
-                            currentLevel = level
-                        else
-                            navController.safeNav(Directions.game.withArgs("${level.id}", "${level.cardQuantity}"))
-                    }
-                )
+                Column {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = "animals 999",
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.Center
+                    )
+
+                    MapContent(
+                        list = viewModel.mapList.value[page].levelList,
+                        onLevelClick = { level ->
+                            if (level.starCount > 0)
+                                currentLevel = level
+                            else
+                                navController.safeNav(Directions.game.withArgs("${level.id}", "${level.cardQuantity}"))
+                        }
+                    )
+                }
             }
 
         }
@@ -150,19 +162,10 @@ private fun MapContent(list: List<LevelEntity>, onLevelClick: (LevelEntity) -> U
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
         columns = GridCells.Fixed(4)
     ) {
-        item {
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = "animals 999",
-                color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.labelMedium,
-                fontWeight = FontWeight.Medium
-            )
-        }
         items(list) { level ->
             LevelCard(level, onLevelClick)
         }
