@@ -3,11 +3,13 @@ package uk.fernando.memory.usecase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import uk.fernando.logger.MyLogger
+import uk.fernando.memory.config.AppConfig.MAX_CARDS_PER_MAP
 import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.database.entity.MapEntity
 import uk.fernando.memory.ext.TAG
 import uk.fernando.memory.repository.LevelRepository
 import uk.fernando.memory.repository.MapRepository
+import uk.fernando.memory.util.CardType
 
 class SetUpUseCase(
     private val mapRepo: MapRepository,
@@ -15,12 +17,21 @@ class SetUpUseCase(
     private val logger: MyLogger
 ) {
 
+    private val categoryList = listOf(CardType.ANIMAL, CardType.FLAG, CardType.NUMBER)
+
     suspend operator fun invoke() {
         withContext(Dispatchers.IO) {
             runCatching {
-                createLevel1()
-                createLevel2()
-               // createLevel3()
+
+                categoryList.forEachIndexed { index, cardType ->
+                    val map = MapEntity(
+                        id = index + 1,
+                        type = cardType.value,
+                        starsRequired = (index * MAX_CARDS_PER_MAP * 1.9).toInt()
+                    )
+                    mapRepo.insert(map)
+                    levelRepo.insert(createLevelsByType(map.id))
+                }
 
                 // Enable First Level
                 levelRepo.enableLevel(1)
@@ -31,28 +42,10 @@ class SetUpUseCase(
         }
     }
 
-    private suspend fun createLevel1() {
-        val map = MapEntity(1)
-        mapRepo.insert(map)
-        levelRepo.insert(createLevelsByType(1, 1))
-    }
-
-    private suspend fun createLevel2() {
-        val map = MapEntity(2)
-        mapRepo.insert(map)
-        levelRepo.insert(createLevelsByType(map.id, 2))
-    }
-
-    private suspend fun createLevel3() {
-        val map = MapEntity(3)
-        mapRepo.insert(map)
-        levelRepo.insert(createLevelsByType(map.id, 3))
-    }
-
-    private fun createLevelsByType(mapID: Int, type: Int): List<LevelEntity> {
+    private fun createLevelsByType(mapID: Int): List<LevelEntity> {
         val levelList = mutableListOf<LevelEntity>()
 
-        (1..4).forEach { position ->
+        (1..MAX_CARDS_PER_MAP).forEach { position ->
             val quantity = when (position) {
                 1 -> 4
                 2 -> 6
