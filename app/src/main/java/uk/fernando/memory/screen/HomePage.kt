@@ -34,6 +34,7 @@ import uk.fernando.memory.component.MyAnimation
 import uk.fernando.memory.component.MyResultDialog
 import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.datastore.PrefsStore
+import uk.fernando.memory.ext.getTypeName
 import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.theme.dark
@@ -74,13 +75,13 @@ fun HomePage(
             // Page Content
             HorizontalPager(
                 //state = pagerState,
-                count = viewModel.mapList.value.count(),
+                count = viewModel.categoryList.value.count(),
                 modifier = Modifier.weight(1f)
             ) { page ->
                 Column {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = "animals 999",
+                        text = stringResource(viewModel.categoryList.value[page].category.type.getTypeName()),
                         color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.Medium,
@@ -88,7 +89,7 @@ fun HomePage(
                     )
 
                     MapContent(
-                        list = viewModel.mapList.value[page].levelList,
+                        list = viewModel.categoryList.value[page].levelList,
                         onLevelClick = { level ->
                             if (level.star > 0)
                                 currentLevel = level

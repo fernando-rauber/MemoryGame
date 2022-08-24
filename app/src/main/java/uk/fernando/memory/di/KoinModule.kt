@@ -15,8 +15,8 @@ import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.datastore.PrefsStoreImpl
 import uk.fernando.memory.repository.LevelRepository
 import uk.fernando.memory.repository.LevelRepositoryImpl
-import uk.fernando.memory.repository.MapRepository
-import uk.fernando.memory.repository.MapRepositoryImpl
+import uk.fernando.memory.repository.CategoryRepository
+import uk.fernando.memory.repository.CategoryRepositoryImpl
 import uk.fernando.memory.usecase.*
 import uk.fernando.memory.viewmodel.GameViewModel
 import uk.fernando.memory.viewmodel.HomeViewModel
@@ -45,19 +45,19 @@ object KoinModule {
         }
 
         single { provideDatabase(androidApplication()) }
-        factory { get<MyDatabase>().mapDAO() }
+        factory { get<MyDatabase>().categoryDAO() }
         factory { get<MyDatabase>().levelDAO() }
     }
 
     private val repositoryModule: Module
         get() = module {
-            factory<MapRepository> { MapRepositoryImpl(get()) }
+            factory<CategoryRepository> { CategoryRepositoryImpl(get()) }
             factory<LevelRepository> { LevelRepositoryImpl(get()) }
         }
 
     private val useCaseModule: Module
         get() = module {
-            single { GetMapListUseCase(get()) }
+            single { GetCategoryListUseCase(get()) }
             single { UpdateLevelUseCase(get()) }
             single { GetLevelUseCase(get()) }
             single { SetUpUseCase(get(), get(), get()) }

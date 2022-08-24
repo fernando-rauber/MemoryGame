@@ -8,7 +8,7 @@ import java.io.Serializable
 
 @Entity(
     tableName = LevelEntity.NAME,
-    foreignKeys = [ForeignKey(entity = MapEntity::class, parentColumns = ["id"], childColumns = ["map_id"])]
+    foreignKeys = [ForeignKey(entity = CategoryEntity::class, parentColumns = ["id"], childColumns = ["category_id"])]
 )
 data class LevelEntity(
     @PrimaryKey(autoGenerate = true)
@@ -24,8 +24,8 @@ data class LevelEntity(
     val attempt: Int = 0,
     val time: Int = 0,
 
-    @ColumnInfo(name = "map_id", index = true)
-    var mapID: Int = 0
+    @ColumnInfo(name = "category_id", index = true)
+    var categoryID: Int = 0
 ) : Serializable {
 
     companion object {

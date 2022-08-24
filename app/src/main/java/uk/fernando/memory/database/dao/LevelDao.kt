@@ -2,7 +2,6 @@ package uk.fernando.memory.database.dao
 
 import androidx.room.*
 import uk.fernando.memory.database.entity.LevelEntity
-import uk.fernando.memory.database.entity.MapEntity
 
 @Dao
 interface LevelDao {

@@ -1,20 +1,19 @@
 package uk.fernando.memory.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
-import uk.fernando.memory.database.entity.MapEntity
-import uk.fernando.memory.database.entity.MapWithLevel
-import uk.fernando.memory.usecase.GetMapListUseCase
+import uk.fernando.memory.database.entity.CategoryWithLevel
+import uk.fernando.memory.usecase.GetCategoryListUseCase
 
 class HomeViewModel(
-    private val getMapListUseCase: GetMapListUseCase,
+    private val getCategoryListUseCase: GetCategoryListUseCase,
 ) : BaseViewModel() {
 
-    val mapList = mutableStateOf(emptyList<MapWithLevel>())
+    val categoryList = mutableStateOf(emptyList<CategoryWithLevel>())
 
     init {
         launchDefault {
-            getMapListUseCase.invoke().collect() { list ->
-                mapList.value = list
+            getCategoryListUseCase.invoke().collect() { list ->
+                categoryList.value = list
             }
         }
     }

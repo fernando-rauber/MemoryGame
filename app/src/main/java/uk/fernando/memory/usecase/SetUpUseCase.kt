@@ -3,16 +3,16 @@ package uk.fernando.memory.usecase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import uk.fernando.logger.MyLogger
-import uk.fernando.memory.config.AppConfig.MAX_CARDS_PER_MAP
+import uk.fernando.memory.config.AppConfig.MAX_CARDS_PER_CATEGORY
 import uk.fernando.memory.database.entity.LevelEntity
-import uk.fernando.memory.database.entity.MapEntity
+import uk.fernando.memory.database.entity.CategoryEntity
 import uk.fernando.memory.ext.TAG
 import uk.fernando.memory.repository.LevelRepository
-import uk.fernando.memory.repository.MapRepository
+import uk.fernando.memory.repository.CategoryRepository
 import uk.fernando.memory.util.CardType
 
 class SetUpUseCase(
-    private val mapRepo: MapRepository,
+    private val mapRepo: CategoryRepository,
     private val levelRepo: LevelRepository,
     private val logger: MyLogger
 ) {
@@ -24,10 +24,10 @@ class SetUpUseCase(
             runCatching {
 
                 categoryList.forEachIndexed { index, cardType ->
-                    val map = MapEntity(
+                    val map = CategoryEntity(
                         id = index + 1,
                         type = cardType.value,
-                        starsRequired = (index * MAX_CARDS_PER_MAP * 1.9).toInt()
+                        starsRequired = (index * MAX_CARDS_PER_CATEGORY * 1.9).toInt()
                     )
                     mapRepo.insert(map)
                     levelRepo.insert(createLevelsByType(map.id))
@@ -45,7 +45,7 @@ class SetUpUseCase(
     private fun createLevelsByType(mapID: Int): List<LevelEntity> {
         val levelList = mutableListOf<LevelEntity>()
 
-        (1..MAX_CARDS_PER_MAP).forEach { position ->
+        (1..MAX_CARDS_PER_CATEGORY).forEach { position ->
             val quantity = when (position) {
                 1 -> 4
                 2 -> 6
@@ -54,7 +54,7 @@ class SetUpUseCase(
                 else -> 20
             }
 
-            levelList.add(LevelEntity(position = position, quantity = quantity, mapID = mapID))
+            levelList.add(LevelEntity(position = position, quantity = quantity, categoryID = mapID))
         }
 
         return levelList

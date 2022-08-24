@@ -5,11 +5,11 @@ import androidx.room.Relation
 import java.io.Serializable
 
 
-data class MapWithLevel(
+data class CategoryWithLevel(
 
-    @Embedded val map: MapEntity,
+    @Embedded val category: CategoryEntity,
 
-    @Relation(parentColumn = "id", entityColumn = "map_id", entity = LevelEntity::class)
+    @Relation(parentColumn = "id", entityColumn = "category_id", entity = LevelEntity::class)
     val levelList: List<LevelEntity> = listOf()
 
 ) : Serializable

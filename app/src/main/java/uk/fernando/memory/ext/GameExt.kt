@@ -1,5 +1,8 @@
 package uk.fernando.memory.ext
 
+import uk.fernando.memory.util.CardType
+import uk.fernando.memory.R
+
 
 fun Int.getWidthSize(): Float {
     return when (this) {
@@ -24,3 +27,12 @@ fun Int.getStarsByAttempts(): Int {
         else -> 0
     }
 }
+
+fun Int.getTypeName(): Int {
+    return when (CardType.getByValue(this)) {
+        CardType.ANIMAL -> R.string.animal
+        CardType.FLAG -> R.string.flags
+        else -> R.string.numbers
+    }
+}
+
