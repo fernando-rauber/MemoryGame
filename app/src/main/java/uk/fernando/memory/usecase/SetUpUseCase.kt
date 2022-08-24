@@ -4,6 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import uk.fernando.logger.MyLogger
 import uk.fernando.memory.config.AppConfig.MAX_CARDS_PER_CATEGORY
+import uk.fernando.memory.config.AppConfig.STAR_REQUIRE_MULTIPLAYER
 import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.database.entity.CategoryEntity
 import uk.fernando.memory.ext.TAG
@@ -27,7 +28,7 @@ class SetUpUseCase(
                     val map = CategoryEntity(
                         id = index + 1,
                         type = cardType.value,
-                        starsRequired = (index * MAX_CARDS_PER_CATEGORY * 1.9).toInt()
+                        starsRequired = (index * MAX_CARDS_PER_CATEGORY * STAR_REQUIRE_MULTIPLAYER).toInt()
                     )
                     mapRepo.insert(map)
                     levelRepo.insert(createLevelsByType(map.id))

@@ -7,5 +7,6 @@ enum class CardType(val value: Int) {
 
     companion object {
         fun getByValue(value: Int) = values().firstOrNull { it.value == value }
+        fun getQuantity() = values().size
     }
 }

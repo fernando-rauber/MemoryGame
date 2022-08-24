@@ -33,6 +33,7 @@ import uk.fernando.memory.activity.MainActivity
 import uk.fernando.memory.component.MyAnimation
 import uk.fernando.memory.component.MyFlipCard
 import uk.fernando.memory.component.MyResultDialog
+import uk.fernando.memory.config.AppConfig.COUNTDOWN_TIMER
 import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.ext.*
 import uk.fernando.memory.navigation.Directions
@@ -45,7 +46,11 @@ fun GamePage(
     levelId: Int,
     viewModel: GameViewModel = getViewModel()
 ) {
-    LaunchedEffect(Unit) { viewModel.setUpGame(levelId) }
+    LaunchedEffect(Unit) {
+        viewModel.setUpGame(levelId).collect { isLevelDisabled ->
+            if (isLevelDisabled) navController.popBackStack()
+        }
+    }
 
     val coroutine = rememberCoroutineScope()
     val fullScreenAd = AdInterstitial(LocalContext.current as MainActivity, stringResource(R.string.ad_interstitial_end_level))
@@ -158,16 +163,16 @@ private fun TopBar(viewModel: GameViewModel, levelId: Int, onClose: () -> Unit) 
 
 @Composable
 private fun CountDownAndAd(startSoundEffect: () -> Unit, onStart: () -> Unit) {
-    var countDown by remember { mutableStateOf(5) }
+    var countDown by remember { mutableStateOf(COUNTDOWN_TIMER) }
 
     LaunchedEffect(Unit) {
         if (countDown == 3)
             startSoundEffect()
 
-        while (countDown >= 0) {
+        while (countDown > 0) {
             delay(1.seconds)
             countDown--
-            if (countDown == -1)
+            if (countDown == 0)
                 onStart()
         }
     }

@@ -3,7 +3,9 @@ package uk.fernando.memory.usecase
 import kotlinx.coroutines.delay
 import uk.fernando.logger.MyLogger
 import uk.fernando.memory.component.CardFace
+import uk.fernando.memory.config.AppConfig.ATTEMPTS_AVAILABLE
 import uk.fernando.memory.database.entity.LevelEntity
+import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.ext.TAG
 import uk.fernando.memory.ext.getStarsByAttempts
 import uk.fernando.memory.util.CardGenerator
@@ -12,6 +14,7 @@ import uk.fernando.memory.viewmodel.GameViewData
 
 class GameUseCase(
     private val gameData: GameViewData,
+    private val prefsStore: PrefsStore,
     private val updateLevelUseCase: UpdateLevelUseCase,
     private val getLevelUseCase: GetLevelUseCase,
     private val logger: MyLogger
@@ -21,20 +24,26 @@ class GameUseCase(
     private var firstCard: CardModel? = null
     private var secondCard: CardModel? = null
     private var totalCards = 0
-    private var attemptsLeft = 15
+    private var attemptsLeft = ATTEMPTS_AVAILABLE
 
-    suspend fun createCardList(levelID: Int, type: Int) {
+    suspend fun createCardList(levelID: Int, type: Int) : Boolean {
         level = getLevelUseCase(levelID)
-        this.totalCards = level.quantity
 
-        gameData.startGame(CardGenerator().generateCards(totalCards, type))
+        if (!level.isDisabled) {
+            this.totalCards = level.quantity
+            gameData.startGame(CardGenerator().generateCards(totalCards, type))
+        }
+
+        return level.isDisabled
     }
 
     suspend fun updateLevel(time: Int) {
         kotlin.runCatching {
             val stars = attemptsLeft.getStarsByAttempts()
-            if (stars >= level.star)  // In case user replay same level and score is lower then previous
-                updateLevelUseCase.invoke(level.copy(star = stars, time = time))
+            if (stars >= level.star || attemptsLeft < level.attempt) {  // In case user replay same level and score is lower then previous
+                prefsStore.storeStar(stars - level.star)
+                updateLevelUseCase.invoke(level.copy(star = stars, time = time, attempt = attemptsLeft))
+            }
         }.onFailure { e ->
             logger.e(TAG, e.message.toString())
             logger.addMessageToCrashlytics(TAG, "Error update level: msg: ${e.message}")

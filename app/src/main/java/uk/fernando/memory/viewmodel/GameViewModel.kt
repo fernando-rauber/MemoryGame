@@ -4,9 +4,12 @@ import android.os.CountDownTimer
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
 import uk.fernando.logger.MyLogger
 import uk.fernando.memory.component.CardFace
+import uk.fernando.memory.config.AppConfig.ATTEMPTS_AVAILABLE
 import uk.fernando.memory.database.entity.LevelEntity
+import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.usecase.GameUseCase
 import uk.fernando.memory.usecase.GetLevelUseCase
 import uk.fernando.memory.usecase.UpdateLevelUseCase
@@ -21,23 +24,22 @@ interface GameViewData {
 
 class GameViewModel(
     updateLevelUseCase: UpdateLevelUseCase,
+    prefsStore: PrefsStore,
     getLevelUseCase: GetLevelUseCase,
     logger: MyLogger
 ) : BaseViewModel(), GameViewData {
 
-    private val gameUseCase = GameUseCase(this, updateLevelUseCase, getLevelUseCase, logger)
+    private val gameUseCase = GameUseCase(this, prefsStore, updateLevelUseCase, getLevelUseCase, logger)
 
     private val _cardList = mutableStateListOf<CardModel>()
     val cardList: List<CardModel> = _cardList
     val chronometerSeconds = mutableStateOf(0)
-    val attemptsLeft = mutableStateOf(15)
-    val quantity = mutableStateOf(15)
+    val attemptsLeft = mutableStateOf(ATTEMPTS_AVAILABLE)
+    val quantity = mutableStateOf(0)
     val levelResult = mutableStateOf<LevelEntity?>(null)
 
-    fun setUpGame(levelID: Int) {
-        launchDefault {
-            gameUseCase.createCardList(levelID, 1)
-        }
+    suspend fun setUpGame(levelID: Int) = flow {
+        emit(gameUseCase.createCardList(levelID, 1))
     }
 
     fun startGame() {

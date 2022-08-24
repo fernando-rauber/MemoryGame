@@ -58,7 +58,7 @@ object KoinModule {
     private val useCaseModule: Module
         get() = module {
             single { GetCategoryListUseCase(get()) }
-            single { UpdateLevelUseCase(get()) }
+            single { UpdateLevelUseCase(get(), get()) }
             single { GetLevelUseCase(get()) }
             single { SetUpUseCase(get(), get(), get()) }
         }
@@ -68,7 +68,7 @@ object KoinModule {
 
             viewModel { SplashViewModel(get(), get()) }
             viewModel { HomeViewModel(get()) }
-            viewModel { GameViewModel(get(), get(), get()) }
+            viewModel { GameViewModel(get(), get(), get(), get()) }
         }
 
     private const val DB_NAME = "memory_game.db"

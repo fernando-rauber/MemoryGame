@@ -13,6 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Alignment.Companion.CenterStart
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -49,6 +50,8 @@ fun HomePage(
     navController: NavController = NavController(LocalContext.current),
     viewModel: HomeViewModel = getViewModel()
 ) {
+    val prefs: PrefsStore by inject()
+    val starsCount = prefs.getStarCount().collectAsState(initial = 0)
     var currentLevel by remember { mutableStateOf<LevelEntity?>(null) }
 
     Box {
@@ -59,6 +62,7 @@ fun HomePage(
         ) {
 
             NavigationTopBar(
+                starsCount = starsCount.value,
                 onSettingsClick = { navController.safeNav(Directions.settings.path) }
             )
 
@@ -78,18 +82,42 @@ fun HomePage(
                 count = viewModel.categoryList.value.count(),
                 modifier = Modifier.weight(1f)
             ) { page ->
+                val item = viewModel.categoryList.value[page]
+
                 Column {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(viewModel.categoryList.value[page].category.type.getTypeName()),
+                        text = stringResource(item.category.type.getTypeName()),
                         color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.Medium,
                         textAlign = TextAlign.Center
                     )
 
+                    if (starsCount.value < item.category.starsRequired) {
+                        Row(
+                            Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                Icons.Filled.Star,
+                                modifier = Modifier.size(32.dp),
+                                contentDescription = null,
+                                tint = gold
+                            )
+
+                            Text(
+                                text = "${item.category.starsRequired} Required to unlock category",
+                                color = MaterialTheme.colorScheme.onBackground,
+                                style = MaterialTheme.typography.bodySmall,
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                    }
+
                     MapContent(
-                        list = viewModel.categoryList.value[page].levelList,
+                        list = item.levelList,
                         onLevelClick = { level ->
                             if (level.star > 0)
                                 currentLevel = level
@@ -115,9 +143,8 @@ fun HomePage(
 }
 
 @Composable
-private fun NavigationTopBar(onSettingsClick: () -> Unit) {
-    val prefs: PrefsStore by inject()
-    val starsCount = prefs.getStarCount().collectAsState(initial = 0)
+private fun NavigationTopBar(starsCount: Int, onSettingsClick: () -> Unit) {
+
 
     Box(Modifier.fillMaxWidth()) {
 
@@ -135,12 +162,11 @@ private fun NavigationTopBar(onSettingsClick: () -> Unit) {
             )
 
             Text(
-                text = "${starsCount.value}",
+                text = "$starsCount",
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Medium
             )
-
         }
 
         IconButton(
