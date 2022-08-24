@@ -24,14 +24,13 @@ fun NavGraphBuilder.buildGraph(navController: NavController) {
         HomePage(navController)
     }
 
-    composable(Directions.game.withArgsFormat(LEVEL_ID, CARD_QUANTITY)) {
+    composable(Directions.game.withArgsFormat(LEVEL_ID)) {
         val levelId = it.arguments?.getString(LEVEL_ID)
-        val cardQuantity = it.arguments?.getString(CARD_QUANTITY)
 
-        if (levelId == null || cardQuantity == null)
+        if (levelId == null)
             navController.popBackStack()
         else
-            GamePage(navController, levelId.toInt(), cardQuantity.toInt())
+            GamePage(navController, levelId.toInt())
     }
 
 //    composable(Directions.settings.path,

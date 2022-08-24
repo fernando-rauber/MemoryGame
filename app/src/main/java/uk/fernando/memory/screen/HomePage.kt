@@ -93,7 +93,7 @@ fun HomePage(
                             if (level.starCount > 0)
                                 currentLevel = level
                             else
-                                navController.safeNav(Directions.game.withArgs("${level.id}", "${level.cardQuantity}"))
+                                navController.safeNav(Directions.game.withArgs("${level.id}"))
                         }
                     )
                 }
@@ -104,7 +104,7 @@ fun HomePage(
         LevelDialog(level = currentLevel,
             onCancel = { currentLevel = null },
             onPlay = {
-                navController.safeNav(Directions.game.withArgs("${currentLevel?.id}", "${currentLevel?.cardQuantity}"))
+                navController.safeNav(Directions.game.withArgs("${currentLevel?.id}"))
                 currentLevel = null
             }
         )

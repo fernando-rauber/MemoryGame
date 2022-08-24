@@ -94,11 +94,11 @@ private fun Title(stars: Int) {
             .fillMaxWidth(0.8f)
             .height(60.dp)
             .offset(y = -(30).dp),
-        color = MaterialTheme.colorScheme.primary,
+        color = if (stars > 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error ,
         shadowElevation = 4.dp,
         tonalElevation = 4.dp,
         shape = RoundedCornerShape(50),
-        border = BorderStroke(4.dp, greenLight)
+        border = BorderStroke(4.dp, if (stars > 0) greenLight else MaterialTheme.colorScheme.error.copy(0.8f))
     ) {
         Box(Modifier.fillMaxSize()) {
             Text(
@@ -129,7 +129,7 @@ private fun Stars(stars: Int) {
                 .aspectRatio(1f)
                 .offset(20.dp),
             contentDescription = null,
-            tint = gold
+            tint = if (stars > 0) gold else grey
         )
 
         Icon(

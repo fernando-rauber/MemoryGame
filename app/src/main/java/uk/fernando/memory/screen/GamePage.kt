@@ -1,6 +1,7 @@
 package uk.fernando.memory.screen
 
 import android.media.MediaPlayer
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
@@ -34,10 +35,8 @@ import uk.fernando.memory.component.MyAnimation
 import uk.fernando.memory.component.MyFlipCard
 import uk.fernando.memory.component.MyResultDialog
 import uk.fernando.memory.datastore.PrefsStore
-import uk.fernando.memory.ext.getCellCount
-import uk.fernando.memory.ext.getWidthSize
-import uk.fernando.memory.ext.playAudio
-import uk.fernando.memory.ext.timerFormat
+import uk.fernando.memory.ext.*
+import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.viewmodel.GameViewModel
 import kotlin.time.Duration.Companion.seconds
 
@@ -45,10 +44,9 @@ import kotlin.time.Duration.Companion.seconds
 fun GamePage(
     navController: NavController = NavController(LocalContext.current),
     levelId: Int,
-    cardQtd: Int,
     viewModel: GameViewModel = getViewModel()
 ) {
-    LaunchedEffect(Unit) { viewModel.setUpGame(levelId, cardQtd) }
+    LaunchedEffect(Unit) { viewModel.setUpGame(levelId) }
 
     val coroutine = rememberCoroutineScope()
     val fullScreenAd = AdInterstitial(LocalContext.current as MainActivity, stringResource(R.string.ad_interstitial_end_level))
@@ -78,14 +76,18 @@ fun GamePage(
                 onStart = { viewModel.startGame() }
             )
 
-            CardList(viewModel, cardQtd)
+            CardList(viewModel)
         }
 
         // Dialogs
         DialogResult(
             viewModel = viewModel,
             fullScreenAd = fullScreenAd,
-            onExit = { navController.popBackStack() }
+            onExit = { navController.popBackStack() },
+            onReplayOrNextLevel = { id ->
+                navController.popBackStack()
+                navController.safeNav(Directions.game.withArgs("$id"))
+            }
         )
     }
 }
@@ -210,17 +212,17 @@ private fun BoxScope.TopBarItemCard(alignment: Alignment, content: @Composable (
 }
 
 @Composable
-private fun CardList(viewModel: GameViewModel, cardQtd: Int) {
+private fun CardList(viewModel: GameViewModel) {
     Box(Modifier.fillMaxSize()) {
 
         LazyVerticalGrid(
             modifier = Modifier
-                .fillMaxWidth(cardQtd.getWidthSize())
+                .fillMaxWidth(viewModel.quantity.value.getWidthSize())
                 .align(Alignment.Center),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
-            columns = GridCells.Fixed(cardQtd.getCellCount())
+            columns = GridCells.Fixed(viewModel.quantity.value.getCellCount())
         ) {
             items(viewModel.cardList) { card ->
 
@@ -254,6 +256,7 @@ fun DialogResult(
     viewModel: GameViewModel,
     fullScreenAd: AdInterstitial,
     onExit: () -> Unit,
+    onReplayOrNextLevel: (Int) -> Unit,
 ) {
     val prefs: PrefsStore by inject()
     val isSoundEnable = prefs.isSoundEnabled().collectAsState(initial = true)
@@ -272,19 +275,17 @@ fun DialogResult(
                 leftButtonText = if (level.starCount > 0) R.string.replay_action else R.string.close_action,
                 rightButtonText = if (level.starCount > 0) R.string.next_level else R.string.replay_action,
                 onLeftButton = {
-                    if (level.starCount > 0) {
-                        // replay
-                    } else {
+                    if (level.starCount > 0)
+                        onReplayOrNextLevel(level.id!!) // replay
+                    else
                         onExit()
-                    }
 
                 },
                 onRightButton = {
-                    if (level.starCount > 0) {
-                        // Next Level
-                    } else {
-                        // Replay
-                    }
+                    if (level.starCount > 0)
+                        onReplayOrNextLevel(level.id!! + 1)  // Next Level
+                    else
+                        onReplayOrNextLevel(level.id!!) // replay
                 }
             )
         }

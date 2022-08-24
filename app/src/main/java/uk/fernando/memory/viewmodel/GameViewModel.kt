@@ -31,19 +31,20 @@ class GameViewModel(
     val cardList: List<CardModel> = _cardList
     val chronometerSeconds = mutableStateOf(0)
     val attemptsLeft = mutableStateOf(15)
+    val quantity = mutableStateOf(15)
     val levelResult = mutableStateOf<LevelEntity?>(null)
 
-    fun setUpGame(levelID: Int, type: Int) {
+    fun setUpGame(levelID: Int) {
         launchDefault {
-            gameUseCase.createCardList(levelID, type)
+            gameUseCase.createCardList(levelID, 1)
         }
     }
 
     fun startGame() {
         launchDefault {
             (0 until _cardList.size).forEach { index -> // Hide all cards after some secs
-                delay(150)
                 _cardList[index] = _cardList[index].copy(status = CardFace.Front)
+                delay(70)
             }
             chronometer.start()
         }
@@ -71,6 +72,7 @@ class GameViewModel(
     override fun startGame(cards: List<CardModel>) {
         _cardList.clear()
         _cardList.addAll(cards)
+        quantity.value = cards.size
     }
 
     override fun updateCardStatus(card: CardModel, status: CardFace): CardModel {
