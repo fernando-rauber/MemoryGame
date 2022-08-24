@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import uk.fernando.memory.database.entity.LevelEntity
+import uk.fernando.memory.database.entity.MapEntity
 
 @Dao
 interface LevelDao {
@@ -17,4 +18,7 @@ interface LevelDao {
 
     @Query("UPDATE ${LevelEntity.NAME} SET star_count = :stars, time = :time WHERE id = :levelID")
     fun updateLevel(stars: Int, time: Int, levelID: Int)
+
+    @Query("SELECT * FROM ${LevelEntity.NAME} WHERE id = :ID")
+    fun getLevelById(ID: Int) : LevelEntity
 }

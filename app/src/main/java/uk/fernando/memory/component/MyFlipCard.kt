@@ -24,6 +24,10 @@ enum class CardFace(val angle: Float) {
         override val next: CardFace
             get() = Back
     },
+    BackDisabled(180f) {
+        override val next: CardFace
+            get() = Front
+    },
     Back(180f) {
         override val next: CardFace
             get() = Front
@@ -64,7 +68,7 @@ fun MyFlipCard(
             exit = scaleOut()
         ) {
             Card(
-                onClick = { onClick(cardFace) },
+                onClick = { if (cardFace != CardFace.BackDisabled) onClick(cardFace) },
                 shape = MaterialTheme.shapes.small,
                 elevation = CardDefaults.cardElevation(4.dp),
                 modifier = modifier

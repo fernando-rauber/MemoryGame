@@ -52,7 +52,7 @@ class SetUpUseCase(
     private fun createLevelsByType(mapID: Int, type: Int): List<LevelEntity> {
         val levelList = mutableListOf<LevelEntity>()
 
-        (1..30).forEach { position ->
+        (1..20).forEach { position ->
             val quantity = when (position) {
                 1 -> 4
                 2 -> 6

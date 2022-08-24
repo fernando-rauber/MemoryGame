@@ -30,7 +30,6 @@ import java.util.*
 @Composable
 fun MyResultDialog(
     level: LevelEntity,
-    isFail: Boolean = false,
     @StringRes leftButtonText: Int,
     @StringRes rightButtonText: Int,
     onLeftButton: () -> Unit,
@@ -43,7 +42,7 @@ fun MyResultDialog(
         ) {
 
             // Title
-            Title(isFail)
+            Title(level.starCount)
 
             // Level text
             Text(
@@ -89,7 +88,7 @@ fun MyResultDialog(
 }
 
 @Composable
-private fun Title(isFail: Boolean) {
+private fun Title(stars: Int) {
     Surface(
         modifier = Modifier
             .fillMaxWidth(0.8f)
@@ -104,7 +103,7 @@ private fun Title(isFail: Boolean) {
         Box(Modifier.fillMaxSize()) {
             Text(
                 modifier = Modifier.align(Alignment.Center),
-                text = stringResource(if (isFail) R.string.fail else R.string.completed).uppercase(Locale.ENGLISH),
+                text = stringResource(if (stars == 0) R.string.fail else R.string.completed).uppercase(Locale.ENGLISH),
                 style = MaterialTheme.typography.bodyLarge,
                 color = Color.White,
                 textAlign = TextAlign.Center

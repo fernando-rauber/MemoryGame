@@ -32,6 +32,7 @@ import uk.fernando.memory.R
 import uk.fernando.memory.activity.MainActivity
 import uk.fernando.memory.component.MyAnimation
 import uk.fernando.memory.component.MyFlipCard
+import uk.fernando.memory.component.MyResultDialog
 import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.ext.getCellCount
 import uk.fernando.memory.ext.getWidthSize
@@ -156,7 +157,7 @@ private fun TopBar(viewModel: GameViewModel, levelId: Int, onClose: () -> Unit) 
 
 @Composable
 private fun CountDownAndAd(startSoundEffect: () -> Unit, onStart: () -> Unit) {
-    var countDown by remember { mutableStateOf(6) }
+    var countDown by remember { mutableStateOf(5) }
 
     LaunchedEffect(Unit) {
         if (countDown == 3)
@@ -185,7 +186,7 @@ private fun CountDownAndAd(startSoundEffect: () -> Unit, onStart: () -> Unit) {
             Text(
                 text = stringResource(R.string.turn_cards_back_args, "$countDown"),
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground,
+                color = MaterialTheme.colorScheme.error,
                 fontWeight = FontWeight.Medium
             )
         }
@@ -252,20 +253,40 @@ private fun CardList(viewModel: GameViewModel, cardQtd: Int) {
 fun DialogResult(
     viewModel: GameViewModel,
     fullScreenAd: AdInterstitial,
-    onExit: () -> Unit
+    onExit: () -> Unit,
 ) {
     val prefs: PrefsStore by inject()
     val isSoundEnable = prefs.isSoundEnabled().collectAsState(initial = true)
     val isPremium = prefs.isPremium().collectAsState(initial = false)
     val soundFinish = MediaPlayer.create(LocalContext.current, R.raw.sound_finish)
 
-    MyAnimation(viewModel.isGameFinished.value) {
+    MyAnimation(viewModel.levelResult.value != null) {
         LaunchedEffect(Unit) { soundFinish.playAudio(isSoundEnable.value) }
 
 //        if (!isPremium.value)
 //            fullScreenAd.showAdvert()
 
-//        MyResultDialog(level = , leftButtonText = , rightButtonText = , onLeftButton = { /*TODO*/ }) {
-//            }
+        viewModel.levelResult.value?.let { level ->
+            MyResultDialog(
+                level = level,
+                leftButtonText = if (level.starCount > 0) R.string.replay_action else R.string.close_action,
+                rightButtonText = if (level.starCount > 0) R.string.next_level else R.string.replay_action,
+                onLeftButton = {
+                    if (level.starCount > 0) {
+                        // replay
+                    } else {
+                        onExit()
+                    }
+
+                },
+                onRightButton = {
+                    if (level.starCount > 0) {
+                        // Next Level
+                    } else {
+                        // Replay
+                    }
+                }
+            )
+        }
     }
 }

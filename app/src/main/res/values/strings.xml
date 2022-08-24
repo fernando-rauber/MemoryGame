@@ -17,5 +17,6 @@
     <string name="level_args">Level %s</string>
     <string name="attempts_left_args">Attempts \nLeft: %s</string>
     <string name="turn_cards_back_args">Turning cards back in %s</string>
+    <string name="next_level">Next Level</string>
 
 </resources>

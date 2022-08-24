@@ -25,4 +25,8 @@ open class LevelRepositoryImpl(private val dao: LevelDao) : LevelRepository {
             dao.updateLevel(stars, time, levelID)
         }
     }
+
+    override suspend fun getLevelById(id: Int) = withContext(Dispatchers.IO) {
+        dao.getLevelById(id)
+    }
 }
