@@ -90,7 +90,7 @@ fun HomePage(
                     MapContent(
                         list = viewModel.mapList.value[page].levelList,
                         onLevelClick = { level ->
-                            if (level.starCount > 0)
+                            if (level.star > 0)
                                 currentLevel = level
                             else
                                 navController.safeNav(Directions.game.withArgs("${level.id}"))
@@ -230,21 +230,21 @@ private fun LevelCard(level: LevelEntity, onClick: (LevelEntity) -> Unit) {
                             Icons.Filled.Star,
                             modifier = Modifier.weight(1f),
                             contentDescription = null,
-                            tint = if (level.starCount > 0) gold else dark
+                            tint = if (level.star > 0) gold else dark
                         )
 
                         Icon(
                             Icons.Filled.Star,
                             modifier = Modifier.weight(1f),
                             contentDescription = null,
-                            tint = if (level.starCount > 1) gold else dark
+                            tint = if (level.star > 1) gold else dark
                         )
 
                         Icon(
                             Icons.Filled.Star,
                             modifier = Modifier.weight(1f),
                             contentDescription = null,
-                            tint = if (level.starCount > 2) gold else dark
+                            tint = if (level.star > 2) gold else dark
                         )
                     }
                 }

@@ -20,9 +20,9 @@ open class LevelRepositoryImpl(private val dao: LevelDao) : LevelRepository {
         }
     }
 
-    override suspend fun updateLevel(stars: Int, time: Int, levelID: Int) {
+    override suspend fun update(level: LevelEntity) {
         withContext(Dispatchers.IO) {
-            dao.updateLevel(stars, time, levelID)
+            dao.update(level)
         }
     }
 

@@ -1,9 +1,6 @@
 package uk.fernando.memory.database.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.database.entity.MapEntity
 
@@ -16,8 +13,8 @@ interface LevelDao {
     @Query("UPDATE ${LevelEntity.NAME} SET is_disabled = 0 WHERE id = :levelID")
     fun enableLevel(levelID: Int)
 
-    @Query("UPDATE ${LevelEntity.NAME} SET star_count = :stars, time = :time WHERE id = :levelID")
-    fun updateLevel(stars: Int, time: Int, levelID: Int)
+    @Update
+    fun update(level: LevelEntity)
 
     @Query("SELECT * FROM ${LevelEntity.NAME} WHERE id = :ID")
     fun getLevelById(ID: Int) : LevelEntity

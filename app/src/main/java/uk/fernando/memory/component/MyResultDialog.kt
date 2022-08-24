@@ -42,7 +42,7 @@ fun MyResultDialog(
         ) {
 
             // Title
-            Title(level.starCount)
+            Title(level.star)
 
             // Level text
             Text(
@@ -53,7 +53,7 @@ fun MyResultDialog(
             )
 
             // Stars
-            Stars(level.starCount)
+            Stars(level.star)
 
             // Time
             Time(level.time)
@@ -61,7 +61,7 @@ fun MyResultDialog(
             // Attempts
             Text(
                 modifier = Modifier.padding(top = 5.dp),
-                text = stringResource(id = R.string.attempt_args, "999"),
+                text = stringResource(id = R.string.attempt_args, "${level.attempt}"),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )

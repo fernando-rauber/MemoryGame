@@ -8,7 +8,7 @@ interface LevelRepository {
 
     suspend fun enableLevel(levelID: Int)
 
-    suspend fun updateLevel(stars: Int, time: Int, levelID: Int)
+    suspend fun update(level: LevelEntity)
 
     suspend fun getLevelById(id: Int) : LevelEntity
 

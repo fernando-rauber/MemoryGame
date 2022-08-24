@@ -1,7 +1,6 @@
 package uk.fernando.memory.screen
 
 import android.media.MediaPlayer
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
@@ -272,17 +271,17 @@ fun DialogResult(
         viewModel.levelResult.value?.let { level ->
             MyResultDialog(
                 level = level,
-                leftButtonText = if (level.starCount > 0) R.string.replay_action else R.string.close_action,
-                rightButtonText = if (level.starCount > 0) R.string.next_level else R.string.replay_action,
+                leftButtonText = if (level.star > 0) R.string.replay_action else R.string.close_action,
+                rightButtonText = if (level.star > 0) R.string.next_level else R.string.replay_action,
                 onLeftButton = {
-                    if (level.starCount > 0)
+                    if (level.star > 0)
                         onReplayOrNextLevel(level.id!!) // replay
                     else
                         onExit()
 
                 },
                 onRightButton = {
-                    if (level.starCount > 0)
+                    if (level.star > 0)
                         onReplayOrNextLevel(level.id!! + 1)  // Next Level
                     else
                         onReplayOrNextLevel(level.id!!) // replay

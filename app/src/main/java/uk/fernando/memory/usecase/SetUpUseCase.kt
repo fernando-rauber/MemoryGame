@@ -52,7 +52,7 @@ class SetUpUseCase(
     private fun createLevelsByType(mapID: Int, type: Int): List<LevelEntity> {
         val levelList = mutableListOf<LevelEntity>()
 
-        (1..20).forEach { position ->
+        (1..4).forEach { position ->
             val quantity = when (position) {
                 1 -> 4
                 2 -> 6
@@ -61,7 +61,7 @@ class SetUpUseCase(
                 else -> 20
             }
 
-            levelList.add(LevelEntity(position = position, cardQuantity = quantity, mapID = mapID))
+            levelList.add(LevelEntity(position = position, quantity = quantity, mapID = mapID))
         }
 
         return levelList
