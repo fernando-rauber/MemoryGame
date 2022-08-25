@@ -6,10 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,55 +29,69 @@ fun MyResultDialog(
     level: LevelEntity,
     @StringRes leftButtonText: Int,
     @StringRes rightButtonText: Int,
+    onClose: () -> Unit,
     onLeftButton: () -> Unit,
     onRightButton: () -> Unit
 ) {
     MyDialog {
-        Column(
-            Modifier.padding(horizontal = 8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        Box {
 
-            // Title
-            Title(level.star)
+            Column(
+                Modifier.padding(horizontal = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
 
-            // Level text
-            Text(
-                modifier = Modifier.padding(bottom = 10.dp),
-                text = stringResource(id = R.string.level_args, "${level.position}"),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground
-            )
+                // Title
+                Title(level.star)
 
-            // Stars
-            Stars(level.star)
-
-            // Time
-            Time(level.time)
-
-            // Attempts
-            Text(
-                modifier = Modifier.padding(top = 5.dp),
-                text = stringResource(id = R.string.attempt_args, "${level.attempt}"),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-
-            // Buttons
-            Row(Modifier.padding(top = 32.dp, bottom = 8.dp)) {
-                MyButton(
-                    modifier = Modifier.weight(1f),
-                    onClick = onLeftButton,
-                    color = red,
-                    text = stringResource(leftButtonText)
+                // Level text
+                Text(
+                    modifier = Modifier.padding(bottom = 10.dp),
+                    text = stringResource(id = R.string.level_args, "${level.position}"),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
 
-                Spacer(Modifier.width(8.dp))
+                // Stars
+                Stars(level.star)
 
-                MyButton(
-                    modifier = Modifier.weight(1f),
-                    onClick = onRightButton,
-                    text = stringResource(rightButtonText)
+                // Time
+                Time(level.time)
+
+                // Attempts
+                Text(
+                    modifier = Modifier.padding(top = 5.dp),
+                    text = stringResource(id = R.string.attempt_args, "${level.attempt}"),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+
+                // Buttons
+                Row(Modifier.padding(top = 32.dp, bottom = 16.dp)) {
+                    MyButton(
+                        modifier = Modifier.weight(1f),
+                        onClick = onLeftButton,
+                        color = red,
+                        text = stringResource(leftButtonText)
+                    )
+
+                    Spacer(Modifier.width(16.dp))
+
+                    MyButton(
+                        modifier = Modifier.weight(1f),
+                        onClick = onRightButton,
+                        text = stringResource(rightButtonText)
+                    )
+                }
+            }
+
+            IconButton(
+                modifier = Modifier.align(Alignment.TopEnd),
+                onClick = onClose) {
+                Icon(
+                    painterResource(id = R.drawable.ic_close),
+                    contentDescription = "close",
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
         }
@@ -91,10 +102,10 @@ fun MyResultDialog(
 private fun Title(stars: Int) {
     Surface(
         modifier = Modifier
-            .fillMaxWidth(0.8f)
+            .fillMaxWidth(0.7f)
             .height(60.dp)
             .offset(y = -(30).dp),
-        color = if (stars > 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error ,
+        color = if (stars > 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
         shadowElevation = 4.dp,
         tonalElevation = 4.dp,
         shape = RoundedCornerShape(50),

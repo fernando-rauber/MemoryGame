@@ -289,6 +289,7 @@ private fun LevelDialog(level: LevelEntity?, onCancel: () -> Unit, onPlay: () ->
                 level = level,
                 leftButtonText = R.string.close_action,
                 rightButtonText = R.string.replay_action,
+                onClose = onCancel,
                 onLeftButton = onCancel,
                 onRightButton = onPlay,
             )

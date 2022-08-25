@@ -87,7 +87,7 @@ fun GamePage(
         DialogResult(
             viewModel = viewModel,
             fullScreenAd = fullScreenAd,
-            onExit = { navController.popBackStack() },
+            onClose = { navController.popBackStack() },
             onReplayOrNextLevel = { id ->
                 navController.popBackStack()
                 navController.safeNav(Directions.game.withArgs("$id"))
@@ -259,7 +259,7 @@ private fun CardList(viewModel: GameViewModel) {
 fun DialogResult(
     viewModel: GameViewModel,
     fullScreenAd: AdInterstitial,
-    onExit: () -> Unit,
+    onClose: () -> Unit,
     onReplayOrNextLevel: (Int) -> Unit,
 ) {
     val prefs: PrefsStore by inject()
@@ -278,11 +278,12 @@ fun DialogResult(
                 level = level,
                 leftButtonText = if (level.star > 0) R.string.replay_action else R.string.close_action,
                 rightButtonText = if (level.star > 0) R.string.next_level else R.string.replay_action,
+                onClose = onClose,
                 onLeftButton = {
                     if (level.star > 0)
                         onReplayOrNextLevel(level.id!!) // replay
                     else
-                        onExit()
+                        onClose()
 
                 },
                 onRightButton = {

@@ -1,7 +1,8 @@
 package uk.fernando.memory.ext
 
-import uk.fernando.memory.util.CardType
 import uk.fernando.memory.R
+import uk.fernando.memory.config.AppConfig.ATTEMPTS_AVAILABLE
+import uk.fernando.memory.util.CardType
 
 
 fun Int.getWidthSize(): Float {
@@ -20,12 +21,14 @@ fun Int.getCellCount(): Int {
 }
 
 fun Int.getStarsByAttempts(): Int {
-    return when (this) {
-        in 12..15 -> 3
-        in 6..11 -> 2
-        in 1..5 -> 1
-        else -> 0
-    }
+    return if (this > ATTEMPTS_AVAILABLE * .7)
+        3
+    else if (this > ATTEMPTS_AVAILABLE * .4)
+        2
+    else if (this > 0)
+        1
+    else
+        0
 }
 
 fun Int.getTypeName(): Int {
