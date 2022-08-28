@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterStart
+import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -36,6 +37,7 @@ import uk.fernando.memory.R
 import uk.fernando.memory.component.MyAnimation
 import uk.fernando.memory.component.MyIconButton
 import uk.fernando.memory.component.MyResultDialog
+import uk.fernando.memory.config.AppConfig.MAX_CARDS_PER_CATEGORY
 import uk.fernando.memory.database.entity.CategoryWithLevel
 import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.datastore.PrefsStore
@@ -43,6 +45,7 @@ import uk.fernando.memory.ext.getTypeName
 import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.theme.*
+import uk.fernando.memory.util.CardType
 import uk.fernando.memory.viewmodel.HomeViewModel
 
 @OptIn(ExperimentalPagerApi::class)
@@ -120,8 +123,7 @@ fun HomePage(
             AdBanner(
                 modifier = Modifier
                     .defaultMinSize(minHeight = 50.dp)
-                    .padding(top = 8.dp)
-                    .background(red),
+                    .padding(top = 8.dp),
                 unitId = stringResource(R.string.ad_banner_home)
             )
         }
@@ -144,29 +146,26 @@ private fun NavigationTopBar(starsCount: Int, onSettingsClick: () -> Unit) {
 
         Row(
             Modifier
-                .align(CenterStart)
+                .align(Center)
                 .padding(start = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            Text(
+                text = "$starsCount/${MAX_CARDS_PER_CATEGORY * 3 * CardType.getQuantity()}",
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Medium
+            )
             Icon(
                 Icons.Filled.Star,
                 modifier = Modifier.size(32.dp),
                 contentDescription = null,
                 tint = gold
             )
-
-            Text(
-                text = "$starsCount",
-                color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Medium
-            )
         }
 
         IconButton(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .padding(vertical = 6.dp),
+            modifier = Modifier.align(Alignment.CenterEnd),
             onClick = onSettingsClick
         ) {
             Icon(
@@ -187,14 +186,20 @@ private fun PageContent(item: CategoryWithLevel, totalStars: Int, onLevelClick: 
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                Text(
+                    text = "${item.category.starsRequired}",
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Medium
+                )
                 Icon(
                     Icons.Filled.Star,
+                    modifier = Modifier.padding(horizontal = 2.dp),
                     contentDescription = null,
                     tint = gold
                 )
                 Text(
-                    modifier = Modifier.padding(start = 2.dp),
-                    text = stringResource(R.string.stars_required_unlock_args, "${item.category.starsRequired}", stringResource(item.category.type.getTypeName())),
+                    text = stringResource(R.string.stars_required_unlock_args, stringResource(item.category.type.getTypeName())),
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Medium

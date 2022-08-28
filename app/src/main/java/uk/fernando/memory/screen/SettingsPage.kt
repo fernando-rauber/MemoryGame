@@ -28,6 +28,7 @@ import org.koin.androidx.compose.inject
 import uk.fernando.memory.BuildConfig
 import uk.fernando.memory.R
 import uk.fernando.memory.activity.MainActivity
+import uk.fernando.memory.component.NavigationBarTop
 import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.viewmodel.SettingsViewModel
 import uk.fernando.snackbar.CustomSnackBar
@@ -46,7 +47,10 @@ fun SettingsPage(
     Box {
         Column(Modifier.fillMaxSize()) {
 
-//            TopNavigationBar(title = R.string.settings_title)
+            NavigationBarTop(
+                title = R.string.settings_title,
+                onLeftIconClick = { navController.popBackStack() }
+            )
 
             Column(
                 Modifier

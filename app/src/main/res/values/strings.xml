@@ -22,7 +22,7 @@
     <string name="attempts_left_args">Attempts \nLeft: %s</string>
     <string name="turn_cards_back_args">Turning cards back in %s</string>
     <string name="next_level">Next Level</string>
-    <string name="stars_required_unlock_args">%s to unlock: %s</string>
+    <string name="stars_required_unlock_args">to unlock: %s</string>
 
     // Settings
     <string name="settings_title">Settings</string>
