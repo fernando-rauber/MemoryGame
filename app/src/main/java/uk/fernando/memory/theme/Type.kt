@@ -36,7 +36,7 @@ val Typography = Typography(
     ),
     labelMedium = TextStyle(
         fontFamily = solwayFamily,
-        fontSize = 12.sp
+        fontSize = 14.sp
     ),
     labelLarge = TextStyle(
         fontFamily = solwayFamily,

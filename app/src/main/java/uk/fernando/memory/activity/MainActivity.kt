@@ -21,11 +21,8 @@ import uk.fernando.memory.component.UpdateStatusBar
 import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.navigation.buildGraph
-import uk.fernando.memory.theme.MemoryTheme
-import uk.fernando.memory.theme.dark
 import uk.fernando.memory.R
-import uk.fernando.memory.theme.greenLight
-import uk.fernando.memory.theme.whiteBackGround
+import uk.fernando.memory.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 class MainActivity : ComponentActivity() {
@@ -45,11 +42,11 @@ class MainActivity : ComponentActivity() {
             MemoryTheme(isDarkMode.value) {
 
                 Box(Modifier.background(backgroundColor)) {
-                    Icon(
-                        painter = painterResource(R.drawable.img_moon),
-                        contentDescription = null,
-                        tint = Color.Blue.copy(0.15f)
-                    )
+//                    Icon(
+//                        painter = painterResource(R.drawable.img_moon),
+//                        contentDescription = null,
+//                        tint = orange.copy(0.15f)
+//                    )
 
                     AnimatedNavHost(
                         navController = controller,

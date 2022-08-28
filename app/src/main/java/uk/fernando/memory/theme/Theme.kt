@@ -14,13 +14,13 @@ import androidx.core.view.WindowCompat
 private val DarkColorScheme = darkColorScheme(
     primary = green,
     background = dark,
-//    secondary = secondary,
+    secondary = orange,
     surface = lightDark,
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = greenDark,
-//    secondary = secondary,
+    secondary = orange,
     surface = Color.White,
     background = whiteBackGround,
 )
@@ -39,7 +39,7 @@ fun MemoryTheme(
         SideEffect {
             val window = (view.context as Activity).window
 
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false //darkTheme
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme //darkTheme
         }
     }
 

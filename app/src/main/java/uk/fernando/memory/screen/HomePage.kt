@@ -13,7 +13,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
-import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Alignment.Companion.CenterStart
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,20 +27,22 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.inject
+import uk.fernando.advertising.component.AdBanner
 import uk.fernando.memory.R
 import uk.fernando.memory.component.MyAnimation
+import uk.fernando.memory.component.MyIconButton
 import uk.fernando.memory.component.MyResultDialog
+import uk.fernando.memory.database.entity.CategoryWithLevel
 import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.ext.getTypeName
 import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
-import uk.fernando.memory.theme.dark
-import uk.fernando.memory.theme.gold
-import uk.fernando.memory.theme.green
-import uk.fernando.memory.theme.greenLight
+import uk.fernando.memory.theme.*
 import uk.fernando.memory.viewmodel.HomeViewModel
 
 @OptIn(ExperimentalPagerApi::class)
@@ -53,6 +54,7 @@ fun HomePage(
     val prefs: PrefsStore by inject()
     val starsCount = prefs.getStarCount().collectAsState(initial = 0)
     var currentLevel by remember { mutableStateOf<LevelEntity?>(null) }
+    val coroutine = rememberCoroutineScope()
 
     Box {
 
@@ -74,60 +76,54 @@ fun HomePage(
                 fontWeight = FontWeight.Bold
             )
 
-            //val pagerState = rememberPagerState(pageCount = 3)
+            val pagerState = rememberPagerState()
 
             // Page Content
             HorizontalPager(
-                //state = pagerState,
+                state = pagerState,
                 count = viewModel.categoryList.value.count(),
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.fillMaxWidth()
             ) { page ->
-                val item = viewModel.categoryList.value[page]
 
-                Column {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(item.category.type.getTypeName()),
-                        color = MaterialTheme.colorScheme.onBackground,
-                        style = MaterialTheme.typography.labelMedium,
-                        fontWeight = FontWeight.Medium,
-                        textAlign = TextAlign.Center
-                    )
-
-                    if (starsCount.value < item.category.starsRequired) {
-                        Row(
-                            Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                Icons.Filled.Star,
-                                modifier = Modifier.size(32.dp),
-                                contentDescription = null,
-                                tint = gold
-                            )
-
-                            Text(
-                                text = "${item.category.starsRequired} Required to unlock category",
-                                color = MaterialTheme.colorScheme.onBackground,
-                                style = MaterialTheme.typography.bodySmall,
-                                fontWeight = FontWeight.Medium
-                            )
-                        }
+                PageContent(
+                    item = viewModel.categoryList.value[page],
+                    totalStars = starsCount.value,
+                    onLevelClick = { level ->
+                        if (level.star > 0)
+                            currentLevel = level
+                        else
+                            navController.safeNav(Directions.game.withArgs("${level.id}"))
                     }
+                )
+            }
 
-                    MapContent(
-                        list = item.levelList,
-                        onLevelClick = { level ->
-                            if (level.star > 0)
-                                currentLevel = level
-                            else
-                                navController.safeNav(Directions.game.withArgs("${level.id}"))
-                        }
+            Row(Modifier.padding(horizontal = 12.dp)) {
+                MyAnimation(pagerState.currentPage > 0) {
+                    MyIconButton(
+                        onClick = { coroutine.launch { pagerState.animateScrollToPage(pagerState.currentPage - 1) } },
+                        icon = R.drawable.ic_arrow_back
+                    )
+                }
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                MyAnimation(pagerState.currentPage < viewModel.categoryList.value.count() - 1) {
+                    MyIconButton(
+                        onClick = { coroutine.launch { pagerState.animateScrollToPage(pagerState.currentPage + 1) } },
+                        icon = R.drawable.ic_arrow_forward
                     )
                 }
             }
 
+            Spacer(Modifier.weight(1f))
+
+            AdBanner(
+                modifier = Modifier
+                    .defaultMinSize(minHeight = 50.dp)
+                    .padding(top = 8.dp)
+                    .background(red),
+                unitId = stringResource(R.string.ad_banner_home)
+            )
         }
 
         LevelDialog(level = currentLevel,
@@ -144,8 +140,6 @@ fun HomePage(
 
 @Composable
 private fun NavigationTopBar(starsCount: Int, onSettingsClick: () -> Unit) {
-
-
     Box(Modifier.fillMaxWidth()) {
 
         Row(
@@ -185,13 +179,53 @@ private fun NavigationTopBar(starsCount: Int, onSettingsClick: () -> Unit) {
 }
 
 @Composable
+private fun PageContent(item: CategoryWithLevel, totalStars: Int, onLevelClick: (LevelEntity) -> Unit) {
+    Column {
+        if (totalStars < item.category.starsRequired) {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    Icons.Filled.Star,
+                    contentDescription = null,
+                    tint = gold
+                )
+                Text(
+                    modifier = Modifier.padding(start = 2.dp),
+                    text = stringResource(R.string.stars_required_unlock_args, "${item.category.starsRequired}", stringResource(item.category.type.getTypeName())),
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Medium
+                )
+            }
+        } else {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(item.category.type.getTypeName()),
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.labelMedium,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center
+            )
+        }
+
+        MapContent(
+            list = item.levelList,
+            onLevelClick = onLevelClick
+        )
+    }
+}
+
+@Composable
 private fun MapContent(list: List<LevelEntity>, onLevelClick: (LevelEntity) -> Unit) {
     LazyVerticalGrid(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        columns = GridCells.Fixed(4)
+        modifier = Modifier.fillMaxWidth(),
+        contentPadding = PaddingValues(12.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        columns = GridCells.Fixed(5)
     ) {
         items(list) { level ->
             LevelCard(level, onLevelClick)
