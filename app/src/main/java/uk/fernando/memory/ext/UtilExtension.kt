@@ -2,6 +2,8 @@ package uk.fernando.memory.ext
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.VibrationEffect
 import android.os.VibratorManager
 import android.text.format.DateUtils
@@ -36,9 +38,17 @@ fun MediaPlayer.playAudio(enableSound: Boolean = true) {
     start()
 }
 
-fun Context.vibrate() {
-    kotlin.runCatching {
-        (this.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager)
-            .defaultVibrator.vibrate(VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE))
+fun Context.isNetworkAvailable(): Boolean {
+    val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+    if (capabilities != null) {
+        if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+            return true
+        } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+            return true
+        } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+            return true
+        }
     }
+    return false
 }

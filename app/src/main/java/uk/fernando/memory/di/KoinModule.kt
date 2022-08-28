@@ -13,13 +13,14 @@ import uk.fernando.memory.BuildConfig
 import uk.fernando.memory.database.MyDatabase
 import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.datastore.PrefsStoreImpl
-import uk.fernando.memory.repository.LevelRepository
-import uk.fernando.memory.repository.LevelRepositoryImpl
 import uk.fernando.memory.repository.CategoryRepository
 import uk.fernando.memory.repository.CategoryRepositoryImpl
+import uk.fernando.memory.repository.LevelRepository
+import uk.fernando.memory.repository.LevelRepositoryImpl
 import uk.fernando.memory.usecase.*
 import uk.fernando.memory.viewmodel.GameViewModel
 import uk.fernando.memory.viewmodel.HomeViewModel
+import uk.fernando.memory.viewmodel.SettingsViewModel
 import uk.fernando.memory.viewmodel.SplashViewModel
 
 object KoinModule {
@@ -60,6 +61,7 @@ object KoinModule {
             single { GetCategoryListUseCase(get()) }
             single { UpdateLevelUseCase(get(), get()) }
             single { GetLevelUseCase(get()) }
+            single { PurchaseUseCase(androidApplication(), get(), get()) }
             single { SetUpUseCase(get(), get(), get()) }
         }
 
@@ -68,6 +70,7 @@ object KoinModule {
 
             viewModel { SplashViewModel(get(), get()) }
             viewModel { HomeViewModel(get()) }
+            viewModel { SettingsViewModel(get(), get()) }
             viewModel { GameViewModel(get(), get(), get(), get()) }
         }
 
