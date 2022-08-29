@@ -3,11 +3,11 @@ package uk.fernando.memory.usecase
 import kotlinx.coroutines.delay
 import uk.fernando.logger.MyLogger
 import uk.fernando.memory.component.CardFace
-import uk.fernando.memory.config.AppConfig.ATTEMPTS_AVAILABLE
+import uk.fernando.memory.config.AppConfig.MISTAKES_POSSIBLE
 import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.ext.TAG
-import uk.fernando.memory.ext.getStarsByAttempts
+import uk.fernando.memory.ext.getStarsByMistakes
 import uk.fernando.memory.util.CardGenerator
 import uk.fernando.memory.util.CardModel
 import uk.fernando.memory.viewmodel.GameViewData
@@ -24,9 +24,9 @@ class GameUseCase(
     private var firstCard: CardModel? = null
     private var secondCard: CardModel? = null
     private var totalCards = 0
-    private var attemptsLeft = ATTEMPTS_AVAILABLE
+    private var mistakes = 0
 
-    suspend fun createCardList(levelID: Int, type: Int) : Boolean {
+    suspend fun createCardList(levelID: Int, type: Int): Boolean {
         level = getLevelUseCase(levelID)
 
         if (!level.isDisabled) {
@@ -37,12 +37,12 @@ class GameUseCase(
         return level.isDisabled
     }
 
-    suspend fun updateLevel(time: Int) {
+    private suspend fun updateLevel() {
         kotlin.runCatching {
-            val stars = attemptsLeft.getStarsByAttempts()
-            if (stars >= level.star || attemptsLeft < level.attempt) {  // In case user replay same level and score is lower then previous
+            val stars = mistakes.getStarsByMistakes()
+            if (stars > level.star) {  // In case user replay same level and score is lower then previous
                 prefsStore.storeStar(stars - level.star)
-                updateLevelUseCase.invoke(level.copy(star = stars, time = time, attempt = attemptsLeft))
+                updateLevelUseCase.invoke(level.copy(star = stars, mistakes = mistakes))
             }
         }.onFailure { e ->
             logger.e(TAG, e.message.toString())
@@ -68,8 +68,8 @@ class GameUseCase(
                 delay(800)
 
                 val newStatus = if (firstCard!!.id != secondCard!!.id) { // Incorrect
-                    attemptsLeft -= 1
-                    gameData.updateAttempts(1)
+                    mistakes += 1
+                    gameData.updateMistakes(1)
                     CardFace.Front
                 } else { // Correct
                     totalCards -= 2
@@ -82,16 +82,23 @@ class GameUseCase(
                 firstCard = null
                 secondCard = null
 
-                if (attemptsLeft <= 0)  // Game over
-                    gameData.endGame(level.copy(star = 0))
-                else if (totalCards == 0)
-                    gameData.endGame(level.copy(star = attemptsLeft.getStarsByAttempts()))
+                checkIfEndGame()
             }
 
         }.onFailure { e ->
             logger.e(TAG, e.message.toString())
             logger.addMessageToCrashlytics(TAG, "Error to flip card: msg: ${e.message}")
             logger.addExceptionToCrashlytics(e)
+        }
+    }
+
+    private suspend fun checkIfEndGame() {
+        if (mistakes >= MISTAKES_POSSIBLE) {  // Game over
+            gameData.endGame(level.copy(star = 0, mistakes = mistakes))
+            updateLevel()
+        } else if (totalCards == 0) {
+            gameData.endGame(level.copy(star = mistakes.getStarsByMistakes(), mistakes = mistakes))
+            updateLevel()
         }
     }
 }

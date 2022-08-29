@@ -34,8 +34,12 @@ import uk.fernando.memory.component.MyAnimation
 import uk.fernando.memory.component.MyFlipCard
 import uk.fernando.memory.component.MyResultDialog
 import uk.fernando.memory.config.AppConfig.COUNTDOWN_TIMER
+import uk.fernando.memory.config.AppConfig.MISTAKES_POSSIBLE
 import uk.fernando.memory.datastore.PrefsStore
-import uk.fernando.memory.ext.*
+import uk.fernando.memory.ext.getCellCount
+import uk.fernando.memory.ext.getWidthSize
+import uk.fernando.memory.ext.playAudio
+import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.viewmodel.GameViewModel
 import kotlin.time.Duration.Companion.seconds
@@ -105,59 +109,34 @@ private fun TopBar(viewModel: GameViewModel, levelId: Int, onClose: () -> Unit) 
             .fillMaxWidth()
     ) {
 
-        TopBarItemCard(Alignment.TopStart) {
-            Column(Modifier.padding(top = 8.dp)) {
-
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        modifier = Modifier.size(24.dp),
-                        painter = painterResource(id = R.drawable.ic_timer),
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onBackground
-                    )
-                    Text(
-                        modifier = Modifier.padding(start = 2.dp),
-                        text = viewModel.chronometerSeconds.value.timerFormat(),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                }
-
-                Text(
-                    modifier = Modifier.padding(start = 2.dp),
-                    text = stringResource(R.string.attempts_left_args, "${viewModel.attemptsLeft.value}"),
-                    style = MaterialTheme.typography.bodySmall,
-                    fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-            }
-        }
+        // Mistakes
+        Text(
+            modifier = Modifier.align(Alignment.CenterStart),
+            text = stringResource(R.string.mistakes_args, viewModel.mistakes.value, MISTAKES_POSSIBLE),
+            style = MaterialTheme.typography.bodySmall,
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.onBackground
+        )
 
         // Close button
-        TopBarItemCard(Alignment.TopEnd) {
-            IconButton(onClick = onClose) {
-                Icon(
-                    painterResource(id = R.drawable.ic_close),
-                    contentDescription = "close",
-                    tint = MaterialTheme.colorScheme.onBackground
-                )
-            }
+        IconButton(
+            modifier = Modifier.align(Alignment.CenterEnd),
+            onClick = onClose
+        ) {
+            Icon(
+                painterResource(id = R.drawable.ic_close),
+                contentDescription = "close",
+                tint = MaterialTheme.colorScheme.onBackground
+            )
         }
 
-        TopBarItemCard(Alignment.Center) {
-            Box(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .fillMaxHeight(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = stringResource(id = R.string.level_args, levelId.toString()),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-            }
-        }
+        // Title
+        Text(
+            modifier = Modifier.align(Alignment.Center),
+            text = stringResource(id = R.string.level_args, levelId.toString()),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onBackground
+        )
     }
 }
 
@@ -199,19 +178,6 @@ private fun CountDownAndAd(startSoundEffect: () -> Unit, onStart: () -> Unit) {
 
         if (countDown <= 0)
             AdBanner(unitId = stringResource(R.string.ad_banner_level))
-    }
-}
-
-@Composable
-private fun BoxScope.TopBarItemCard(alignment: Alignment, content: @Composable () -> Unit) {
-    Box(
-        modifier = Modifier
-            .align(alignment)
-//            .fillMaxHeight(),
-//        shadowElevation = 4.dp,
-//        shape = MaterialTheme.shapes.small
-    ) {
-        content()
     }
 }
 

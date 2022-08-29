@@ -1,7 +1,7 @@
 package uk.fernando.memory.ext
 
 import uk.fernando.memory.R
-import uk.fernando.memory.config.AppConfig.ATTEMPTS_AVAILABLE
+import uk.fernando.memory.config.AppConfig.MISTAKES_POSSIBLE
 import uk.fernando.memory.util.CardType
 
 
@@ -20,12 +20,12 @@ fun Int.getCellCount(): Int {
     }
 }
 
-fun Int.getStarsByAttempts(): Int {
-    return if (this > ATTEMPTS_AVAILABLE * .7)
+fun Int.getStarsByMistakes(): Int {
+    return if (this < MISTAKES_POSSIBLE * .3)
         3
-    else if (this > ATTEMPTS_AVAILABLE * .4)
+    else if (this < MISTAKES_POSSIBLE * .6)
         2
-    else if (this > 0)
+    else if (this < MISTAKES_POSSIBLE)
         1
     else
         0

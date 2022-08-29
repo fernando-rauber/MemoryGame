@@ -13,8 +13,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
-import androidx.compose.ui.Alignment.Companion.CenterStart
-import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -44,7 +42,10 @@ import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.ext.getTypeName
 import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
-import uk.fernando.memory.theme.*
+import uk.fernando.memory.theme.dark
+import uk.fernando.memory.theme.gold
+import uk.fernando.memory.theme.green
+import uk.fernando.memory.theme.greenLight
 import uk.fernando.memory.util.CardType
 import uk.fernando.memory.viewmodel.HomeViewModel
 

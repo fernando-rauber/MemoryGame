@@ -21,8 +21,7 @@ data class LevelEntity(
 
     val quantity: Int,
     val star: Int = 0,
-    val attempt: Int = 0,
-    val time: Int = 0,
+    val mistakes: Int = 0,
 
     @ColumnInfo(name = "category_id", index = true)
     var categoryID: Int = 0

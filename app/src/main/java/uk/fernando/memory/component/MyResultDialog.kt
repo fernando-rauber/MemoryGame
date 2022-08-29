@@ -17,7 +17,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import uk.fernando.memory.R
 import uk.fernando.memory.database.entity.LevelEntity
-import uk.fernando.memory.ext.timerFormat
 import uk.fernando.memory.theme.gold
 import uk.fernando.memory.theme.greenLight
 import uk.fernando.memory.theme.grey
@@ -55,13 +54,10 @@ fun MyResultDialog(
                 // Stars
                 Stars(level.star)
 
-                // Time
-                Time(level.time)
-
-                // Attempts
+                // Mistakes
                 Text(
                     modifier = Modifier.padding(top = 5.dp),
-                    text = stringResource(id = R.string.attempt_args, "${level.attempt}"),
+                    text = stringResource(id = R.string.mistakes_dialog_args, level.mistakes),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )
@@ -87,7 +83,8 @@ fun MyResultDialog(
 
             IconButton(
                 modifier = Modifier.align(Alignment.TopEnd),
-                onClick = onClose) {
+                onClick = onClose
+            ) {
                 Icon(
                     painterResource(id = R.drawable.ic_close),
                     contentDescription = "close",
@@ -163,25 +160,3 @@ private fun Stars(stars: Int) {
         )
     }
 }
-
-@Composable
-private fun Time(time: Int) {
-    Row(
-        modifier = Modifier.padding(start = 4.dp, end = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            modifier = Modifier.size(36.dp),
-            painter = painterResource(id = R.drawable.ic_timer),
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onBackground
-        )
-        Text(
-            modifier = Modifier.padding(start = 2.dp),
-            text = time.timerFormat(),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-    }
-}
-
