@@ -60,7 +60,6 @@ object KoinModule {
         get() = module {
             single { GetCategoryListUseCase(get()) }
             single { UpdateLevelUseCase(get(), get()) }
-            single { GetLevelUseCase(get()) }
             single { PurchaseUseCase(androidApplication(), get(), get()) }
             single { SetUpUseCase(get(), get(), get()) }
         }

@@ -129,7 +129,8 @@ fun HomePage(
             )
         }
 
-        LevelDialog(level = currentLevel,
+        LevelDialog(
+            level = currentLevel,
             onCancel = { currentLevel = null },
             onPlay = {
                 navController.safeNav(Directions.game.withArgs("${currentLevel?.id}"))

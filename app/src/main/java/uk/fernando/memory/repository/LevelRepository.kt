@@ -12,4 +12,6 @@ interface LevelRepository {
 
     suspend fun getLevelById(id: Int) : LevelEntity
 
+    suspend fun getCardTypeByCategory(id: Int) : Int
+
 }

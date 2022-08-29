@@ -8,8 +8,8 @@ import uk.fernando.logger.MyLogger
 import uk.fernando.memory.component.CardFace
 import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.datastore.PrefsStore
+import uk.fernando.memory.repository.LevelRepository
 import uk.fernando.memory.usecase.GameUseCase
-import uk.fernando.memory.usecase.GetLevelUseCase
 import uk.fernando.memory.usecase.UpdateLevelUseCase
 import uk.fernando.memory.util.CardModel
 
@@ -23,11 +23,11 @@ interface GameViewData {
 class GameViewModel(
     updateLevelUseCase: UpdateLevelUseCase,
     prefsStore: PrefsStore,
-    getLevelUseCase: GetLevelUseCase,
+    repository: LevelRepository,
     logger: MyLogger
 ) : BaseViewModel(), GameViewData {
 
-    private val gameUseCase = GameUseCase(this, prefsStore, updateLevelUseCase, getLevelUseCase, logger)
+    private val gameUseCase = GameUseCase(this, prefsStore, updateLevelUseCase, repository, logger)
 
     private val _cardList = mutableStateListOf<CardModel>()
     val cardList: List<CardModel> = _cardList
@@ -36,7 +36,7 @@ class GameViewModel(
     val levelResult = mutableStateOf<LevelEntity?>(null)
 
     suspend fun setUpGame(levelID: Int) = flow {
-        emit(gameUseCase.createCardList(levelID, 1))
+        emit(gameUseCase.createCardList(levelID))
     }
 
     fun startGame() {

@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -41,6 +42,9 @@ import uk.fernando.memory.ext.getWidthSize
 import uk.fernando.memory.ext.playAudio
 import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
+import uk.fernando.memory.theme.red
+import uk.fernando.memory.util.CardModel
+import uk.fernando.memory.util.CardType
 import uk.fernando.memory.viewmodel.GameViewModel
 import kotlin.time.Duration.Companion.seconds
 
@@ -202,9 +206,7 @@ private fun CardList(viewModel: GameViewModel) {
 
                 MyFlipCard(
                     cardFace = state,
-                    onClick = {
-                        viewModel.setSelectedCard(card)
-                    },
+                    onClick = { viewModel.setSelectedCard(card) },
                     back = {
                         Box(
                             Modifier
@@ -212,11 +214,44 @@ private fun CardList(viewModel: GameViewModel) {
                                 .background(MaterialTheme.colorScheme.primary),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text(text = "${card.id}")
+                            ComponentByCardType(card)
                         }
                     }
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun ComponentByCardType(card: CardModel) {
+    when (CardType.getByValue(card.type)) {
+        CardType.ANIMAL -> {
+//            Icon(
+//                painterResource(id = card.id),
+//                modifier = Modifier.fillMaxWidth(0.8f),
+//                contentDescription = null,
+//                tint = Color.Unspecified
+//            )
+            Text(
+                text = "${card.id}",
+                style = MaterialTheme.typography.titleMedium,
+                color = Color.White
+            )
+        }
+        CardType.FLAG -> {
+            Text(
+                text = "${card.id}",
+                style = MaterialTheme.typography.titleMedium,
+                color = Color.Yellow
+            )
+        }
+        else -> {
+            Text(
+                text = "${card.id}",
+                style = MaterialTheme.typography.titleMedium,
+                color = Color.White
+            )
         }
     }
 }

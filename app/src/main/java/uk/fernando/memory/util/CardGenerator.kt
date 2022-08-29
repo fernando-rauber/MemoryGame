@@ -21,8 +21,8 @@ class CardGenerator {
         for (i in 1..quantity / 2) {
             val idCreated = createCardId(type)
 
-            questionList.add(CardModel(id = idCreated))
-            questionList.add(CardModel(id = idCreated))
+            questionList.add(CardModel(id = idCreated, type = type))
+            questionList.add(CardModel(id = idCreated, type = type))
         }
 
         return questionList.shuffled()

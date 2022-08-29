@@ -8,6 +8,7 @@ import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.ext.TAG
 import uk.fernando.memory.ext.getStarsByMistakes
+import uk.fernando.memory.repository.LevelRepository
 import uk.fernando.memory.util.CardGenerator
 import uk.fernando.memory.util.CardModel
 import uk.fernando.memory.viewmodel.GameViewData
@@ -16,7 +17,7 @@ class GameUseCase(
     private val gameData: GameViewData,
     private val prefsStore: PrefsStore,
     private val updateLevelUseCase: UpdateLevelUseCase,
-    private val getLevelUseCase: GetLevelUseCase,
+    private val repository: LevelRepository,
     private val logger: MyLogger
 ) {
 
@@ -26,8 +27,9 @@ class GameUseCase(
     private var totalCards = 0
     private var mistakes = 0
 
-    suspend fun createCardList(levelID: Int, type: Int): Boolean {
-        level = getLevelUseCase(levelID)
+    suspend fun createCardList(levelID: Int): Boolean {
+        level = repository.getLevelById(levelID)
+        val type = repository.getCardTypeByCategory(level.categoryID)
 
         if (!level.isDisabled) {
             this.totalCards = level.quantity

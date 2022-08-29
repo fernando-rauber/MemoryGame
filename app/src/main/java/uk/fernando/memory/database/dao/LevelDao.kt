@@ -1,6 +1,7 @@
 package uk.fernando.memory.database.dao
 
 import androidx.room.*
+import uk.fernando.memory.database.entity.CategoryEntity
 import uk.fernando.memory.database.entity.LevelEntity
 
 @Dao
@@ -17,4 +18,7 @@ interface LevelDao {
 
     @Query("SELECT * FROM ${LevelEntity.NAME} WHERE id = :ID")
     fun getLevelById(ID: Int) : LevelEntity
+
+    @Query("SELECT type FROM ${CategoryEntity.NAME} WHERE id = :ID")
+    fun getCardTypeByCategory(ID: Int) : Int
 }
