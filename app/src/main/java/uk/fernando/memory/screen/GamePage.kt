@@ -3,6 +3,7 @@ package uk.fernando.memory.screen
 import android.media.MediaPlayer
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -16,6 +17,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -227,16 +229,11 @@ private fun CardList(viewModel: GameViewModel) {
 private fun ComponentByCardType(card: CardModel) {
     when (CardType.getByValue(card.type)) {
         CardType.ANIMAL -> {
-//            Icon(
-//                painterResource(id = card.id),
-//                modifier = Modifier.fillMaxWidth(0.8f),
-//                contentDescription = null,
-//                tint = Color.Unspecified
-//            )
-            Text(
-                text = "${card.id}",
-                style = MaterialTheme.typography.titleMedium,
-                color = Color.White
+            Image(
+                painterResource(id = card.id),
+                modifier = Modifier.fillMaxWidth(0.7f),
+                contentDescription = null,
+                contentScale = ContentScale.FillWidth
             )
         }
         CardType.FLAG -> {
