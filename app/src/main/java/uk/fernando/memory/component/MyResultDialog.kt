@@ -2,24 +2,23 @@ package uk.fernando.memory.component
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import uk.fernando.memory.R
 import uk.fernando.memory.database.entity.LevelEntity
-import uk.fernando.memory.theme.gold
 import uk.fernando.memory.theme.greenLight
-import uk.fernando.memory.theme.grey
+import uk.fernando.memory.theme.greyDark
 import uk.fernando.memory.theme.red
 import java.util.*
 
@@ -67,7 +66,7 @@ fun MyResultDialog(
                     MyButton(
                         modifier = Modifier.weight(1f),
                         onClick = onLeftButton,
-                        color = red,
+                        color = MaterialTheme.colorScheme.secondary,
                         text = stringResource(leftButtonText)
                     )
 
@@ -102,11 +101,11 @@ private fun Title(stars: Int) {
             .fillMaxWidth(0.7f)
             .height(60.dp)
             .offset(y = -(30).dp),
-        color = if (stars > 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
+        color = if (stars > 0) MaterialTheme.colorScheme.primary else red,
         shadowElevation = 4.dp,
         tonalElevation = 4.dp,
         shape = RoundedCornerShape(50),
-        border = BorderStroke(4.dp, if (stars > 0) greenLight else MaterialTheme.colorScheme.error.copy(0.8f))
+        border = BorderStroke(4.dp, if (stars > 0) greenLight else Color.White.copy(0.4f))
     ) {
         Box(Modifier.fillMaxSize()) {
             Text(
@@ -130,33 +129,42 @@ private fun Stars(stars: Int) {
         verticalAlignment = Alignment.Bottom
     ) {
 
-        Icon(
-            Icons.Filled.Star,
+        Image(
             modifier = Modifier
                 .weight(1f)
                 .aspectRatio(1f)
-                .offset(20.dp),
+                .offset(12.dp),
+            painter = painterResource(R.drawable.img_star),
             contentDescription = null,
-            tint = if (stars > 0) gold else grey
+            colorFilter = if (stars > 0) null else ColorFilter.tint(greyDark)
         )
 
-        Icon(
-            Icons.Filled.Star,
+        Image(
             modifier = Modifier
                 .weight(1.4f)
                 .aspectRatio(1f),
+            painter = painterResource(R.drawable.img_star),
             contentDescription = null,
-            tint = if (stars > 1) gold else grey
+            colorFilter = if (stars > 1) null else ColorFilter.tint(greyDark)
         )
 
-        Icon(
-            Icons.Filled.Star,
+        Image(
             modifier = Modifier
                 .weight(1f)
                 .aspectRatio(1f)
-                .offset(-(20).dp),
+                .offset(-(12).dp),
+            painter = painterResource(R.drawable.img_star),
             contentDescription = null,
-            tint = if (stars > 2) gold else grey
+            colorFilter = if (stars > 2) null else ColorFilter.tint(greyDark)
         )
+//        Icon(
+//            Icons.Filled.Star,
+//            modifier = Modifier
+//                .weight(1f)
+//                .aspectRatio(1f)
+//                .offset(-(20).dp),
+//            contentDescription = null,
+//            tint = if (stars > 2) gold else grey
+//        )
     }
 }

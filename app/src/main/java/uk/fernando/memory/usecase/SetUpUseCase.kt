@@ -18,8 +18,7 @@ class SetUpUseCase(
     private val logger: MyLogger
 ) {
 
-    //    private val categoryList = listOf( CardType.ANIMAL, CardType.FLAG, CardType.NUMBER)
-    private val categoryList = listOf(CardType.FLAG, CardType.ANIMAL, CardType.NUMBER)
+    private val categoryList = listOf(CardType.ANIMAL, CardType.FLAG, CardType.NUMBER)
 
     suspend operator fun invoke() {
         withContext(Dispatchers.IO) {

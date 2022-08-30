@@ -44,6 +44,7 @@ import uk.fernando.memory.ext.getWidthSize
 import uk.fernando.memory.ext.playAudio
 import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
+import uk.fernando.memory.theme.greenLight
 import uk.fernando.memory.util.CardModel
 import uk.fernando.memory.util.CardType
 import uk.fernando.memory.viewmodel.GameViewModel
@@ -82,9 +83,7 @@ fun GamePage(
 
             CountDownAndAd(
                 startSoundEffect = {
-                    coroutine.launch(Dispatchers.IO) {
-                        soundCountDown.playAudio(isSoundEnable.value)
-                    }
+                    coroutine.launch(Dispatchers.IO) { soundCountDown.playAudio(isSoundEnable.value) }
                 },
                 onStart = { viewModel.startGame() }
             )
@@ -150,10 +149,11 @@ private fun CountDownAndAd(startSoundEffect: () -> Unit, onStart: () -> Unit) {
     var countDown by remember { mutableStateOf(COUNTDOWN_TIMER) }
 
     LaunchedEffect(Unit) {
-        if (countDown == 3)
-            startSoundEffect()
 
         while (countDown > 0) {
+            if (countDown == 3)
+                startSoundEffect()
+
             delay(1.seconds)
             countDown--
             if (countDown == 0)
@@ -227,7 +227,7 @@ private fun CardList(viewModel: GameViewModel, isSoundEnable: Boolean) {
                         Box(
                             Modifier
                                 .fillMaxSize()
-                                .background(if (card.type == CardType.FLAG.value) Color.Transparent else MaterialTheme.colorScheme.primary),
+                                .background(if (card.type == CardType.FLAG.value) Color.Transparent else greenLight),
                             contentAlignment = Alignment.Center
                         ) {
                             ComponentByCardType(card)
@@ -283,8 +283,8 @@ fun DialogResult(
     MyAnimation(viewModel.levelResult.value != null) {
         LaunchedEffect(Unit) { soundFinish.playAudio(isSoundEnable.value) }
 
-//        if (!isPremium.value)
-//            fullScreenAd.showAdvert()
+        if (!isPremium.value)
+            fullScreenAd.showAdvert()
 
         viewModel.levelResult.value?.let { level ->
             MyResultDialog(

@@ -67,7 +67,8 @@ class GameUseCase(
 
             // Validate both cards
             if (firstCard != null && secondCard != null) {
-                val isCorrect = if (firstCard!!.id != secondCard!!.id) { // Incorrect
+
+               return if (firstCard!!.id != secondCard!!.id) { // Incorrect
                     mistakes += 1
                     gameData.updateMistakes(1)
                     false
@@ -75,8 +76,6 @@ class GameUseCase(
                     totalCards -= 2
                     true
                 }
-
-                return isCorrect
             }
 
         }.onFailure { e ->
