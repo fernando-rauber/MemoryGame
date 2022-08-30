@@ -48,8 +48,12 @@ class GameViewModel(
         }
     }
 
-    fun setSelectedCard(card: CardModel) {
-        launchDefault { gameUseCase.setSelectedCard(card) }
+    fun setSelectedCard(card: CardModel) = flow{
+        val isCorrect = gameUseCase.setSelectedCard(card)
+        emit(isCorrect)
+
+        if (isCorrect != null)
+            gameUseCase.updateSelectedCards(isCorrect)
     }
 
     override fun updateMistakes(value: Int) {

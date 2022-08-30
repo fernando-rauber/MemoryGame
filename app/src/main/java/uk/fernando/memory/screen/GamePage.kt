@@ -44,7 +44,6 @@ import uk.fernando.memory.ext.getWidthSize
 import uk.fernando.memory.ext.playAudio
 import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
-import uk.fernando.memory.theme.red
 import uk.fernando.memory.util.CardModel
 import uk.fernando.memory.util.CardType
 import uk.fernando.memory.viewmodel.GameViewModel
@@ -90,7 +89,7 @@ fun GamePage(
                 onStart = { viewModel.startGame() }
             )
 
-            CardList(viewModel)
+            CardList(viewModel, isSoundEnable.value)
         }
 
         // Dialogs
@@ -188,7 +187,11 @@ private fun CountDownAndAd(startSoundEffect: () -> Unit, onStart: () -> Unit) {
 }
 
 @Composable
-private fun CardList(viewModel: GameViewModel) {
+private fun CardList(viewModel: GameViewModel, isSoundEnable: Boolean) {
+    val coroutine = rememberCoroutineScope()
+    val soundCorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_correct)
+    val soundIncorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_incorrect)
+
     Box(Modifier.fillMaxSize()) {
 
         LazyVerticalGrid(
@@ -208,12 +211,23 @@ private fun CardList(viewModel: GameViewModel) {
 
                 MyFlipCard(
                     cardFace = state,
-                    onClick = { viewModel.setSelectedCard(card) },
+                    onClick = {
+                        coroutine.launch {
+                            viewModel.setSelectedCard(card).collect { isCorrect ->
+                                isCorrect?.let {
+                                    if (isCorrect)
+                                        soundCorrect.playAudio(isSoundEnable)
+                                    else
+                                        soundIncorrect.playAudio(isSoundEnable)
+                                }
+                            }
+                        }
+                    },
                     back = {
                         Box(
                             Modifier
                                 .fillMaxSize()
-                                .background(if(card.type == CardType.FLAG.value) Color.Transparent else MaterialTheme.colorScheme.primary),
+                                .background(if (card.type == CardType.FLAG.value) Color.Transparent else MaterialTheme.colorScheme.primary),
                             contentAlignment = Alignment.Center
                         ) {
                             ComponentByCardType(card)

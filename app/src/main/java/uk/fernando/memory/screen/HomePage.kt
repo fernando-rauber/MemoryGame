@@ -232,7 +232,7 @@ private fun MapContent(list: List<LevelEntity>, onLevelClick: (LevelEntity) -> U
         contentPadding = PaddingValues(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        columns = GridCells.Fixed(5)
+        columns = GridCells.Fixed(4)
     ) {
         items(list) { level ->
             LevelCard(level, onLevelClick)

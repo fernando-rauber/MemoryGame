@@ -53,10 +53,10 @@ class GameUseCase(
         }
     }
 
-    suspend fun setSelectedCard(card: CardModel) {
+    fun setSelectedCard(card: CardModel): Boolean? {
         kotlin.runCatching {
             if (card.status == CardFace.Back || card.status == CardFace.Hidden || firstCard != null && secondCard != null)
-                return
+                return null
 
             val newCard = gameData.updateCardStatus(card, CardFace.Back)
 
@@ -67,24 +67,16 @@ class GameUseCase(
 
             // Validate both cards
             if (firstCard != null && secondCard != null) {
-                delay(800)
-
-                val newStatus = if (firstCard!!.id != secondCard!!.id) { // Incorrect
+                val isCorrect = if (firstCard!!.id != secondCard!!.id) { // Incorrect
                     mistakes += 1
                     gameData.updateMistakes(1)
-                    CardFace.Front
+                    false
                 } else { // Correct
                     totalCards -= 2
-                    CardFace.Hidden
+                    true
                 }
 
-                gameData.updateCardStatus(firstCard!!, newStatus)
-                gameData.updateCardStatus(secondCard!!, newStatus)
-
-                firstCard = null
-                secondCard = null
-
-                checkIfEndGame()
+                return isCorrect
             }
 
         }.onFailure { e ->
@@ -92,6 +84,22 @@ class GameUseCase(
             logger.addMessageToCrashlytics(TAG, "Error to flip card: msg: ${e.message}")
             logger.addExceptionToCrashlytics(e)
         }
+
+        return null
+    }
+
+    suspend fun updateSelectedCards(isCorrect: Boolean) {
+        val status = if(isCorrect) CardFace.Hidden else CardFace.Front
+
+        delay(600)
+
+        gameData.updateCardStatus(firstCard!!, status)
+        gameData.updateCardStatus(secondCard!!, status)
+
+        firstCard = null
+        secondCard = null
+
+        checkIfEndGame()
     }
 
     private suspend fun checkIfEndGame() {
