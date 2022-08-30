@@ -213,7 +213,7 @@ private fun CardList(viewModel: GameViewModel) {
                         Box(
                             Modifier
                                 .fillMaxSize()
-                                .background(MaterialTheme.colorScheme.primary),
+                                .background(if(card.type == CardType.FLAG.value) Color.Transparent else MaterialTheme.colorScheme.primary),
                             contentAlignment = Alignment.Center
                         ) {
                             ComponentByCardType(card)
@@ -237,10 +237,11 @@ private fun ComponentByCardType(card: CardModel) {
             )
         }
         CardType.FLAG -> {
-            Text(
-                text = "${card.id}",
-                style = MaterialTheme.typography.titleMedium,
-                color = Color.Yellow
+            Image(
+                painterResource(id = card.id),
+                modifier = Modifier.fillMaxSize(),
+                contentDescription = null,
+                contentScale = ContentScale.FillWidth
             )
         }
         else -> {

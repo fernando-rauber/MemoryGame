@@ -10,7 +10,29 @@ class CardGenerator {
         mutableListOf(1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256, 289, 361, 400, 484, 529, 576, 625, 676, 729, 784, 841, 900, 961, 1024, 1089, 1225, 1296, 1369, 1521, 1600, 1681, 1764, 1936, 2116, 2209, 2401, 2500, 2601, 2704, 3249, 4225, 4356, 4489, 5625, 5776, 5929, 7225, 8100, 8281, 9216, 9409, 9604, 9801)
     }
     private val flagIds by lazy {
-        mutableListOf(1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256, 289, 361, 400, 484, 529, 576, 625, 676, 729, 784, 841, 900, 961, 1024, 1089, 1225, 1296, 1369, 1521, 1600, 1681, 1764, 1936, 2116, 2209, 2401, 2500, 2601, 2704, 3249, 4225, 4356, 4489, 5625, 5776, 5929, 7225, 8100, 8281, 9216, 9409, 9604, 9801)
+        mutableListOf(
+            R.drawable.flag_argentina,
+            R.drawable.flag_australia,
+            R.drawable.flag_belgium,
+            R.drawable.flag_bolivia,
+            R.drawable.flag_brazil,
+            R.drawable.flag_canada,
+            R.drawable.flag_colombia,
+            R.drawable.flag_czech_republic,
+            R.drawable.flag_france,
+            R.drawable.flag_germany,
+            R.drawable.flag_india,
+            R.drawable.flag_japan,
+            R.drawable.flag_netherlands,
+            R.drawable.flag_philippines,
+            R.drawable.flag_south_korea,
+            R.drawable.flag_spain,
+            R.drawable.flag_ukraine,
+            R.drawable.flag_united_kingdom,
+            R.drawable.flag_united_states,
+            R.drawable.flag_uruguay,
+            R.drawable.flag_vietnam
+        )
     }
     private val animalIds by lazy {
         mutableListOf(
