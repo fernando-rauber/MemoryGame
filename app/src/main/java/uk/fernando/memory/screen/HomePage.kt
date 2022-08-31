@@ -1,6 +1,7 @@
 package uk.fernando.memory.screen
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,10 +14,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterStart
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -35,6 +39,7 @@ import uk.fernando.memory.R
 import uk.fernando.memory.component.MyAnimation
 import uk.fernando.memory.component.MyIconButton
 import uk.fernando.memory.component.MyResultDialog
+import uk.fernando.memory.component.MyStar
 import uk.fernando.memory.config.AppConfig.MAX_CARDS_PER_CATEGORY
 import uk.fernando.memory.database.entity.CategoryWithLevel
 import uk.fernando.memory.database.entity.LevelEntity
@@ -42,10 +47,7 @@ import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.ext.getTypeName
 import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
-import uk.fernando.memory.theme.dark
-import uk.fernando.memory.theme.gold
-import uk.fernando.memory.theme.green
-import uk.fernando.memory.theme.greenLight
+import uk.fernando.memory.theme.*
 import uk.fernando.memory.util.CardType
 import uk.fernando.memory.viewmodel.HomeViewModel
 
@@ -76,7 +78,7 @@ fun HomePage(
                 modifier = Modifier.padding(bottom = 10.dp),
                 text = stringResource(id = R.string.select_level_title),
                 color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.Bold
             )
 
@@ -148,21 +150,18 @@ private fun NavigationTopBar(starsCount: Int, onSettingsClick: () -> Unit) {
 
         Row(
             Modifier
-                .align(Center)
+                .align(CenterStart)
                 .padding(start = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            MyStar(modifier = Modifier.size(24.dp))
+
             Text(
+                modifier = Modifier.padding(start = 2.dp),
                 text = "$starsCount/${MAX_CARDS_PER_CATEGORY * 3 * CardType.getQuantity()}",
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Medium
-            )
-            Icon(
-                Icons.Filled.Star,
-                modifier = Modifier.size(32.dp),
-                contentDescription = null,
-                tint = gold
             )
         }
 
@@ -227,12 +226,14 @@ private fun PageContent(item: CategoryWithLevel, totalStars: Int, onLevelClick: 
 
 @Composable
 private fun MapContent(list: List<LevelEntity>, onLevelClick: (LevelEntity) -> Unit) {
+    val screenHeight = LocalConfiguration.current.screenHeightDp
+
     LazyVerticalGrid(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        columns = GridCells.Fixed(4)
+        columns = GridCells.Fixed(if (screenHeight < 700) 5 else 4)
     ) {
         items(list) { level ->
             LevelCard(level, onLevelClick)
@@ -242,7 +243,6 @@ private fun MapContent(list: List<LevelEntity>, onLevelClick: (LevelEntity) -> U
 
 @Composable
 private fun LevelCard(level: LevelEntity, onClick: (LevelEntity) -> Unit) {
-
     Surface(
         modifier = Modifier.aspectRatio(1f),
         shadowElevation = 4.dp,
@@ -284,35 +284,28 @@ private fun LevelCard(level: LevelEntity, onClick: (LevelEntity) -> Unit) {
                                 .padding(top = 10.dp),
                             text = level.position.toString(),
                             color = Color.White,
-                            style = MaterialTheme.typography.titleMedium,
+                            style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Medium
                         )
                     }
 
                     Row(
                         Modifier
-                            .fillMaxWidth(.8f)
-                            .padding(bottom = 5.dp)
+                            .fillMaxWidth(.75f)
+                            .padding(bottom = 7.dp),
+                        verticalAlignment = Alignment.Bottom,
                     ) {
-                        Icon(
-                            Icons.Filled.Star,
-                            modifier = Modifier.weight(1f),
-                            contentDescription = null,
-                            tint = if (level.star > 0) gold else dark
+                        MyStar(
+                            modifier = Modifier.weight(.9f),
+                            isBlack = level.star <= 0
                         )
-
-                        Icon(
-                            Icons.Filled.Star,
-                            modifier = Modifier.weight(1f),
-                            contentDescription = null,
-                            tint = if (level.star > 1) gold else dark
+                        MyStar(
+                            modifier = Modifier.weight(1.1f),
+                            isBlack = level.star <= 1
                         )
-
-                        Icon(
-                            Icons.Filled.Star,
-                            modifier = Modifier.weight(1f),
-                            contentDescription = null,
-                            tint = if (level.star > 2) gold else dark
+                        MyStar(
+                            modifier = Modifier.weight(.9f),
+                            isBlack = level.star <= 2
                         )
                     }
                 }

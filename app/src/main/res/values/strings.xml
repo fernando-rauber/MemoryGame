@@ -8,7 +8,7 @@
     // Home
     <string name="close_action">Close</string>
     <string name="completed">Completed</string>
-    <string name="fail">Fail</string>
+    <string name="failed">Failed</string>
     <string name="mistakes_dialog_args">Mistakes: %1$d</string>
     <string name="replay_action">Replay</string>
     <string name="select_level_title">Select Level</string>

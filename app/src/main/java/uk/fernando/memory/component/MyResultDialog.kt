@@ -13,13 +13,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import uk.fernando.memory.R
 import uk.fernando.memory.database.entity.LevelEntity
-import uk.fernando.memory.theme.greenLight
-import uk.fernando.memory.theme.greyDark
-import uk.fernando.memory.theme.red
+import uk.fernando.memory.theme.*
 import java.util.*
 
 @Composable
@@ -44,9 +43,9 @@ fun MyResultDialog(
 
                 // Level text
                 Text(
-                    modifier = Modifier.padding(bottom = 10.dp),
+                    modifier = Modifier.offset(y = -(10).dp),
                     text = stringResource(id = R.string.level_args, "${level.position}"),
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground
                 )
 
@@ -58,11 +57,12 @@ fun MyResultDialog(
                     modifier = Modifier.padding(top = 5.dp),
                     text = stringResource(id = R.string.mistakes_dialog_args, level.mistakes),
                     style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Medium,
                     color = MaterialTheme.colorScheme.onBackground
                 )
 
                 // Buttons
-                Row(Modifier.padding(top = 32.dp, bottom = 16.dp)) {
+                Row(Modifier.padding(vertical = 16.dp)) {
                     MyButton(
                         modifier = Modifier.weight(1f),
                         onClick = onLeftButton,
@@ -105,12 +105,12 @@ private fun Title(stars: Int) {
         shadowElevation = 4.dp,
         tonalElevation = 4.dp,
         shape = RoundedCornerShape(50),
-        border = BorderStroke(4.dp, if (stars > 0) greenLight else Color.White.copy(0.4f))
+        border = BorderStroke(4.dp, if (stars > 0) green else Color.White.copy(0.4f))
     ) {
         Box(Modifier.fillMaxSize()) {
             Text(
                 modifier = Modifier.align(Alignment.Center),
-                text = stringResource(if (stars == 0) R.string.fail else R.string.completed).uppercase(Locale.ENGLISH),
+                text = stringResource(if (stars == 0) R.string.failed else R.string.completed).uppercase(Locale.ENGLISH),
                 style = MaterialTheme.typography.bodyLarge,
                 color = Color.White,
                 textAlign = TextAlign.Center

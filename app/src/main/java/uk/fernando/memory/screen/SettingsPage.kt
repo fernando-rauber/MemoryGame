@@ -89,7 +89,6 @@ fun SettingsPage(
                 )
 
                 CustomSettingsResourcesCard(
-                    modifier = Modifier.padding(vertical = 10.dp),
                     modifierRow = Modifier
                         .clickable {
                             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://app.websitepolicies.com/policies/view/o2172rhj"))
