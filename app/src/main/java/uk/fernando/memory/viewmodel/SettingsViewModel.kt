@@ -59,6 +59,3 @@ class SettingsViewModel(
         scope.cancel()
     }
 }
-
-
-

@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
@@ -151,13 +153,14 @@ private fun NavigationTopBar(starsCount: Int, onSettingsClick: () -> Unit) {
         Row(
             Modifier
                 .align(CenterStart)
-                .padding(start = 8.dp),
+                .padding(start = 24.dp)
+                .background(MaterialTheme.colorScheme.onBackground.copy(.15f), MaterialTheme.shapes.extraSmall.copy(topStart = CornerSize(0.dp))),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            MyStar(modifier = Modifier.size(24.dp))
+            MyStar(modifier = Modifier.size(24.dp).offset(x = (-12).dp))
 
             Text(
-                modifier = Modifier.padding(start = 2.dp),
+                modifier = Modifier.offset(x = (-9).dp),
                 text = "$starsCount/${MAX_CARDS_PER_CATEGORY * 3 * CardType.getQuantity()}",
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyMedium,

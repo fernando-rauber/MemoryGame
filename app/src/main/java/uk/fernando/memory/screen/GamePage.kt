@@ -45,6 +45,7 @@ import uk.fernando.memory.ext.playAudio
 import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.theme.greenLight
+import uk.fernando.memory.theme.red
 import uk.fernando.memory.util.CardModel
 import uk.fernando.memory.util.CardType
 import uk.fernando.memory.viewmodel.GameViewModel
@@ -117,7 +118,7 @@ private fun TopBar(viewModel: GameViewModel, levelId: Int, onClose: () -> Unit) 
         Text(
             modifier = Modifier.align(Alignment.CenterStart),
             text = stringResource(R.string.mistakes_args, viewModel.mistakes.value, MISTAKES_POSSIBLE),
-            style = MaterialTheme.typography.bodySmall,
+            style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Medium,
             color = MaterialTheme.colorScheme.onBackground
         )
@@ -163,7 +164,7 @@ private fun CountDownAndAd(startSoundEffect: () -> Unit, onStart: () -> Unit) {
 
     Box(
         Modifier
-            .padding(top = 16.dp)
+            .padding(top = 8.dp)
             .defaultMinSize(minHeight = 50.dp)
             .fillMaxWidth(),
         contentAlignment = Alignment.Center
@@ -176,7 +177,7 @@ private fun CountDownAndAd(startSoundEffect: () -> Unit, onStart: () -> Unit) {
             Text(
                 text = stringResource(R.string.turn_cards_back_args, "$countDown"),
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.error,
+                color = red,
                 fontWeight = FontWeight.Medium
             )
         }

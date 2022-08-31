@@ -129,42 +129,27 @@ private fun Stars(stars: Int) {
         verticalAlignment = Alignment.Bottom
     ) {
 
-        Image(
+        MyStar(
             modifier = Modifier
                 .weight(1f)
                 .aspectRatio(1f)
                 .offset(12.dp),
-            painter = painterResource(R.drawable.img_star),
-            contentDescription = null,
-            colorFilter = if (stars > 0) null else ColorFilter.tint(greyDark)
+            isBlack = stars <= 0
         )
 
-        Image(
+        MyStar(
             modifier = Modifier
                 .weight(1.4f)
                 .aspectRatio(1f),
-            painter = painterResource(R.drawable.img_star),
-            contentDescription = null,
-            colorFilter = if (stars > 1) null else ColorFilter.tint(greyDark)
+            isBlack = stars <= 1
         )
 
-        Image(
+        MyStar(
             modifier = Modifier
                 .weight(1f)
                 .aspectRatio(1f)
-                .offset(-(12).dp),
-            painter = painterResource(R.drawable.img_star),
-            contentDescription = null,
-            colorFilter = if (stars > 2) null else ColorFilter.tint(greyDark)
+                .offset((-12).dp),
+            isBlack = stars <= 2
         )
-//        Icon(
-//            Icons.Filled.Star,
-//            modifier = Modifier
-//                .weight(1f)
-//                .aspectRatio(1f)
-//                .offset(-(20).dp),
-//            contentDescription = null,
-//            tint = if (stars > 2) gold else grey
-//        )
     }
 }

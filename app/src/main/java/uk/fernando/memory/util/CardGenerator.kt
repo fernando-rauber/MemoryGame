@@ -67,7 +67,7 @@ class CardGenerator {
             questionList.add(CardModel(id = idCreated, type = type))
         }
 
-        return questionList.shuffled()
+        return questionList.shuffled().shuffled()
     }
 
     /**

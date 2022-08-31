@@ -25,7 +25,7 @@ fun NavigationBarTop(
     Box(
         Modifier
             .fillMaxWidth()
-            .padding(10.dp)
+            .padding(horizontal = 10.dp)
     ) {
 
         if (onLeftIconClick != null)
