@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -115,13 +116,31 @@ private fun TopBar(viewModel: GameViewModel, levelId: Int, onClose: () -> Unit) 
     ) {
 
         // Mistakes
-        Text(
-            modifier = Modifier.align(Alignment.CenterStart),
-            text = stringResource(R.string.mistakes_args, viewModel.mistakes.value, MISTAKES_POSSIBLE),
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.Medium,
-            color = MaterialTheme.colorScheme.onBackground
-        )
+        Row(
+            Modifier
+                .align(Alignment.CenterStart)
+                .padding(start = 14.dp)
+                .background(MaterialTheme.colorScheme.onBackground.copy(.15f), MaterialTheme.shapes.extraSmall),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                modifier = Modifier
+                    .size(32.dp)
+                    .offset(x = (-16).dp),
+                painter = painterResource(R.drawable.img_mistakes),
+                contentDescription = null,
+            )
+
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = 5.dp)
+                    .offset(x = (-11).dp),
+                text = "${viewModel.mistakes.value}/$MISTAKES_POSSIBLE",
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Medium
+            )
+        }
 
         // Close button
         IconButton(
@@ -139,7 +158,7 @@ private fun TopBar(viewModel: GameViewModel, levelId: Int, onClose: () -> Unit) 
         Text(
             modifier = Modifier.align(Alignment.Center),
             text = stringResource(id = R.string.level_args, levelId.toString()),
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.onBackground
         )
     }

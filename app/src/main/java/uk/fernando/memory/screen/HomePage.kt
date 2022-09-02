@@ -1,7 +1,6 @@
 package uk.fernando.memory.screen
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,7 +8,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
@@ -21,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -49,7 +46,9 @@ import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.ext.getTypeName
 import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
-import uk.fernando.memory.theme.*
+import uk.fernando.memory.theme.gold
+import uk.fernando.memory.theme.green
+import uk.fernando.memory.theme.greenLight
 import uk.fernando.memory.util.CardType
 import uk.fernando.memory.viewmodel.HomeViewModel
 
@@ -77,7 +76,7 @@ fun HomePage(
             )
 
             Text(
-                modifier = Modifier.padding(bottom = 10.dp),
+                modifier = Modifier.padding(vertical = 12.dp),
                 text = stringResource(id = R.string.select_level_title),
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.headlineLarge,
@@ -89,8 +88,9 @@ fun HomePage(
             // Page Content
             HorizontalPager(
                 state = pagerState,
+                verticalAlignment = Alignment.Top,
                 count = viewModel.categoryList.value.count(),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.weight(1f)
             ) { page ->
 
                 PageContent(
@@ -123,12 +123,11 @@ fun HomePage(
                 }
             }
 
-            Spacer(Modifier.weight(1f))
 
             AdBanner(
                 modifier = Modifier
                     .defaultMinSize(minHeight = 50.dp)
-                    .padding(top = 8.dp),
+                    .padding(top = 16.dp),
                 unitId = stringResource(R.string.ad_banner_home)
             )
         }
@@ -153,14 +152,18 @@ private fun NavigationTopBar(starsCount: Int, onSettingsClick: () -> Unit) {
         Row(
             Modifier
                 .align(CenterStart)
-                .padding(start = 24.dp)
+                .padding(start = 30.dp)
                 .background(MaterialTheme.colorScheme.onBackground.copy(.15f), MaterialTheme.shapes.extraSmall.copy(topStart = CornerSize(0.dp))),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            MyStar(modifier = Modifier.size(24.dp).offset(x = (-12).dp))
+            MyStar(
+                modifier = Modifier
+                    .size(32.dp)
+                    .offset(x = (-16).dp)
+            )
 
             Text(
-                modifier = Modifier.offset(x = (-9).dp),
+                modifier = Modifier.offset(x = (-11).dp),
                 text = "$starsCount/${MAX_CARDS_PER_CATEGORY * 3 * CardType.getQuantity()}",
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyMedium,

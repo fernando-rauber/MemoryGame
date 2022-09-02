@@ -42,7 +42,6 @@ val Typography = Typography(
         fontFamily = solwayFamily,
         fontSize = 14.sp
     ),
-
     headlineMedium = TextStyle(
         fontFamily = solwayFamily,
         fontWeight = FontWeight.Medium,

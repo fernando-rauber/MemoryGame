@@ -59,6 +59,7 @@ fun SettingsPage(
             ) {
 
                 CustomSettingsResourcesCard(
+                    Modifier.padding(top = 24.dp),
                     text = R.string.dark_mode,
                     isChecked = isDarkMode.value,
                     onCheckedChange = viewModel::updateDarkMode

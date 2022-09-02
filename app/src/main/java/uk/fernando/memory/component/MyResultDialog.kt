@@ -2,7 +2,6 @@ package uk.fernando.memory.component
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -10,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -18,7 +16,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import uk.fernando.memory.R
 import uk.fernando.memory.database.entity.LevelEntity
-import uk.fernando.memory.theme.*
+import uk.fernando.memory.theme.green
+import uk.fernando.memory.theme.red
 import java.util.*
 
 @Composable
@@ -43,7 +42,9 @@ fun MyResultDialog(
 
                 // Level text
                 Text(
-                    modifier = Modifier.offset(y = -(10).dp),
+                    modifier = Modifier
+                        .offset(y = -(10).dp)
+                        .padding(bottom = 10.dp),
                     text = stringResource(id = R.string.level_args, "${level.position}"),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground
@@ -54,7 +55,7 @@ fun MyResultDialog(
 
                 // Mistakes
                 Text(
-                    modifier = Modifier.padding(top = 5.dp),
+                    modifier = Modifier.padding(vertical = 10.dp),
                     text = stringResource(id = R.string.mistakes_dialog_args, level.mistakes),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium,
