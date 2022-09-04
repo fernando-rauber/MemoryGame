@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">Memory</string>
 
-    <string name="ad_banner_home" translatable="false">ca-app-pub-5791754615168338/8857637726</string>
-    <string name="ad_banner_level" translatable="false">ca-app-pub-5791754615168338/8785485533</string>
-    <string name="ad_interstitial_end_level" translatable="false">ca-app-pub-5791754615168338/6144941951</string>
+<!--    <string name="ad_banner_home" translatable="false">ca-app-pub-5791754615168338/8857637726</string>-->
+    <string name="ad_banner_home" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+<!--    <string name="ad_banner_level" translatable="false">ca-app-pub-5791754615168338/8785485533</string>-->
+    <string name="ad_banner_level" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+<!--    <string name="ad_interstitial_end_level" translatable="false">ca-app-pub-5791754615168338/6144941951</string>-->
+    <string name="ad_interstitial_end_level" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
 
     // Home
     <string name="close_action">Close</string>
@@ -20,7 +23,7 @@
     // Game
     <string name="level_args">Level %s</string>
     <string name="mistakes_args">Mistakes: %1$d/%2$d</string>
-    <string name="turn_cards_back_args">Turning cards back in %s</string>
+    <string name="turn_cards_back_args">Start in %s</string>
     <string name="next_level">Next</string>
     <string name="stars_required_unlock_args">to unlock: %s</string>
 

@@ -48,7 +48,7 @@ class GameViewModel(
         }
     }
 
-    fun setSelectedCard(card: CardModel) = flow{
+    fun setSelectedCard(card: CardModel) = flow {
         val isCorrect = gameUseCase.setSelectedCard(card)
         emit(isCorrect)
 

@@ -8,14 +8,16 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = green,
+    primary = greenLight,
     background = dark,
     secondary = orange,
     surface = lightDark,
+    outline = green
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -23,6 +25,7 @@ private val LightColorScheme = lightColorScheme(
     secondary = orange,
     surface = Color.White,
     background = whiteBackGround,
+    outline = green
 )
 
 @Composable
@@ -43,9 +46,10 @@ fun MemoryTheme(
         }
     }
 
+    val typography = if (LocalConfiguration.current.screenHeightDp > 600) Typography else TypographySmallScreen
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = typography,
         shapes = Shapes,
         content = content
     )

@@ -30,7 +30,7 @@ fun MyButton(
     Button(
         border = borderStroke,
         modifier = modifier.defaultMinSize(minHeight = 50.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = color),
+        colors = ButtonDefaults.buttonColors( color, color),
         elevation = elevation,
         enabled = enabled,
         shape = MaterialTheme.shapes.small,

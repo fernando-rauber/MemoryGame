@@ -16,7 +16,7 @@ import uk.fernando.memory.ext.TAG
 import uk.fernando.memory.ext.isNetworkAvailable
 import uk.fernando.memory.util.Resource
 
-const val PREMIUM_PRODUCT = "fun_math_premium"
+const val PREMIUM_PRODUCT = "memory_premium"
 
 class PurchaseUseCase(
     private val application: Application,

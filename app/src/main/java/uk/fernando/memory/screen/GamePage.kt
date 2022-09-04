@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -45,7 +44,6 @@ import uk.fernando.memory.ext.getWidthSize
 import uk.fernando.memory.ext.playAudio
 import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
-import uk.fernando.memory.theme.greenLight
 import uk.fernando.memory.theme.red
 import uk.fernando.memory.util.CardModel
 import uk.fernando.memory.util.CardType
@@ -247,7 +245,7 @@ private fun CardList(viewModel: GameViewModel, isSoundEnable: Boolean) {
                         Box(
                             Modifier
                                 .fillMaxSize()
-                                .background(if (card.type == CardType.FLAG.value) Color.Transparent else greenLight),
+                                .background(if (card.type == CardType.FLAG.value) Color.Transparent else MaterialTheme.colorScheme.primary),
                             contentAlignment = Alignment.Center
                         ) {
                             ComponentByCardType(card)

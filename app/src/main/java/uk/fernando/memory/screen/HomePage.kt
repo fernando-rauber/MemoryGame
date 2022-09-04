@@ -48,7 +48,6 @@ import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.theme.gold
 import uk.fernando.memory.theme.green
-import uk.fernando.memory.theme.greenLight
 import uk.fernando.memory.util.CardType
 import uk.fernando.memory.viewmodel.HomeViewModel
 
@@ -201,7 +200,9 @@ private fun PageContent(item: CategoryWithLevel, totalStars: Int, onLevelClick: 
                 )
                 Icon(
                     Icons.Filled.Star,
-                    modifier = Modifier.padding(horizontal = 2.dp),
+                    modifier = Modifier
+                        .padding(horizontal = 2.dp)
+                        .size(16.dp),
                     contentDescription = null,
                     tint = gold
                 )
@@ -253,7 +254,7 @@ private fun LevelCard(level: LevelEntity, onClick: (LevelEntity) -> Unit) {
         modifier = Modifier.aspectRatio(1f),
         shadowElevation = 4.dp,
         shape = MaterialTheme.shapes.small,
-        border = BorderStroke(4.dp, greenLight),
+        border = BorderStroke(4.dp, MaterialTheme.colorScheme.outline),
     ) {
         Column(
             Modifier

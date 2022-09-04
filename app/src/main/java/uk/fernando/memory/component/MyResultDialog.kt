@@ -31,7 +31,6 @@ fun MyResultDialog(
 ) {
     MyDialog {
         Box {
-
             Column(
                 Modifier.padding(horizontal = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -67,8 +66,9 @@ fun MyResultDialog(
                     MyButton(
                         modifier = Modifier.weight(1f),
                         onClick = onLeftButton,
-                        color = MaterialTheme.colorScheme.secondary,
-                        text = stringResource(leftButtonText)
+                        color = MaterialTheme.colorScheme.surface,
+                        text = stringResource(leftButtonText),
+                        textColor = MaterialTheme.colorScheme.onBackground
                     )
 
                     Spacer(Modifier.width(16.dp))
@@ -106,7 +106,7 @@ private fun Title(stars: Int) {
         shadowElevation = 4.dp,
         tonalElevation = 4.dp,
         shape = RoundedCornerShape(50),
-        border = BorderStroke(4.dp, if (stars > 0) green else Color.White.copy(0.4f))
+        border = BorderStroke(4.dp, if (stars > 0) MaterialTheme.colorScheme.outline else Color.White.copy(0.4f))
     ) {
         Box(Modifier.fillMaxSize()) {
             Text(

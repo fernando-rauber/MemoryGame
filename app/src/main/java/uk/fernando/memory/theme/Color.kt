@@ -9,7 +9,7 @@ val game_purple = Color(0xFF7b62fd)
 
 //val green =  Color(0xFF249676)
 val green =  Color(0xFF00999e)
-val greenLight =  Color(0xFF54EBC0)
+val greenLight =  Color(0xFF02ABB1)
 val greenDark =  Color(0xFF196B69)
 
 val gold = Color(0xFFFFD700)

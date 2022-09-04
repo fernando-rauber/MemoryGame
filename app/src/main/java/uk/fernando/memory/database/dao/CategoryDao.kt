@@ -11,6 +11,7 @@ interface CategoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(category: CategoryEntity)
 
+    @Transaction
     @Query("SELECT * FROM ${CategoryEntity.NAME} ORDER by id")
     fun getCategoryWithLevelList(): Flow<List<CategoryWithLevel>>
 }
