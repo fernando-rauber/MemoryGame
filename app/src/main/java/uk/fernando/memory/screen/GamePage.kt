@@ -260,7 +260,7 @@ private fun CardList(viewModel: GameViewModel, isSoundEnable: Boolean) {
 @Composable
 private fun ComponentByCardType(card: CardModel) {
     when (CardType.getByValue(card.type)) {
-        CardType.ANIMAL -> {
+        CardType.ANIMAL, CardType.FOOD, CardType.OBJECTS -> {
             Image(
                 painterResource(id = card.id),
                 modifier = Modifier.fillMaxWidth(0.7f),

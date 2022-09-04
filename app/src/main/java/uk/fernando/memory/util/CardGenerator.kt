@@ -7,7 +7,7 @@ import uk.fernando.memory.R
 class CardGenerator {
 
     private val numberIds by lazy {
-        mutableListOf(1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256, 289, 361, 400, 484, 529, 576, 625, 676, 729, 784, 841, 900, 961, 1024, 1089, 1225, 1296, 1369, 1521, 1600, 1681, 1764, 1936, 2116, 2209, 2401, 2500, 2601, 2704, 3249, 4225, 4356, 4489, 5625, 5776, 5929, 7225, 8100, 8281, 9216, 9409, 9604, 9801)
+        mutableListOf(1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256, 289, 361, 400, 484, 529, 576, 625, 676, 729, 784, 841, 900, 961)
     }
     private val flagIds by lazy {
         mutableListOf(
@@ -57,6 +57,38 @@ class CardGenerator {
         )
     }
 
+    private val foodIds by lazy {
+        mutableListOf(
+            R.drawable.food_apple,
+            R.drawable.food_avocado,
+            R.drawable.food_bacon,
+            R.drawable.food_bread,
+            R.drawable.food_burger,
+            R.drawable.food_cake,
+            R.drawable.food_carrot,
+            R.drawable.food_cheese,
+            R.drawable.food_cherry,
+            R.drawable.food_cookie,
+            R.drawable.food_cucumber,
+            R.drawable.food_curry,
+            R.drawable.food_doughnut,
+            R.drawable.food_eggplant,
+            R.drawable.food_french_fries,
+            R.drawable.food_grapes,
+            R.drawable.food_hot_dog,
+            R.drawable.food_ice_cream,
+            R.drawable.food_noodle,
+            R.drawable.food_pancake,
+            R.drawable.food_pear,
+            R.drawable.food_piece_of_cake,
+            R.drawable.food_pizza,
+            R.drawable.food_sandwich,
+            R.drawable.food_strawberry,
+            R.drawable.food_sushi,
+            R.drawable.food_watermelon
+        )
+    }
+
     fun generateCards(quantity: Int, type: Int): List<CardModel> {
         val questionList = mutableListOf<CardModel>()
 
@@ -67,7 +99,7 @@ class CardGenerator {
             questionList.add(CardModel(id = idCreated, type = type))
         }
 
-        return questionList.shuffled().shuffled()
+        return questionList.shuffled()
     }
 
     /**
@@ -78,6 +110,7 @@ class CardGenerator {
             NUMBER -> getIdByTypeList(numberIds)
             ANIMAL -> getIdByTypeList(animalIds)
             FLAG -> getIdByTypeList(flagIds)
+            FOOD -> getIdByTypeList(foodIds)
             else -> getIdByTypeList(numberIds)
         }
     }

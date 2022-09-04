@@ -5,11 +5,11 @@ import kotlinx.coroutines.withContext
 import uk.fernando.logger.MyLogger
 import uk.fernando.memory.config.AppConfig.MAX_CARDS_PER_CATEGORY
 import uk.fernando.memory.config.AppConfig.STAR_REQUIRE_MULTIPLAYER
-import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.database.entity.CategoryEntity
+import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.ext.TAG
-import uk.fernando.memory.repository.LevelRepository
 import uk.fernando.memory.repository.CategoryRepository
+import uk.fernando.memory.repository.LevelRepository
 import uk.fernando.memory.util.CardType
 
 class SetUpUseCase(
@@ -18,7 +18,7 @@ class SetUpUseCase(
     private val logger: MyLogger
 ) {
 
-    private val categoryList = listOf(CardType.ANIMAL, CardType.FLAG, CardType.NUMBER)
+    private val categoryList = listOf(CardType.ANIMAL, CardType.FLAG, CardType.NUMBER, CardType.FOOD, CardType.OBJECTS)
 
     suspend operator fun invoke() {
         withContext(Dispatchers.IO) {
@@ -52,6 +52,7 @@ class SetUpUseCase(
                 2 -> 6
                 3 -> 8
                 4 -> 12
+                19, 20 -> 25
                 else -> 20
             }
 
