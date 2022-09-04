@@ -16,6 +16,7 @@ fun Int.getCellCount(): Int {
     return when (this) {
         in 4..8 -> 2
         12 -> 3
+        30 -> 5
         else -> 4
     }
 }
@@ -35,6 +36,8 @@ fun Int.getTypeName(): Int {
     return when (CardType.getByValue(this)) {
         CardType.ANIMAL -> R.string.animal
         CardType.FLAG -> R.string.flags
+        CardType.OBJECTS -> R.string.flags
+        CardType.FOOD -> R.string.foods
         else -> R.string.numbers
     }
 }

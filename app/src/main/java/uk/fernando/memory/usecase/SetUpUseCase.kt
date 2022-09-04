@@ -52,11 +52,11 @@ class SetUpUseCase(
                 2 -> 6
                 3 -> 8
                 4 -> 12
-                19, 20 -> 25
+                19, 20 -> 30
                 else -> 20
             }
 
-            levelList.add(LevelEntity(position = position, quantity = quantity, categoryID = mapID))
+            levelList.add(LevelEntity(position = position, quantity = quantity, categoryID = mapID, isDisabled = false))
         }
 
         return levelList
