@@ -89,6 +89,35 @@ class CardGenerator {
         )
     }
 
+    private val treeIds by lazy {
+        mutableListOf(
+            R.drawable.tree_apple,
+            R.drawable.tree_apricot,
+            R.drawable.tree_ash,
+            R.drawable.tree_banana,
+            R.drawable.tree_birch,
+            R.drawable.tree_cherry,
+            R.drawable.tree_eucalyptus,
+            R.drawable.tree_juniper,
+            R.drawable.tree_kalleri_pear,
+            R.drawable.tree_oak,
+            R.drawable.tree_olive,
+            R.drawable.tree_orange,
+            R.drawable.tree_papaya,
+            R.drawable.tree_poplar,
+            R.drawable.tree_sakura,
+            R.drawable.tree_sequoia,
+            R.drawable.tree_tree,
+            R.drawable.tree_wisteria
+        )
+    }
+
+    private val tileIds by lazy {
+        mutableListOf(
+            R.drawable.tree_apple
+        )
+    }
+
     fun generateCards(quantity: Int, type: Int): List<CardModel> {
         val questionList = mutableListOf<CardModel>()
 
@@ -111,7 +140,8 @@ class CardGenerator {
             ANIMAL -> getIdByTypeList(animalIds)
             FLAG -> getIdByTypeList(flagIds)
             FOOD -> getIdByTypeList(foodIds)
-            else -> getIdByTypeList(numberIds)
+            TREE -> getIdByTypeList(treeIds)
+            else -> getIdByTypeList(tileIds)
         }
     }
 

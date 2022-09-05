@@ -266,15 +266,15 @@ private fun CardList(viewModel: GameViewModel, isSoundEnable: Boolean) {
 @Composable
 private fun ComponentByCardType(card: CardModel) {
     when (CardType.getByValue(card.type)) {
-        CardType.ANIMAL, CardType.FOOD, CardType.OBJECTS -> {
+        CardType.ANIMAL, CardType.FOOD, CardType.TREE -> {
             Image(
                 painterResource(id = card.id),
-                modifier = Modifier.fillMaxWidth(0.7f),
+                modifier = Modifier.fillMaxWidth(0.8f),
                 contentDescription = null,
                 contentScale = ContentScale.FillWidth
             )
         }
-        CardType.FLAG -> {
+        CardType.FLAG, CardType.TILE -> {
             Image(
                 painterResource(id = card.id),
                 modifier = Modifier.fillMaxSize(),

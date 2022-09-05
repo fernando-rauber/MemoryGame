@@ -5,7 +5,8 @@ enum class CardType(val value: Int) {
     NUMBER(2),
     FLAG(3),
     FOOD(4),
-    OBJECTS(5);
+    TREE(5),
+    TILE(6);
 
     companion object {
         fun getByValue(value: Int) = values().firstOrNull { it.value == value }

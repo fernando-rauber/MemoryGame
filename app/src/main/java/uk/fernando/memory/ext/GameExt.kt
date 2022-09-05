@@ -36,8 +36,9 @@ fun Int.getTypeName(): Int {
     return when (CardType.getByValue(this)) {
         CardType.ANIMAL -> R.string.animal
         CardType.FLAG -> R.string.flags
-        CardType.OBJECTS -> R.string.flags
+        CardType.TREE -> R.string.trees
         CardType.FOOD -> R.string.foods
+        CardType.TILE -> R.string.tiles
         else -> R.string.numbers
     }
 }

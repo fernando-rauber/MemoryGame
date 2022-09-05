@@ -10,7 +10,7 @@ import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.ext.TAG
 import uk.fernando.memory.repository.CategoryRepository
 import uk.fernando.memory.repository.LevelRepository
-import uk.fernando.memory.util.CardType
+import uk.fernando.memory.util.CardType.*
 
 class SetUpUseCase(
     private val mapRepo: CategoryRepository,
@@ -18,7 +18,7 @@ class SetUpUseCase(
     private val logger: MyLogger
 ) {
 
-    private val categoryList = listOf(CardType.ANIMAL, CardType.FLAG, CardType.NUMBER, CardType.FOOD, CardType.OBJECTS)
+    private val categoryList = listOf(ANIMAL, FLAG, NUMBER, FOOD, TREE, TILE)
 
     suspend operator fun invoke() {
         withContext(Dispatchers.IO) {
