@@ -35,7 +35,7 @@
     <string name="sound_subtext">Enable sound effects</string>
     <string name="premium">Premium</string>
     <string name="restore_premium_action">Restore Premium</string>
-    <string name="premium_subtext">Remove Ads and unlock new levels.</string>
+    <string name="premium_subtext">Remove Ads</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="version">Version %s</string>
 

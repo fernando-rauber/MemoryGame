@@ -4,6 +4,7 @@
     package="uk.fernando.memory">
 
     <application
+        android:name=".BaseApplication"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,7 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Memory"
-        android:name=".BaseApplication"
         tools:targetApi="31">
 
         <meta-data
@@ -26,7 +26,9 @@
         <activity
             android:name=".activity.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.Memory">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Memory"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
