@@ -245,7 +245,7 @@ private fun CustomSettingsPremiumCard(
 
             Text(
                 modifier = Modifier.padding(horizontal = 10.dp),
-                text = if (isPremium) stringResource(id = R.string.purchased) else "£4.99",
+                text = if (isPremium) stringResource(id = R.string.purchased) else "£3.99",
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Medium
             )

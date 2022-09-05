@@ -299,18 +299,19 @@ fun DialogResult(
     onClose: () -> Unit,
     onReplayOrNextLevel: (Int, Int) -> Unit,
 ) {
+    val context = LocalContext.current
     val prefs: PrefsStore by inject()
     val isSoundEnable = prefs.isSoundEnabled().collectAsState(initial = true)
     val isPremium = prefs.isPremium().collectAsState(initial = false)
-    val soundFinish = MediaPlayer.create(LocalContext.current, R.raw.sound_finish)
 
     MyAnimation(viewModel.levelResult.value != null) {
-        LaunchedEffect(Unit) { soundFinish.playAudio(isSoundEnable.value) }
-
-        if (!isPremium.value)
-            fullScreenAd.showAdvert()
-
         viewModel.levelResult.value?.let { level ->
+
+            LaunchedEffect(Unit) { MediaPlayer.create(context, if (level.star > 0) R.raw.sound_finish else R.raw.sound_game_over).playAudio(isSoundEnable.value) }
+
+            if (!isPremium.value)
+                fullScreenAd.showAdvert()
+
             MyResultDialog(
                 level = level,
                 leftButtonText = if (level.star > 0) R.string.replay_action else R.string.close_action,

@@ -16,7 +16,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import uk.fernando.memory.R
 import uk.fernando.memory.database.entity.LevelEntity
-import uk.fernando.memory.theme.green
 import uk.fernando.memory.theme.red
 import java.util.*
 
@@ -44,7 +43,7 @@ fun MyResultDialog(
                     modifier = Modifier
                         .offset(y = -(10).dp)
                         .padding(bottom = 10.dp),
-                    text = stringResource(id = R.string.level_args, "${level.id}"),
+                    text = stringResource(id = R.string.level_args, "${level.id}-${level.categoryID}"),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground
                 )
