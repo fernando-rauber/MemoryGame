@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -39,6 +38,7 @@ import uk.fernando.memory.component.MyAnimation
 import uk.fernando.memory.component.MyIconButton
 import uk.fernando.memory.component.MyResultDialog
 import uk.fernando.memory.component.MyStar
+import uk.fernando.memory.config.AppConfig.IS_SMALL_DEVICE
 import uk.fernando.memory.config.AppConfig.MAX_CARDS_PER_CATEGORY
 import uk.fernando.memory.database.entity.CategoryWithLevel
 import uk.fernando.memory.database.entity.LevelEntity
@@ -233,14 +233,12 @@ private fun PageContent(item: CategoryWithLevel, totalStars: Int, onLevelClick: 
 
 @Composable
 private fun MapContent(list: List<LevelEntity>, onLevelClick: (LevelEntity) -> Unit) {
-    val screenHeight = LocalConfiguration.current.screenHeightDp
-
     LazyVerticalGrid(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        columns = GridCells.Fixed(if (screenHeight < 700) 5 else 4)
+        columns = GridCells.Fixed(if (IS_SMALL_DEVICE) 5 else 4)
     ) {
         items(list) { level ->
             LevelCard(level, onLevelClick)

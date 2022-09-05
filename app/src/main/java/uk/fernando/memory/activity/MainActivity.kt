@@ -8,10 +8,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import org.koin.androidx.compose.inject
 import uk.fernando.memory.component.UpdateStatusBar
+import uk.fernando.memory.config.AppConfig
 import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.navigation.buildGraph
@@ -34,15 +36,12 @@ class MainActivity : ComponentActivity() {
 
             UpdateStatusBar(color = backgroundColor)
 
+            // set the device size
+            AppConfig.IS_SMALL_DEVICE = LocalConfiguration.current.screenHeightDp < 600
+
             MemoryTheme(isDarkMode.value) {
 
                 Box(Modifier.background(backgroundColor)) {
-//                    Icon(
-//                        painter = painterResource(R.drawable.img_moon),
-//                        contentDescription = null,
-//                        tint = orange.copy(0.15f)
-//                    )
-
                     AnimatedNavHost(
                         navController = controller,
                         startDestination = Directions.splash.path
