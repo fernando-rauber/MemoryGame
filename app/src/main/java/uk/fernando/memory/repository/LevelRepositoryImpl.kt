@@ -14,9 +14,9 @@ open class LevelRepositoryImpl(private val dao: LevelDao) : LevelRepository {
         }
     }
 
-    override suspend fun enableLevel(levelID: Int) {
+    override suspend fun enableLevel(levelID: Int, categoryId: Int) {
         withContext(Dispatchers.IO) {
-            dao.enableLevel(levelID)
+            dao.enableLevel(levelID, categoryId)
         }
     }
 
@@ -26,8 +26,8 @@ open class LevelRepositoryImpl(private val dao: LevelDao) : LevelRepository {
         }
     }
 
-    override suspend fun getLevelById(id: Int) = withContext(Dispatchers.IO) {
-        dao.getLevelById(id)
+    override suspend fun getLevelById(id: Int,categoryId: Int) = withContext(Dispatchers.IO) {
+        dao.getLevelById(id, categoryId)
     }
 
     override suspend fun getCardTypeByCategory(id: Int)= withContext(Dispatchers.IO) {

@@ -5,5 +5,5 @@ object AppConfig {
     const val STAR_REQUIRE_MULTIPLAYER = 2.1
     const val MISTAKES_POSSIBLE = 20
     const val COUNTDOWN_TIMER = 5
-    var IS_SMALL_DEVICE = false
+    var SCREEN_HEIGHT : Int = 0
 }

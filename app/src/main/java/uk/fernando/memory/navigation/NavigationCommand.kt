@@ -50,6 +50,7 @@ object Directions {
         override val arguments: List<NamedNavArgument>
             get() = listOf(
                 navArgument(LEVEL_ID) { type = NavType.StringType },
+                navArgument(CATEGORY_ID) { type = NavType.StringType },
             )
     }
 
@@ -61,6 +62,7 @@ object Directions {
     }
 
     const val LEVEL_ID = "levelId"
+    const val CATEGORY_ID = "categoryId"
 }
 
 

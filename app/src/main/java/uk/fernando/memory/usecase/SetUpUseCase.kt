@@ -35,7 +35,7 @@ class SetUpUseCase(
                 }
 
                 // Enable First Level
-                levelRepo.enableLevel(1)
+                levelRepo.enableLevel(1, 1)
             }.onFailure { e ->
                 logger.e(TAG, e.message.toString())
                 logger.addExceptionToCrashlytics(e)
@@ -46,8 +46,8 @@ class SetUpUseCase(
     private fun createLevelsByType(mapID: Int): List<LevelEntity> {
         val levelList = mutableListOf<LevelEntity>()
 
-        (1..MAX_CARDS_PER_CATEGORY).forEach { position ->
-            val quantity = when (position) {
+        (1..MAX_CARDS_PER_CATEGORY).forEach { id ->
+            val quantity = when (id) {
                 1 -> 4
                 2 -> 6
                 3 -> 8
@@ -56,7 +56,7 @@ class SetUpUseCase(
                 else -> 20
             }
 
-            levelList.add(LevelEntity(position = position, quantity = quantity, categoryID = mapID, isDisabled = false))
+            levelList.add(LevelEntity(id = id, quantity = quantity, categoryID = mapID, isDisabled = false))
         }
 
         return levelList

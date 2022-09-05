@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
             UpdateStatusBar(color = backgroundColor)
 
             // set the device size
-            AppConfig.IS_SMALL_DEVICE = LocalConfiguration.current.screenHeightDp < 600
+            AppConfig.SCREEN_HEIGHT = LocalConfiguration.current.screenHeightDp
 
             MemoryTheme(isDarkMode.value) {
 

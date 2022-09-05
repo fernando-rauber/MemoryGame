@@ -27,8 +27,8 @@ class GameUseCase(
     private var totalCards = 0
     private var mistakes = 0
 
-    suspend fun createCardList(levelID: Int): Boolean {
-        level = repository.getLevelById(levelID)
+    suspend fun createCardList(levelID: Int, categoryId: Int): Boolean {
+        level = repository.getLevelById(levelID, categoryId)
         val type = repository.getCardTypeByCategory(level.categoryID)
 
         if (!level.isDisabled) {

@@ -3,18 +3,15 @@ package uk.fernando.memory.database.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity(
     tableName = LevelEntity.NAME,
+    primaryKeys = ["id", "category_id"],
     foreignKeys = [ForeignKey(entity = CategoryEntity::class, parentColumns = ["id"], childColumns = ["category_id"])]
 )
 data class LevelEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int? = null,
-
-    val position: Int,
+    val id: Int,
 
     @ColumnInfo(name = "is_disabled")
     val isDisabled: Boolean = true,

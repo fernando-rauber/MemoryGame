@@ -6,12 +6,12 @@ interface LevelRepository {
 
     suspend fun insert(list: List<LevelEntity>)
 
-    suspend fun enableLevel(levelID: Int)
+    suspend fun enableLevel(levelID: Int, categoryId: Int)
 
     suspend fun update(level: LevelEntity)
 
-    suspend fun getLevelById(id: Int) : LevelEntity
+    suspend fun getLevelById(id: Int, categoryId: Int): LevelEntity
 
-    suspend fun getCardTypeByCategory(id: Int) : Int
+    suspend fun getCardTypeByCategory(id: Int): Int
 
 }

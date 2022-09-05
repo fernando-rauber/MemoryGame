@@ -35,8 +35,8 @@ class GameViewModel(
     val quantity = mutableStateOf(0)
     val levelResult = mutableStateOf<LevelEntity?>(null)
 
-    suspend fun setUpGame(levelID: Int) = flow {
-        emit(gameUseCase.createCardList(levelID))
+    suspend fun setUpGame(levelID: Int, categoryId: Int) = flow {
+        emit(gameUseCase.createCardList(levelID, categoryId))
     }
 
     fun startGame() {

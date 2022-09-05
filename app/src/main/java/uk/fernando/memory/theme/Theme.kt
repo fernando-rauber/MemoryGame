@@ -8,10 +8,9 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import uk.fernando.memory.config.AppConfig.IS_SMALL_DEVICE
+import uk.fernando.memory.config.AppConfig.SCREEN_HEIGHT
 
 private val DarkColorScheme = darkColorScheme(
     primary = greenLight,
@@ -47,7 +46,7 @@ fun MemoryTheme(
         }
     }
 
-    val typography = if (!IS_SMALL_DEVICE) Typography else TypographySmallScreen
+    val typography = if (SCREEN_HEIGHT > 600) Typography else TypographySmallScreen
 
     MaterialTheme(
         colorScheme = colorScheme,

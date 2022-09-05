@@ -38,8 +38,8 @@ import uk.fernando.memory.component.MyAnimation
 import uk.fernando.memory.component.MyIconButton
 import uk.fernando.memory.component.MyResultDialog
 import uk.fernando.memory.component.MyStar
-import uk.fernando.memory.config.AppConfig.IS_SMALL_DEVICE
 import uk.fernando.memory.config.AppConfig.MAX_CARDS_PER_CATEGORY
+import uk.fernando.memory.config.AppConfig.SCREEN_HEIGHT
 import uk.fernando.memory.database.entity.CategoryWithLevel
 import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.datastore.PrefsStore
@@ -99,7 +99,7 @@ fun HomePage(
                         if (level.star > 0)
                             currentLevel = level
                         else
-                            navController.safeNav(Directions.game.withArgs("${level.id}"))
+                            navController.safeNav(Directions.game.withArgs("${level.id}", "${level.categoryID}"))
                     }
                 )
             }
@@ -134,8 +134,8 @@ fun HomePage(
         LevelDialog(
             level = currentLevel,
             onCancel = { currentLevel = null },
-            onPlay = {
-                navController.safeNav(Directions.game.withArgs("${currentLevel?.id}"))
+            onReplay = {
+                navController.safeNav(Directions.game.withArgs("${currentLevel?.id}", "${currentLevel?.categoryID}"))
                 currentLevel = null
             }
         )
@@ -238,7 +238,7 @@ private fun MapContent(list: List<LevelEntity>, onLevelClick: (LevelEntity) -> U
         contentPadding = PaddingValues(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        columns = GridCells.Fixed(if (IS_SMALL_DEVICE) 5 else 4)
+        columns = GridCells.Fixed(if (SCREEN_HEIGHT < 700) 5 else 4)
     ) {
         items(list) { level ->
             LevelCard(level, onLevelClick)
@@ -287,7 +287,7 @@ private fun LevelCard(level: LevelEntity, onClick: (LevelEntity) -> Unit) {
                             modifier = Modifier
                                 .align(Center)
                                 .padding(top = 10.dp),
-                            text = level.position.toString(),
+                            text = level.id.toString(),
                             color = Color.White,
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Medium
@@ -320,7 +320,7 @@ private fun LevelCard(level: LevelEntity, onClick: (LevelEntity) -> Unit) {
 }
 
 @Composable
-private fun LevelDialog(level: LevelEntity?, onCancel: () -> Unit, onPlay: () -> Unit) {
+private fun LevelDialog(level: LevelEntity?, onCancel: () -> Unit, onReplay: () -> Unit) {
     MyAnimation(level != null) {
 
         level?.let {
@@ -330,7 +330,7 @@ private fun LevelDialog(level: LevelEntity?, onCancel: () -> Unit, onPlay: () ->
                 rightButtonText = R.string.replay_action,
                 onClose = onCancel,
                 onLeftButton = onCancel,
-                onRightButton = onPlay,
+                onRightButton = onReplay,
             )
         }
     }

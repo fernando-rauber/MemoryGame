@@ -37,6 +37,7 @@ import uk.fernando.memory.component.MyAnimation
 import uk.fernando.memory.component.MyFlipCard
 import uk.fernando.memory.component.MyResultDialog
 import uk.fernando.memory.config.AppConfig.COUNTDOWN_TIMER
+import uk.fernando.memory.config.AppConfig.MAX_CARDS_PER_CATEGORY
 import uk.fernando.memory.config.AppConfig.MISTAKES_POSSIBLE
 import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.ext.getCellCount
@@ -54,10 +55,11 @@ import kotlin.time.Duration.Companion.seconds
 fun GamePage(
     navController: NavController = NavController(LocalContext.current),
     levelId: Int,
+    categoryId: Int,
     viewModel: GameViewModel = getViewModel()
 ) {
     LaunchedEffect(Unit) {
-        viewModel.setUpGame(levelId).collect { isLevelDisabled ->
+        viewModel.setUpGame(levelId, categoryId).collect { isLevelDisabled ->
             if (isLevelDisabled) navController.popBackStack()
         }
     }
@@ -78,6 +80,7 @@ fun GamePage(
             TopBar(
                 viewModel = viewModel,
                 levelId = levelId,
+                categoryId = categoryId,
                 onClose = { navController.popBackStack() }
             )
 
@@ -96,16 +99,19 @@ fun GamePage(
             viewModel = viewModel,
             fullScreenAd = fullScreenAd,
             onClose = { navController.popBackStack() },
-            onReplayOrNextLevel = { id ->
+            onReplayOrNextLevel = { id, category ->
+                val levelID = if (id > MAX_CARDS_PER_CATEGORY) 1 else id
+                val categoryID = if (id > MAX_CARDS_PER_CATEGORY) category + 1 else category
+
                 navController.popBackStack()
-                navController.safeNav(Directions.game.withArgs("$id"))
+                navController.safeNav(Directions.game.withArgs("$levelID", "$categoryID"))
             }
         )
     }
 }
 
 @Composable
-private fun TopBar(viewModel: GameViewModel, levelId: Int, onClose: () -> Unit) {
+private fun TopBar(viewModel: GameViewModel, levelId: Int, categoryId: Int, onClose: () -> Unit) {
     Box(
         Modifier
             .padding(start = 16.dp)
@@ -155,7 +161,7 @@ private fun TopBar(viewModel: GameViewModel, levelId: Int, onClose: () -> Unit) 
         // Title
         Text(
             modifier = Modifier.align(Alignment.Center),
-            text = stringResource(id = R.string.level_args, levelId.toString()),
+            text = "$levelId-$categoryId",
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.onBackground
         )
@@ -291,7 +297,7 @@ fun DialogResult(
     viewModel: GameViewModel,
     fullScreenAd: AdInterstitial,
     onClose: () -> Unit,
-    onReplayOrNextLevel: (Int) -> Unit,
+    onReplayOrNextLevel: (Int, Int) -> Unit,
 ) {
     val prefs: PrefsStore by inject()
     val isSoundEnable = prefs.isSoundEnabled().collectAsState(initial = true)
@@ -312,16 +318,16 @@ fun DialogResult(
                 onClose = onClose,
                 onLeftButton = {
                     if (level.star > 0)
-                        onReplayOrNextLevel(level.id!!) // replay
+                        onReplayOrNextLevel(level.id, level.categoryID) // replay
                     else
                         onClose()
 
                 },
                 onRightButton = {
                     if (level.star > 0)
-                        onReplayOrNextLevel(level.id!! + 1)  // Next Level
+                        onReplayOrNextLevel(level.id + 1, level.categoryID)  // Next Level
                     else
-                        onReplayOrNextLevel(level.id!!) // replay
+                        onReplayOrNextLevel(level.id, level.categoryID) // replay
                 }
             )
         }
