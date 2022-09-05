@@ -40,7 +40,6 @@ fun SettingsPage(
 ) {
     val context = LocalContext.current
     val prefs: PrefsStore by inject()
-    val isDarkMode = prefs.isDarkMode().collectAsState(initial = false)
     val isSoundEnable = prefs.isSoundEnabled().collectAsState(initial = true)
     val isPremium = prefs.isPremium().collectAsState(initial = false)
 
@@ -59,14 +58,7 @@ fun SettingsPage(
             ) {
 
                 CustomSettingsResourcesCard(
-                    Modifier.padding(top = 24.dp),
-                    text = R.string.dark_mode,
-                    isChecked = isDarkMode.value,
-                    onCheckedChange = viewModel::updateDarkMode
-                )
-
-                CustomSettingsResourcesCard(
-                    modifier = Modifier.padding(vertical = 10.dp),
+                    modifier = Modifier.padding(top = 24.dp, bottom = 10.dp),
                     text = R.string.sound,
                     subText = R.string.sound_subtext,
                     isChecked = isSoundEnable.value,

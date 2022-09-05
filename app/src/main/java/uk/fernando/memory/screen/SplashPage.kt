@@ -1,6 +1,5 @@
 package uk.fernando.memory.screen
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
@@ -49,7 +48,6 @@ fun SplashPage(
         }
     }
 
-    val isDarkMode = isSystemInDarkTheme()
     val currentOnTimeout by rememberUpdatedState {
         navController.navigate(Directions.home.path) {
             popUpTo(Directions.splash.path) { inclusive = true }
@@ -57,7 +55,7 @@ fun SplashPage(
     }
 
     LaunchedEffect(Unit) {
-        viewModel.firstSetUp(isDarkMode = isDarkMode)
+        viewModel.firstSetUp()
         delay(1000L)
         currentOnTimeout()
     }

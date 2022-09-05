@@ -24,10 +24,6 @@ class SettingsViewModel(
         initialiseBillingHelper()
     }
 
-    fun updateDarkMode(isDarkMode: Boolean) {
-        launchIO { prefs.storeDarkMode(isDarkMode) }
-    }
-
     fun updateSound(enable: Boolean) {
         launchIO { prefs.storeSound(enable) }
     }

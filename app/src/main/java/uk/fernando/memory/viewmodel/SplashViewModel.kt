@@ -5,10 +5,9 @@ import uk.fernando.memory.usecase.SetUpUseCase
 
 class SplashViewModel(private val prefs: PrefsStore, private val setUpUseCase: SetUpUseCase) : BaseViewModel() {
 
-    fun firstSetUp(isDarkMode: Boolean) {
+    fun firstSetUp() {
         launchIO {
             if (prefs.getVersion() == 1) {
-                prefs.storeDarkMode(isDarkMode)
                 prefs.storeVersion(2)
 
                 // Create all Levels

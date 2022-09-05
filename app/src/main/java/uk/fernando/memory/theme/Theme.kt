@@ -1,7 +1,6 @@
 package uk.fernando.memory.theme
 
 import android.app.Activity
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -30,7 +29,7 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun MemoryTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

@@ -22,10 +22,6 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
         return dataStore.data.map { prefs -> prefs[PreferencesKeys.VERSION] ?: 1 }.first()
     }
 
-    override fun isDarkMode(): Flow<Boolean> {
-        return dataStore.data.map { prefs -> prefs[PreferencesKeys.DARK_MODE] ?: false }
-    }
-
     override fun isPremium(): Flow<Boolean> {
         return dataStore.data.map { prefs -> prefs[PreferencesKeys.PREMIUM] ?: false }
     }
@@ -42,10 +38,6 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
         dataStore.edit { prefs -> prefs[PreferencesKeys.VERSION] = value }
     }
 
-    override suspend fun storeDarkMode(value: Boolean) {
-        dataStore.edit { prefs -> prefs[PreferencesKeys.DARK_MODE] = value }
-    }
-
     override suspend fun storePremium(value: Boolean) {
         dataStore.edit { prefs -> prefs[PreferencesKeys.PREMIUM] = value }
     }
@@ -60,7 +52,6 @@ class PrefsStoreImpl(context: Context) : PrefsStore {
 
     private object PreferencesKeys {
         val VERSION = intPreferencesKey("version")
-        val DARK_MODE = booleanPreferencesKey("dark_mode")
         val PREMIUM = booleanPreferencesKey("premium")
         val SOUND_ENABLED = booleanPreferencesKey("sound_enabled")
         val STAR = intPreferencesKey("star")
