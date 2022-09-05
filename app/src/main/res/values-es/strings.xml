@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    // Home
+    <string name="close_action">Cerrar</string>
+    <string name="completed">Terminado</string>
+    <string name="failed">Fallido</string>
+    <string name="mistakes_dialog_args">Intentos: %s</string>
+    <string name="replay_action">Repetición</string>
+    <string name="select_level_title">Selecciona el nivel</string>
+    <string name="animal">Animales</string>
+    <string name="flags">Banderas</string>
+    <string name="foods">Alimentos</string>
+    <string name="numbers">Números</string>
+    <string name="trees">Árboles</string>
+    <string name="tiles">Azulejo</string>
+
+    // Game
+    <string name="level_args">Nivel %s</string>
+    <string name="turn_cards_back_args">Empezar en %s</string>
+    <string name="next_level">Próximo</string>
+    <string name="stars_required_unlock_args">para desbloquear: %s</string>
+
+    // Settings
+    <string name="settings_title">Ajustes</string>
+    <string name="sound">Sonido Habilitado</string>
+    <string name="sound_subtext">Habilitar efectos de sonido</string>
+    <string name="premium">Premium</string>
+    <string name="premium_subtext">Eliminar anuncios</string>
+    <string name="restore_premium_action">Restaurar Premium</string>
+    <string name="privacy_policy">Política de privacidad</string>
+    <string name="version">Versión %s</string>
+
+    // Purchase
+    <string name="purchase_success">Gracias, ahora eres un usuario premium!</string>
+    <string name="purchase_error">¡Algo salió mal! Pruébalo más tarde</string>
+    <string name="purchased">Comprado</string>
+    <string name="restore_restored">Producto premium restaurado. Divertirse!</string>
+    <string name="restore_not_found">Producto premium no encontrado para restaurar.</string>
+    <string name="internet_required">Se requiere Internet para continuar con esta acción.</string>
+</resources>
