@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Jogo da memória</string>
+
     // Home
     <string name="close_action">Fechar</string>
     <string name="completed">Concluído</string>
