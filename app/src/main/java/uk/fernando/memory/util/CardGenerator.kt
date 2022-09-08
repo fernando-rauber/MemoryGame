@@ -1,8 +1,8 @@
 package uk.fernando.memory.util
 
+import uk.fernando.memory.R
 import uk.fernando.memory.util.CardType.*
 import uk.fernando.memory.util.CardType.Companion.getByValue
-import uk.fernando.memory.R
 
 class CardGenerator {
 

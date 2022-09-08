@@ -43,7 +43,7 @@ class GameViewModel(
         launchDefault {
             (0 until _cardList.size).forEach { index -> // Hide all cards after some secs
                 _cardList[index] = _cardList[index].copy(status = CardFace.Front)
-                delay(70)
+                delay(50)
             }
         }
     }

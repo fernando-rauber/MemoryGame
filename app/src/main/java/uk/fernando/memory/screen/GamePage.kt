@@ -285,7 +285,7 @@ private fun ComponentByCardType(card: CardModel) {
             Text(
                 text = "${card.id}",
                 style = MaterialTheme.typography.titleMedium,
-                color = Color.White
+                color = Color.Black
             )
         }
     }
