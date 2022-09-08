@@ -40,10 +40,7 @@ import uk.fernando.memory.config.AppConfig.COUNTDOWN_TIMER
 import uk.fernando.memory.config.AppConfig.MAX_CARDS_PER_CATEGORY
 import uk.fernando.memory.config.AppConfig.MISTAKES_POSSIBLE
 import uk.fernando.memory.datastore.PrefsStore
-import uk.fernando.memory.ext.getCellCount
-import uk.fernando.memory.ext.getWidthSize
-import uk.fernando.memory.ext.playAudio
-import uk.fernando.memory.ext.safeNav
+import uk.fernando.memory.ext.*
 import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.util.CardModel
 import uk.fernando.memory.util.CardType
@@ -253,7 +250,7 @@ private fun CardList(viewModel: GameViewModel, isSoundEnable: Boolean) {
                         Box(
                             Modifier
                                 .fillMaxSize()
-                                .background(MaterialTheme.colorScheme.primary),
+                                .background(card.id.getBackgroundColor()),
                             contentAlignment = Alignment.Center
                         ) {
                             ComponentByCardType(card)
