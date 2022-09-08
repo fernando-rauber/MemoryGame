@@ -103,9 +103,8 @@ private fun Title(stars: Int) {
             .offset(y = -(30).dp),
         color = if (stars > 0) MaterialTheme.colorScheme.primary else red,
         shadowElevation = 4.dp,
-        tonalElevation = 4.dp,
         shape = RoundedCornerShape(50),
-        border = BorderStroke(4.dp, if (stars > 0) MaterialTheme.colorScheme.outline else Color.White.copy(0.4f))
+        border = BorderStroke(2.dp, Color.White.copy(0.2f))
     ) {
         Box(Modifier.fillMaxSize()) {
             Text(

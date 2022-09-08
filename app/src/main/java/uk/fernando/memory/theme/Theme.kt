@@ -12,11 +12,10 @@ import androidx.core.view.WindowCompat
 import uk.fernando.memory.config.AppConfig.SCREEN_HEIGHT
 
 private val DarkColorScheme = darkColorScheme(
-    primary = greenLight,
+    primary = green,
     background = dark,
     secondary = orange,
     surface = lightDark,
-    outline = green
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -24,7 +23,6 @@ private val LightColorScheme = lightColorScheme(
     secondary = orange,
     surface = Color.White,
     background = whiteBackGround,
-    outline = green
 )
 
 @Composable

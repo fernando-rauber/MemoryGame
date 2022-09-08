@@ -45,7 +45,6 @@ import uk.fernando.memory.ext.getWidthSize
 import uk.fernando.memory.ext.playAudio
 import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
-import uk.fernando.memory.theme.red
 import uk.fernando.memory.util.CardModel
 import uk.fernando.memory.util.CardType
 import uk.fernando.memory.viewmodel.GameViewModel
@@ -69,6 +68,7 @@ fun GamePage(
     val soundCountDown = MediaPlayer.create(LocalContext.current, R.raw.sound_countdown)
     val prefs: PrefsStore by inject()
     val isSoundEnable = prefs.isSoundEnabled().collectAsState(initial = true)
+    val isPremium = prefs.isPremium().collectAsState(initial = false)
 
     Box {
 
@@ -85,6 +85,7 @@ fun GamePage(
             )
 
             CountDownAndAd(
+                isPremium = isPremium.value,
                 startSoundEffect = {
                     coroutine.launch(Dispatchers.IO) { soundCountDown.playAudio(isSoundEnable.value) }
                 },
@@ -97,6 +98,8 @@ fun GamePage(
         // Dialogs
         DialogResult(
             viewModel = viewModel,
+            isPremium = isPremium.value,
+            isSoundEnable = isSoundEnable.value,
             fullScreenAd = fullScreenAd,
             onClose = { navController.popBackStack() },
             onReplayOrNextLevel = { id, category ->
@@ -169,7 +172,7 @@ private fun TopBar(viewModel: GameViewModel, levelId: Int, categoryId: Int, onCl
 }
 
 @Composable
-private fun CountDownAndAd(startSoundEffect: () -> Unit, onStart: () -> Unit) {
+private fun CountDownAndAd(isPremium: Boolean, startSoundEffect: () -> Unit, onStart: () -> Unit) {
     var countDown by remember { mutableStateOf(COUNTDOWN_TIMER) }
 
     LaunchedEffect(Unit) {
@@ -200,12 +203,12 @@ private fun CountDownAndAd(startSoundEffect: () -> Unit, onStart: () -> Unit) {
             Text(
                 text = stringResource(R.string.turn_cards_back_args, "$countDown"),
                 style = MaterialTheme.typography.bodyMedium,
-                color = red,
-                fontWeight = FontWeight.Medium
+                color = MaterialTheme.colorScheme.onBackground,
+                fontWeight = FontWeight.Bold
             )
         }
 
-        if (countDown <= 0)
+        if (countDown <= 0 && !isPremium)
             AdBanner(unitId = stringResource(R.string.ad_banner_level))
     }
 }
@@ -223,8 +226,8 @@ private fun CardList(viewModel: GameViewModel, isSoundEnable: Boolean) {
                 .fillMaxWidth(viewModel.quantity.value.getWidthSize())
                 .align(Alignment.Center),
             contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
             columns = GridCells.Fixed(viewModel.quantity.value.getCellCount())
         ) {
             items(viewModel.cardList) { card ->
@@ -251,7 +254,7 @@ private fun CardList(viewModel: GameViewModel, isSoundEnable: Boolean) {
                         Box(
                             Modifier
                                 .fillMaxSize()
-                                .background(if (card.type == CardType.FLAG.value) Color.Transparent else MaterialTheme.colorScheme.primary),
+                                .background(MaterialTheme.colorScheme.primary),
                             contentAlignment = Alignment.Center
                         ) {
                             ComponentByCardType(card)
@@ -269,7 +272,7 @@ private fun ComponentByCardType(card: CardModel) {
         CardType.ANIMAL, CardType.FOOD, CardType.TREE -> {
             Image(
                 painterResource(id = card.id),
-                modifier = Modifier.fillMaxWidth(0.8f),
+                modifier = Modifier.fillMaxWidth(0.7f),
                 contentDescription = null,
                 contentScale = ContentScale.FillWidth
             )
@@ -295,21 +298,20 @@ private fun ComponentByCardType(card: CardModel) {
 @Composable
 fun DialogResult(
     viewModel: GameViewModel,
+    isPremium: Boolean,
+    isSoundEnable: Boolean,
     fullScreenAd: AdInterstitial,
     onClose: () -> Unit,
     onReplayOrNextLevel: (Int, Int) -> Unit,
 ) {
     val context = LocalContext.current
-    val prefs: PrefsStore by inject()
-    val isSoundEnable = prefs.isSoundEnabled().collectAsState(initial = true)
-    val isPremium = prefs.isPremium().collectAsState(initial = false)
 
     MyAnimation(viewModel.levelResult.value != null) {
         viewModel.levelResult.value?.let { level ->
 
-            LaunchedEffect(Unit) { MediaPlayer.create(context, if (level.star > 0) R.raw.sound_finish else R.raw.sound_game_over).playAudio(isSoundEnable.value) }
+            LaunchedEffect(Unit) { MediaPlayer.create(context, if (level.star > 0) R.raw.sound_finish else R.raw.sound_game_over).playAudio(isSoundEnable) }
 
-            if (!isPremium.value)
+            if (!isPremium)
                 fullScreenAd.showAdvert()
 
             MyResultDialog(

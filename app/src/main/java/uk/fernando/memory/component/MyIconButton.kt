@@ -1,7 +1,6 @@
 package uk.fernando.memory.component
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon

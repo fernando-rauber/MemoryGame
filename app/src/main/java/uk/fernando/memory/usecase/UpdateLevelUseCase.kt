@@ -19,7 +19,7 @@ class UpdateLevelUseCase(private val prefsStore: PrefsStore, private val reposit
             val starsRequiredByCategory = (categoryID * MAX_CARDS_PER_CATEGORY * STAR_REQUIRE_MULTIPLAYER).toInt()
 
             if (totalStars >= starsRequiredByCategory && totalStars < starsRequiredByCategory + 3)
-                repository.enableLevel(1, categoryID) // Unlock first card of the category
+                repository.enableLevel(1, categoryID + 1) // Unlock first card of the category
         }
 
         if (level.id + 1 <= MAX_CARDS_PER_CATEGORY) {

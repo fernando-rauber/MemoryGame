@@ -23,29 +23,12 @@ fun SplashPage(
 ) {
     Box(Modifier.fillMaxSize()) {
 
-        Column(
-            Modifier
-                .offset(y = (-50).dp)
-                .fillMaxWidth(0.4f)
-                .align(Alignment.Center),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
-//            Image(
-//                painter = painterResource(id = R.drawable.ic_logo),
-//                contentDescription = null,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .aspectRatio(1f)
-//            )
-
-            CircularProgressIndicator(
-                strokeWidth = 5.dp,
-                modifier = Modifier
-                    .fillMaxWidth(0.4f)
-                    .padding(top = 35.dp)
-            )
-        }
+        CircularProgressIndicator(
+            strokeWidth = 5.dp,
+            modifier = Modifier
+                .fillMaxWidth(0.15f)
+                .align(Alignment.Center)
+        )
     }
 
     val currentOnTimeout by rememberUpdatedState {
@@ -55,7 +38,7 @@ fun SplashPage(
     }
 
     LaunchedEffect(Unit) {
-        viewModel.firstSetUp()
+        viewModel.setUp()
         delay(1000L)
         currentOnTimeout()
     }

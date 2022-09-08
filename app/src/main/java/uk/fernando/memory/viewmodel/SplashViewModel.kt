@@ -5,7 +5,7 @@ import uk.fernando.memory.usecase.SetUpUseCase
 
 class SplashViewModel(private val prefs: PrefsStore, private val setUpUseCase: SetUpUseCase) : BaseViewModel() {
 
-    fun firstSetUp() {
+    fun setUp() {
         launchIO {
             if (prefs.getVersion() == 1) {
                 prefs.storeVersion(2)

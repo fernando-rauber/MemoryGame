@@ -18,7 +18,7 @@ class SetUpUseCase(
     private val logger: MyLogger
 ) {
 
-    private val categoryList = listOf(ANIMAL, FLAG, NUMBER, FOOD, TREE, TILE)
+    private val categoryList = listOf(ANIMAL, FLAG, FOOD, NUMBER, TREE, TILE)
 
     suspend operator fun invoke() {
         withContext(Dispatchers.IO) {
@@ -56,7 +56,7 @@ class SetUpUseCase(
                 else -> 20
             }
 
-            levelList.add(LevelEntity(id = id, quantity = quantity, categoryID = mapID, isDisabled = false))
+            levelList.add(LevelEntity(id = id, quantity = quantity, categoryID = mapID))
         }
 
         return levelList

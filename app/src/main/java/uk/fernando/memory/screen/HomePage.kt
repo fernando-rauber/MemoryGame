@@ -47,7 +47,7 @@ import uk.fernando.memory.ext.getTypeName
 import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.theme.gold
-import uk.fernando.memory.theme.green
+import uk.fernando.memory.theme.greenDark
 import uk.fernando.memory.util.CardType
 import uk.fernando.memory.viewmodel.HomeViewModel
 
@@ -59,6 +59,7 @@ fun HomePage(
 ) {
     val prefs: PrefsStore by inject()
     val starsCount = prefs.getStarCount().collectAsState(initial = 0)
+    val isPremium = prefs.isPremium().collectAsState(initial = false)
     var currentLevel by remember { mutableStateOf<LevelEntity?>(null) }
     val coroutine = rememberCoroutineScope()
 
@@ -104,7 +105,7 @@ fun HomePage(
                 )
             }
 
-            Row(Modifier.padding(horizontal = 12.dp)) {
+            Row(Modifier.padding(12.dp)) {
                 MyAnimation(pagerState.currentPage > 0) {
                     MyIconButton(
                         onClick = { coroutine.launch { pagerState.animateScrollToPage(pagerState.currentPage - 1) } },
@@ -123,12 +124,11 @@ fun HomePage(
             }
 
 
-            AdBanner(
-                modifier = Modifier
-                    .defaultMinSize(minHeight = 50.dp)
-                    .padding(top = 16.dp),
-                unitId = stringResource(R.string.ad_banner_home)
-            )
+            if (!isPremium.value)
+                AdBanner(
+                    modifier = Modifier.defaultMinSize(minHeight = 50.dp),
+                    unitId = stringResource(R.string.ad_banner_home)
+                )
         }
 
         LevelDialog(
@@ -139,9 +139,7 @@ fun HomePage(
                 currentLevel = null
             }
         )
-
     }
-
 }
 
 @Composable
@@ -195,7 +193,7 @@ private fun PageContent(item: CategoryWithLevel, totalStars: Int, onLevelClick: 
                 Text(
                     text = "${item.category.starsRequired}",
                     color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.Medium
                 )
                 Icon(
@@ -209,7 +207,7 @@ private fun PageContent(item: CategoryWithLevel, totalStars: Int, onLevelClick: 
                 Text(
                     text = stringResource(R.string.stars_required_unlock_args, stringResource(item.category.type.getTypeName())),
                     color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.Medium
                 )
             }
@@ -218,7 +216,7 @@ private fun PageContent(item: CategoryWithLevel, totalStars: Int, onLevelClick: 
                 modifier = Modifier.fillMaxWidth(),
                 text = stringResource(item.category.type.getTypeName()),
                 color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.labelMedium,
+                style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center
             )
@@ -235,7 +233,7 @@ private fun PageContent(item: CategoryWithLevel, totalStars: Int, onLevelClick: 
 private fun MapContent(list: List<LevelEntity>, onLevelClick: (LevelEntity) -> Unit) {
     LazyVerticalGrid(
         modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(12.dp),
+        contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         columns = GridCells.Fixed(if (SCREEN_HEIGHT < 700) 5 else 4)
@@ -252,7 +250,7 @@ private fun LevelCard(level: LevelEntity, onClick: (LevelEntity) -> Unit) {
         modifier = Modifier.aspectRatio(1f),
         shadowElevation = 4.dp,
         shape = MaterialTheme.shapes.small,
-        border = BorderStroke(4.dp, MaterialTheme.colorScheme.outline),
+        border = BorderStroke(2.dp, Color.White.copy(0.3f)),
     ) {
         Column(
             Modifier
@@ -260,7 +258,7 @@ private fun LevelCard(level: LevelEntity, onClick: (LevelEntity) -> Unit) {
                 .background(
                     Brush.verticalGradient(
                         .3f to MaterialTheme.colorScheme.primary,
-                        1f to green.copy(0.7f)
+                        1f to greenDark.copy(0.7f)
                     )
                 )
                 .clip(MaterialTheme.shapes.small)

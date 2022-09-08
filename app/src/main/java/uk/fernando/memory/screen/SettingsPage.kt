@@ -131,7 +131,7 @@ private fun CustomSettingsResourcesCard(
 ) {
     Surface(
         modifier = modifier,
-        shape = RoundedCornerShape(50),
+        shape = RoundedCornerShape(25),
         tonalElevation = 2.dp,
         shadowElevation = 4.dp
     ) {
@@ -198,7 +198,7 @@ private fun CustomSettingsPremiumCard(
     onClick: () -> Unit
 ) {
     Surface(
-        shape = RoundedCornerShape(50),
+        shape = RoundedCornerShape(25),
         tonalElevation = 2.dp,
         shadowElevation = 4.dp
     ) {

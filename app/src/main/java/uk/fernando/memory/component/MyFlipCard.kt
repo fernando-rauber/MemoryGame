@@ -7,6 +7,8 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +16,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -71,16 +74,17 @@ fun MyFlipCard(
                 onClick = { if (cardFace != CardFace.BackDisabled) onClick(cardFace) },
                 shape = MaterialTheme.shapes.small,
                 elevation = CardDefaults.cardElevation(4.dp),
+                border = BorderStroke(2.dp, Color.White.copy(0.1f)),
                 modifier = modifier
                     .graphicsLayer {
                         rotationY = rotation.value
                         cameraDistance = 12f * density
                     }
             ) {
-
                 Box(
                     Modifier
                         .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.surface)
                         .graphicsLayer { if (rotation.value > 90f) rotationY = 180f },
                     contentAlignment = Alignment.Center
                 ) {
@@ -89,7 +93,7 @@ fun MyFlipCard(
                             painterResource(id = R.drawable.ic_question_mark),
                             modifier = Modifier.fillMaxSize(0.6f),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onBackground.copy(0.6f)
+                            tint = MaterialTheme.colorScheme.onBackground.copy(0.7f)
                         )
                     } else {
                         back()
