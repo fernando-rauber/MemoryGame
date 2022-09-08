@@ -131,7 +131,8 @@ class CardGenerator {
             R.drawable.tile_15,
             R.drawable.tile_16,
             R.drawable.tile_17,
-            R.drawable.tile_18
+            R.drawable.tile_18,
+            R.drawable.tile_19,
         )
     }
 

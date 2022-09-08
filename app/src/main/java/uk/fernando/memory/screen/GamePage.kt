@@ -80,7 +80,6 @@ fun GamePage(
             TopBar(
                 viewModel = viewModel,
                 levelId = levelId,
-                categoryId = categoryId,
                 onClose = { navController.popBackStack() }
             )
 
@@ -114,7 +113,7 @@ fun GamePage(
 }
 
 @Composable
-private fun TopBar(viewModel: GameViewModel, levelId: Int, categoryId: Int, onClose: () -> Unit) {
+private fun TopBar(viewModel: GameViewModel, levelId: Int, onClose: () -> Unit) {
     Box(
         Modifier
             .padding(start = 16.dp)
@@ -164,7 +163,7 @@ private fun TopBar(viewModel: GameViewModel, levelId: Int, categoryId: Int, onCl
         // Title
         Text(
             modifier = Modifier.align(Alignment.Center),
-            text = "$levelId-$categoryId",
+            text = stringResource(id = R.string.level_args, "$levelId"),
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.onBackground
         )

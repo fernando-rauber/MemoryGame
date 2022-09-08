@@ -72,7 +72,7 @@ fun MyFlipCard(
         ) {
             Card(
                 onClick = { if (cardFace != CardFace.BackDisabled) onClick(cardFace) },
-                shape = MaterialTheme.shapes.small,
+                shape = MaterialTheme.shapes.extraSmall,
                 elevation = CardDefaults.cardElevation(4.dp),
                 border = BorderStroke(2.dp, Color.White.copy(0.1f)),
                 modifier = modifier

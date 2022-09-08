@@ -43,7 +43,7 @@ fun MyResultDialog(
                     modifier = Modifier
                         .offset(y = -(10).dp)
                         .padding(bottom = 10.dp),
-                    text = stringResource(id = R.string.level_args, "${level.id}-${level.categoryID}"),
+                    text = stringResource(id = R.string.level_args, "${level.id}"),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground
                 )
