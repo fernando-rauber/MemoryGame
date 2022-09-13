@@ -84,7 +84,7 @@ fun SettingsPage(
                 CustomSettingsResourcesCard(
                     modifierRow = Modifier
                         .clickable {
-                            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://app.websitepolicies.com/policies/view/o2172rhj"))
+                            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://funmath-5c418.web.app/memory-privacy-policy.html"))
                             context.startActivity(browserIntent)
                         },
                     text = R.string.privacy_policy,
