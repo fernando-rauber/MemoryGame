@@ -62,13 +62,13 @@ class GameUseCase(
 
             if (firstCard == null)
                 firstCard = newCard
-            else if (firstCard != null && secondCard == null)
+            else if (secondCard == null)
                 secondCard = newCard
 
             // Validate both cards
             if (firstCard != null && secondCard != null) {
 
-               return if (firstCard!!.id != secondCard!!.id) { // Incorrect
+                return if (firstCard!!.id != secondCard!!.id) { // Incorrect
                     mistakes += 1
                     gameData.updateMistakes(1)
                     false
@@ -88,7 +88,7 @@ class GameUseCase(
     }
 
     suspend fun updateSelectedCards(isCorrect: Boolean) {
-        val status = if(isCorrect) CardFace.Hidden else CardFace.Front
+        val status = if (isCorrect) CardFace.Hidden else CardFace.Front
 
         delay(600)
 
