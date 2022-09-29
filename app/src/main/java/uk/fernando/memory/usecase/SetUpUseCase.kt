@@ -7,10 +7,10 @@ import uk.fernando.memory.config.AppConfig.MAX_CARDS_PER_CATEGORY
 import uk.fernando.memory.config.AppConfig.STAR_REQUIRE_MULTIPLAYER
 import uk.fernando.memory.database.entity.CategoryEntity
 import uk.fernando.memory.database.entity.LevelEntity
-import uk.fernando.memory.ext.TAG
 import uk.fernando.memory.repository.CategoryRepository
 import uk.fernando.memory.repository.LevelRepository
 import uk.fernando.memory.util.CardType.*
+import uk.fernando.util.ext.TAG
 
 class SetUpUseCase(
     private val mapRepo: CategoryRepository,

@@ -33,7 +33,6 @@ import uk.fernando.advertising.AdInterstitial
 import uk.fernando.advertising.component.AdBanner
 import uk.fernando.memory.R
 import uk.fernando.memory.activity.MainActivity
-import uk.fernando.memory.component.MyAnimation
 import uk.fernando.memory.component.MyFlipCard
 import uk.fernando.memory.component.MyResultDialog
 import uk.fernando.memory.config.AppConfig.COUNTDOWN_TIMER
@@ -45,6 +44,9 @@ import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.util.CardModel
 import uk.fernando.memory.util.CardType
 import uk.fernando.memory.viewmodel.GameViewModel
+import uk.fernando.util.component.MyAnimatedVisibility
+import uk.fernando.util.ext.playAudio
+import uk.fernando.util.ext.safeNav
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
@@ -302,7 +304,7 @@ fun DialogResult(
 ) {
     val context = LocalContext.current
 
-    MyAnimation(viewModel.levelResult.value != null) {
+    MyAnimatedVisibility(viewModel.levelResult.value != null) {
         viewModel.levelResult.value?.let { level ->
 
             LaunchedEffect(Unit) { MediaPlayer.create(context, if (level.star > 0) R.raw.sound_finish else R.raw.sound_game_over).playAudio(isSoundEnable) }

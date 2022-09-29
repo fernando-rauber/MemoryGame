@@ -13,8 +13,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import uk.fernando.memory.util.MultipleEventsCutter
-import uk.fernando.memory.util.get
+import uk.fernando.util.event.MultipleEventsCutter
+import uk.fernando.util.event.get
 
 @Composable
 fun MyButton(

@@ -4,17 +4,20 @@ import android.app.Activity
 import android.app.Application
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import uk.fernando.billing.BillingHelper
 import uk.fernando.billing.BillingState
-import uk.fernando.memory.R
 import uk.fernando.logger.MyLogger
 import uk.fernando.memory.BuildConfig
+import uk.fernando.memory.R
 import uk.fernando.memory.datastore.PrefsStore
-import uk.fernando.memory.ext.TAG
-import uk.fernando.memory.ext.isNetworkAvailable
 import uk.fernando.memory.util.Resource
+import uk.fernando.util.ext.TAG
+import uk.fernando.util.ext.isNetworkAvailable
 
 const val PREMIUM_PRODUCT = "memory_premium"
 

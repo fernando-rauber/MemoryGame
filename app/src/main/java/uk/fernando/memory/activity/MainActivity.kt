@@ -10,12 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import uk.fernando.memory.component.UpdateStatusBar
 import uk.fernando.memory.config.AppConfig
 import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.navigation.buildGraph
 import uk.fernando.memory.theme.MemoryTheme
 import uk.fernando.memory.theme.dark
+import uk.fernando.util.component.UpdateStatusBar
 
 @OptIn(ExperimentalAnimationApi::class)
 class MainActivity : ComponentActivity() {

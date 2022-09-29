@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import uk.fernando.memory.R
 import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.theme.red
+import uk.fernando.util.component.MyDialog
 import java.util.*
 
 @Composable

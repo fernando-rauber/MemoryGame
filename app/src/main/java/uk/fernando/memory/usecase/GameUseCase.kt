@@ -6,12 +6,12 @@ import uk.fernando.memory.component.CardFace
 import uk.fernando.memory.config.AppConfig.MISTAKES_POSSIBLE
 import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.datastore.PrefsStore
-import uk.fernando.memory.ext.TAG
 import uk.fernando.memory.ext.getStarsByMistakes
 import uk.fernando.memory.repository.LevelRepository
 import uk.fernando.memory.util.CardGenerator
 import uk.fernando.memory.util.CardModel
 import uk.fernando.memory.viewmodel.GameViewData
+import uk.fernando.util.ext.TAG
 
 class GameUseCase(
     private val gameData: GameViewData,
