@@ -14,7 +14,7 @@ import uk.fernando.util.event.MultipleEventsCutter
 import uk.fernando.util.event.get
 
 @Composable
-fun MyIconButton(@DrawableRes icon: Int, onClick: () -> Unit) {
+fun MyButtonIcon(@DrawableRes icon: Int, onClick: () -> Unit) {
     val multipleEventsCutter = remember { MultipleEventsCutter.get() }
 
     Button(

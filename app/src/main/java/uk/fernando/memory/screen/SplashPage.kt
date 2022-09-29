@@ -39,7 +39,7 @@ fun SplashPage(
 
     LaunchedEffect(Unit) {
         viewModel.setUp()
-        delay(1000L)
+        delay(800L)
         currentOnTimeout()
     }
 }
