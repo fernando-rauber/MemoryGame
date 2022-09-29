@@ -27,7 +27,8 @@ android {
 
     buildTypes {
         all {
-            buildConfigField "String", "BILLING_PUBLIC_KEY", '""'}
+            buildConfigField "String", "BILLING_PUBLIC_KEY", '""'
+        }
 
         debug {
             manifestPlaceholders["enableCrashReporting"] = false
@@ -76,6 +77,8 @@ dependencies {
     implementation 'com.github.fernando-rauber.mylibrary:util:1.4.3'
 
     implementation "com.android.billingclient:billing-ktx:5.0.0"
+
+    // Facebook Ads
     implementation 'com.google.ads.mediation:facebook:6.11.0.1'
 
     // Firebase
