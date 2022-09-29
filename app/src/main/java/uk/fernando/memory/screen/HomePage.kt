@@ -180,7 +180,8 @@ private fun NavigationTopBar(starsCount: Int, onSettingsClick: () -> Unit) {
         MyIconButton(
             icon = R.drawable.ic_settings,
             modifier = Modifier.align(Alignment.CenterEnd),
-            onClick = onSettingsClick
+            onClick = onSettingsClick,
+            tint = MaterialTheme.colorScheme.onBackground
         )
 
     }

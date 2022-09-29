@@ -90,7 +90,8 @@ fun MyResultDialog(
             MyIconButton(
                 icon = R.drawable.ic_close,
                 modifier = Modifier.align(Alignment.TopEnd),
-                onClick = onClose
+                onClick = onClose,
+                tint = MaterialTheme.colorScheme.onBackground
             )
         }
     }

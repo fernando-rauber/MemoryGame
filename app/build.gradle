@@ -12,8 +12,8 @@ android {
         applicationId "uk.fernando.memory"
         minSdk 25
         targetSdk 33
-        versionCode 3
-        versionName "1.1"
+        versionCode 4
+        versionName "1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -27,8 +27,7 @@ android {
 
     buildTypes {
         all {
-            buildConfigField "String", "BILLING_PUBLIC_KEY", '"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkI9VInfwYVNKBPK3hjh5+cntvAyHaREgoy6N6UOdNnhqz9nGTpStJV8KLcABf4Oas3Z9vqBB9gdeUp61WAT2VtOg/+ItOrBned6oAeyyYmTLW1FYew199Wdb7BfkFyUpTMkjHInXYzuyqBjMxFfUDpTw/LwjdoYnpA1DCQk+zRYK2GZ03i9J5tKQhBvC+Bw88ES2P/fHHckq+mjrnNmM67e6wPEJGyM7b91rfvmfKS4QT1KnmVWgLvB4nIcuPl8e3zDfCDsjseENVCpNE0jQW+wCLqraLs6ZD/ceAMZNybZOb4pYtj/90oKR3dqLnChAyuTr2xEo0S6c0zdeqljTMwIDAQAB"'
-        }
+            buildConfigField "String", "BILLING_PUBLIC_KEY", '""'}
 
         debug {
             manifestPlaceholders["enableCrashReporting"] = false
@@ -70,13 +69,14 @@ android {
 dependencies {
     implementation 'androidx.core:core-ktx:1.9.0'
 
-    implementation 'com.github.fernando-rauber.mylibrary:advertising:1.4.2'
-    implementation 'com.github.fernando-rauber.mylibrary:logger:1.4.2'
-    implementation 'com.github.fernando-rauber.mylibrary:billing:1.4.2'
-    implementation 'com.github.fernando-rauber.mylibrary:snackbar:1.4.2'
-    implementation 'com.github.fernando-rauber.mylibrary:util:1.4.2'
+    implementation 'com.github.fernando-rauber.mylibrary:advertising:1.4.3'
+    implementation 'com.github.fernando-rauber.mylibrary:logger:1.4.3'
+    implementation 'com.github.fernando-rauber.mylibrary:billing:1.4.3'
+    implementation 'com.github.fernando-rauber.mylibrary:snackbar:1.4.3'
+    implementation 'com.github.fernando-rauber.mylibrary:util:1.4.3'
 
     implementation "com.android.billingclient:billing-ktx:5.0.0"
+    implementation 'com.google.ads.mediation:facebook:6.11.0.1'
 
     // Firebase
     implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.13'

@@ -26,10 +26,11 @@ fun NavigationBarTop(
     ) {
 
         if (onLeftIconClick != null)
-           MyIconButton(
+            MyIconButton(
                 icon = R.drawable.ic_arrow_back,
                 modifier = Modifier.align(Alignment.CenterStart),
-                onClick = onLeftIconClick
+                onClick = onLeftIconClick,
+                tint = MaterialTheme.colorScheme.onBackground
             )
 
 
