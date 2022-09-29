@@ -2,7 +2,6 @@ package uk.fernando.memory.screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -10,7 +9,10 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
@@ -34,8 +36,7 @@ import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.inject
 import uk.fernando.advertising.component.AdBanner
 import uk.fernando.memory.R
-import uk.fernando.memory.component.MyAnimation
-import uk.fernando.memory.component.MyIconButton
+import uk.fernando.memory.component.MyButtonIcon
 import uk.fernando.memory.component.MyResultDialog
 import uk.fernando.memory.component.MyStar
 import uk.fernando.memory.config.AppConfig.MAX_CARDS_PER_CATEGORY
@@ -43,14 +44,16 @@ import uk.fernando.memory.config.AppConfig.SCREEN_HEIGHT
 import uk.fernando.memory.database.entity.CategoryWithLevel
 import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.datastore.PrefsStore
-import uk.fernando.memory.ext.clickableSingle
 import uk.fernando.memory.ext.getTypeName
-import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.theme.gold
 import uk.fernando.memory.theme.greenDark
 import uk.fernando.memory.util.CardType
 import uk.fernando.memory.viewmodel.HomeViewModel
+import uk.fernando.util.component.MyAnimatedVisibility
+import uk.fernando.util.component.MyIconButton
+import uk.fernando.util.ext.clickableSingle
+import uk.fernando.util.ext.safeNav
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -107,8 +110,8 @@ fun HomePage(
             }
 
             Row(Modifier.padding(12.dp)) {
-                MyAnimation(pagerState.currentPage > 0) {
-                    MyIconButton(
+                MyAnimatedVisibility(pagerState.currentPage > 0) {
+                    MyButtonIcon(
                         onClick = {
                             if (pagerState.currentPage > 0)
                                 coroutine.launch { pagerState.animateScrollToPage(pagerState.currentPage - 1) }
@@ -119,8 +122,8 @@ fun HomePage(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                MyAnimation(pagerState.currentPage < viewModel.categoryList.value.count() - 1) {
-                    MyIconButton(
+                MyAnimatedVisibility(pagerState.currentPage < viewModel.categoryList.value.count() - 1) {
+                    MyButtonIcon(
                         onClick = {
                             if (pagerState.currentPage < viewModel.categoryList.value.count() - 1)
                                 coroutine.launch { pagerState.animateScrollToPage(pagerState.currentPage + 1) }
@@ -174,16 +177,13 @@ private fun NavigationTopBar(starsCount: Int, onSettingsClick: () -> Unit) {
             )
         }
 
-        IconButton(
+        MyIconButton(
+            icon = R.drawable.ic_settings,
             modifier = Modifier.align(Alignment.CenterEnd),
-            onClick = onSettingsClick
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_settings),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onBackground
-            )
-        }
+            onClick = onSettingsClick,
+            tint = MaterialTheme.colorScheme.onBackground
+        )
+
     }
 }
 
@@ -325,7 +325,7 @@ private fun LevelCard(level: LevelEntity, onClick: (LevelEntity) -> Unit) {
 
 @Composable
 private fun LevelDialog(level: LevelEntity?, onCancel: () -> Unit, onReplay: () -> Unit) {
-    MyAnimation(level != null) {
+    MyAnimatedVisibility(level != null) {
 
         level?.let {
             MyResultDialog(

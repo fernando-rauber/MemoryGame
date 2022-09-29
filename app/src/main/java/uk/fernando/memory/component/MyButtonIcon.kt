@@ -10,11 +10,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import uk.fernando.memory.util.MultipleEventsCutter
-import uk.fernando.memory.util.get
+import uk.fernando.util.event.MultipleEventsCutter
+import uk.fernando.util.event.get
 
 @Composable
-fun MyIconButton(@DrawableRes icon: Int, onClick: () -> Unit) {
+fun MyButtonIcon(@DrawableRes icon: Int, onClick: () -> Unit) {
     val multipleEventsCutter = remember { MultipleEventsCutter.get() }
 
     Button(

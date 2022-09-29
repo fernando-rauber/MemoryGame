@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,9 +29,9 @@ import uk.fernando.memory.R
 import uk.fernando.memory.activity.MainActivity
 import uk.fernando.memory.component.NavigationBarTop
 import uk.fernando.memory.datastore.PrefsStore
-import uk.fernando.memory.ext.clickableSingle
 import uk.fernando.memory.viewmodel.SettingsViewModel
 import uk.fernando.snackbar.CustomSnackBar
+import uk.fernando.util.ext.clickableSingle
 
 @Composable
 fun SettingsPage(

@@ -4,12 +4,13 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -17,6 +18,9 @@ import androidx.compose.ui.unit.dp
 import uk.fernando.memory.R
 import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.theme.red
+import uk.fernando.util.component.MyButton
+import uk.fernando.util.component.MyDialog
+import uk.fernando.util.component.MyIconButton
 import java.util.*
 
 @Composable
@@ -63,33 +67,32 @@ fun MyResultDialog(
                 // Buttons
                 Row(Modifier.padding(vertical = 16.dp)) {
                     MyButton(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier
+                            .weight(1f)
+                            .defaultMinSize(minHeight = 50.dp),
                         onClick = onLeftButton,
                         color = MaterialTheme.colorScheme.surface,
-                        text = stringResource(leftButtonText),
-                        textColor = MaterialTheme.colorScheme.onBackground
+                        text = stringResource(leftButtonText)
                     )
 
                     Spacer(Modifier.width(16.dp))
 
                     MyButton(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier
+                            .weight(1f)
+                            .defaultMinSize(minHeight = 50.dp),
                         onClick = onRightButton,
                         text = stringResource(rightButtonText)
                     )
                 }
             }
 
-            IconButton(
+            MyIconButton(
+                icon = R.drawable.ic_close,
                 modifier = Modifier.align(Alignment.TopEnd),
-                onClick = onClose
-            ) {
-                Icon(
-                    painterResource(id = R.drawable.ic_close),
-                    contentDescription = "close",
-                    tint = MaterialTheme.colorScheme.onBackground
-                )
-            }
+                onClick = onClose,
+                tint = MaterialTheme.colorScheme.onBackground
+            )
         }
     }
 }
