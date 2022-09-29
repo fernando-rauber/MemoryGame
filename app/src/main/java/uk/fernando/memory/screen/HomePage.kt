@@ -43,6 +43,7 @@ import uk.fernando.memory.config.AppConfig.SCREEN_HEIGHT
 import uk.fernando.memory.database.entity.CategoryWithLevel
 import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.datastore.PrefsStore
+import uk.fernando.memory.ext.clickableSingle
 import uk.fernando.memory.ext.getTypeName
 import uk.fernando.memory.ext.safeNav
 import uk.fernando.memory.navigation.Directions
@@ -108,7 +109,10 @@ fun HomePage(
             Row(Modifier.padding(12.dp)) {
                 MyAnimation(pagerState.currentPage > 0) {
                     MyIconButton(
-                        onClick = { coroutine.launch { pagerState.animateScrollToPage(pagerState.currentPage - 1) } },
+                        onClick = {
+                            if (pagerState.currentPage > 0)
+                                coroutine.launch { pagerState.animateScrollToPage(pagerState.currentPage - 1) }
+                        },
                         icon = R.drawable.ic_arrow_back
                     )
                 }
@@ -117,12 +121,14 @@ fun HomePage(
 
                 MyAnimation(pagerState.currentPage < viewModel.categoryList.value.count() - 1) {
                     MyIconButton(
-                        onClick = { coroutine.launch { pagerState.animateScrollToPage(pagerState.currentPage + 1) } },
+                        onClick = {
+                            if (pagerState.currentPage < viewModel.categoryList.value.count() - 1)
+                                coroutine.launch { pagerState.animateScrollToPage(pagerState.currentPage + 1) }
+                        },
                         icon = R.drawable.ic_arrow_forward
                     )
                 }
             }
-
 
             if (!isPremium.value)
                 AdBanner(
@@ -262,7 +268,7 @@ private fun LevelCard(level: LevelEntity, onClick: (LevelEntity) -> Unit) {
                     )
                 )
                 .clip(MaterialTheme.shapes.small)
-                .clickable { if (!level.isDisabled) onClick(level) },
+                .clickableSingle { if (!level.isDisabled) onClick(level) },
             verticalArrangement = Arrangement.Center
         ) {
 

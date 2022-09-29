@@ -6,15 +6,20 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import uk.fernando.memory.util.MultipleEventsCutter
+import uk.fernando.memory.util.get
 
 @Composable
 fun MyIconButton(@DrawableRes icon: Int, onClick: () -> Unit) {
+    val multipleEventsCutter = remember { MultipleEventsCutter.get() }
+
     Button(
         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
-        onClick = onClick,
+        onClick = { multipleEventsCutter.processEvent { onClick() } },
         elevation = ButtonDefaults.buttonElevation(4.dp, 0.dp)
     ) {
         Icon(

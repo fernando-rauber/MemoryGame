@@ -4,9 +4,6 @@ import android.content.Context
 import android.media.MediaPlayer
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.os.VibrationEffect
-import android.os.VibratorManager
-import android.text.format.DateUtils
 import androidx.navigation.NavController
 
 val Any.TAG: String
@@ -16,26 +13,22 @@ val Any.TAG: String
     }
 
 fun NavController.safeNav(direction: String) {
-    try {
+    kotlin.runCatching {
         this.navigate(direction)
-    } catch (e: Exception) {
     }
-}
-
-fun Int.timerFormat(): String {
-    val minutes = this / 60
-    return "${minutes.toString().padStart(2, '0')}:${(this % 60).toString().padStart(2, '0')}"
 }
 
 fun MediaPlayer.playAudio(enableSound: Boolean = true) {
     if (!enableSound)
         return
 
-    if (isPlaying) {
-        stop()
-        prepare()
+    kotlin.runCatching {
+        if (isPlaying) {
+            stop()
+            prepare()
+        }
+        start()
     }
-    start()
 }
 
 fun Context.isNetworkAvailable(): Boolean {

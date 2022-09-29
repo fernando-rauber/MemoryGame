@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -12,6 +13,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import uk.fernando.memory.util.MultipleEventsCutter
+import uk.fernando.memory.util.get
 
 @Composable
 fun MyButton(
@@ -27,15 +30,17 @@ fun MyButton(
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     elevation: ButtonElevation = ButtonDefaults.buttonElevation(4.dp, 0.dp)
 ) {
+    val multipleEventsCutter = remember { MultipleEventsCutter.get() }
+
     Button(
         border = borderStroke,
         modifier = modifier.defaultMinSize(minHeight = 50.dp),
-        colors = ButtonDefaults.buttonColors( color, color),
+        colors = ButtonDefaults.buttonColors(color, color),
         elevation = elevation,
         enabled = enabled,
         shape = MaterialTheme.shapes.small,
         contentPadding = contentPadding,
-        onClick = onClick
+        onClick = { multipleEventsCutter.processEvent { onClick() } }
     ) {
         Text(
             modifier = textModifier,

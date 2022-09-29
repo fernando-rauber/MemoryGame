@@ -30,6 +30,7 @@ import uk.fernando.memory.R
 import uk.fernando.memory.activity.MainActivity
 import uk.fernando.memory.component.NavigationBarTop
 import uk.fernando.memory.datastore.PrefsStore
+import uk.fernando.memory.ext.clickableSingle
 import uk.fernando.memory.viewmodel.SettingsViewModel
 import uk.fernando.snackbar.CustomSnackBar
 
@@ -74,7 +75,7 @@ fun SettingsPage(
 
                 CustomSettingsResourcesCard(
                     modifier = Modifier.padding(vertical = 10.dp),
-                    modifierRow = Modifier.clickable { viewModel.restorePremium() },
+                    modifierRow = Modifier.clickableSingle { viewModel.restorePremium() },
                     text = R.string.restore_premium_action,
                     isChecked = false,
                     onCheckedChange = {},
@@ -83,7 +84,7 @@ fun SettingsPage(
 
                 CustomSettingsResourcesCard(
                     modifierRow = Modifier
-                        .clickable {
+                        .clickableSingle {
                             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://funmath-5c418.web.app/memory-privacy-policy.html"))
                             context.startActivity(browserIntent)
                         },
@@ -205,7 +206,7 @@ private fun CustomSettingsPremiumCard(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .clickable {
+                .clickableSingle {
                     if (!isPremium)
                         onClick()
                 }
