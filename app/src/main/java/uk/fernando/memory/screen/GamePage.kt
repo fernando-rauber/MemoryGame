@@ -39,7 +39,9 @@ import uk.fernando.memory.config.AppConfig.COUNTDOWN_TIMER
 import uk.fernando.memory.config.AppConfig.MAX_CARDS_PER_CATEGORY
 import uk.fernando.memory.config.AppConfig.MISTAKES_POSSIBLE
 import uk.fernando.memory.datastore.PrefsStore
-import uk.fernando.memory.ext.*
+import uk.fernando.memory.ext.getBackgroundColor
+import uk.fernando.memory.ext.getCellCount
+import uk.fernando.memory.ext.getWidthSize
 import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.util.CardModel
 import uk.fernando.memory.util.CardType
@@ -206,7 +208,7 @@ private fun CountDownAndAd(isPremium: Boolean, startSoundEffect: () -> Unit, onS
             )
         }
 
-        if (countDown <= 0 && !isPremium)
+        if (countDown == 0 && !isPremium)
             AdBanner(unitId = stringResource(R.string.ad_banner_level))
     }
 }
