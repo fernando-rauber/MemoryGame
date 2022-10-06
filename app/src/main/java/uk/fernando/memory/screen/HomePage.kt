@@ -93,8 +93,7 @@ fun HomePage(
             HorizontalPager(
                 state = pagerState,
                 verticalAlignment = Alignment.Top,
-                count = viewModel.categoryList.value.count(),
-                modifier = Modifier.weight(1f)
+                count = viewModel.categoryList.value.count()
             ) { page ->
 
                 PageContent(
@@ -109,7 +108,7 @@ fun HomePage(
                 )
             }
 
-            Row(Modifier.padding(12.dp)) {
+            Row(Modifier.padding(horizontal = 16.dp)) {
                 MyAnimatedVisibility(pagerState.currentPage > 0) {
                     MyButtonIcon(
                         onClick = {
@@ -133,11 +132,15 @@ fun HomePage(
                 }
             }
 
-            if (!isPremium.value)
+            if (!isPremium.value) {
+                Spacer(Modifier.weight(1f))
                 AdBanner(
-                    modifier = Modifier.defaultMinSize(minHeight = 50.dp),
-                    unitId = stringResource(R.string.ad_banner_home)
+                    modifier = Modifier
+                        .defaultMinSize(minHeight = 50.dp)
+                        .padding(top = 16.dp),
+                    unitId = R.string.ad_banner_home
                 )
+            }
         }
 
         LevelDialog(
