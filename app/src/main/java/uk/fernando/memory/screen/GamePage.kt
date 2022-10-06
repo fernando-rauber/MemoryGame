@@ -209,7 +209,7 @@ private fun CountDownAndAd(isPremium: Boolean, startSoundEffect: () -> Unit, onS
         }
 
         if (countDown == 0 && !isPremium)
-            AdBanner(unitId = stringResource(R.string.ad_banner_level))
+            AdBanner(R.string.ad_banner_level)
     }
 }
 
