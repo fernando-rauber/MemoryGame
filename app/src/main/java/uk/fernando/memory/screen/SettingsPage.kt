@@ -104,6 +104,17 @@ fun SettingsPage(
                         .padding(vertical = 15.dp),
                     textAlign = TextAlign.Center
                 )
+
+                if (BuildConfig.BUILD_TYPE == "debug") {
+                    Text(
+                        text = "Dev Build",
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
 
