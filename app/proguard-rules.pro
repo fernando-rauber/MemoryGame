@@ -19,3 +19,25 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# IronSource Ads
+-keepclassmembers class com.ironsource.sdk.controller.IronSourceWebView$JSInterface {
+    public *;
+}
+-keepclassmembers class * implements android.os.Parcelable {
+    public static final android.os.Parcelable$Creator *;
+}
+-keep public class com.google.android.gms.ads.** {
+   public *;
+}
+-keep class com.ironsource.adapters.** { *;
+}
+-dontwarn com.moat.**
+-keep class com.moat.** { public protected private *; }
+
+# Facebook Ads
+-dontwarn com.facebook.ads.internal.**
+-keeppackagenames com.facebook.*
+-keep public class com.facebook.ads.** {*;}
+-keep public class com.facebook.ads.**
+{ public protected *; }
