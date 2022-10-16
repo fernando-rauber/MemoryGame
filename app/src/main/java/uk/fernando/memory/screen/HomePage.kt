@@ -34,8 +34,8 @@ import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.inject
-import uk.fernando.advertising.component.AdBanner
 import uk.fernando.memory.R
+import uk.fernando.memory.ads.MyAdBanner
 import uk.fernando.memory.component.MyButtonIcon
 import uk.fernando.memory.component.MyResultDialog
 import uk.fernando.memory.component.MyStar
@@ -134,11 +134,11 @@ fun HomePage(
 
             if (!isPremium.value) {
                 Spacer(Modifier.weight(1f))
-                AdBanner(
+                MyAdBanner(
+                    placement = "Home_Screen",
                     modifier = Modifier
                         .defaultMinSize(minHeight = 50.dp)
-                        .padding(top = 16.dp),
-                    unitId = R.string.ad_banner_home
+                        .padding(top = 16.dp)
                 )
             }
         }
