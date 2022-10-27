@@ -117,7 +117,6 @@ fun GamePage(
 private fun TopBar(viewModel: GameViewModel, levelId: Int, onClose: () -> Unit) {
     Box(
         Modifier
-            .padding(start = 16.dp)
             .height(IntrinsicSize.Min)
             .fillMaxWidth()
     ) {
@@ -126,7 +125,7 @@ private fun TopBar(viewModel: GameViewModel, levelId: Int, onClose: () -> Unit) 
         Row(
             Modifier
                 .align(Alignment.CenterStart)
-                .padding(start = 14.dp)
+                .padding(start = 30.dp)
                 .background(MaterialTheme.colorScheme.onBackground.copy(.15f), MaterialTheme.shapes.extraSmall),
             verticalAlignment = Alignment.CenterVertically
         ) {
