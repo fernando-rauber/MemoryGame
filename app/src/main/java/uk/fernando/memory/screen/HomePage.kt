@@ -35,7 +35,6 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.inject
 import uk.fernando.memory.R
-import uk.fernando.memory.ads.MyAdBanner
 import uk.fernando.memory.component.MyButtonIcon
 import uk.fernando.memory.component.MyResultDialog
 import uk.fernando.memory.component.MyStar
@@ -54,6 +53,7 @@ import uk.fernando.util.component.MyAnimatedVisibility
 import uk.fernando.util.component.MyIconButton
 import uk.fernando.util.ext.clickableSingle
 import uk.fernando.util.ext.safeNav
+import uk.fernando.advertising.component.AdBanner
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -134,11 +134,11 @@ fun HomePage(
 
             if (!isPremium.value) {
                 Spacer(Modifier.weight(1f))
-                MyAdBanner(
-                    placement = "Home_Screen",
+                AdBanner(
                     modifier = Modifier
                         .defaultMinSize(minHeight = 50.dp)
-                        .padding(top = 16.dp)
+                        .padding(top = 16.dp),
+                    unitId = R.string.ad_banner_home
                 )
             }
         }

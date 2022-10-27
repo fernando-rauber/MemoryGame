@@ -29,8 +29,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.inject
+import uk.fernando.advertising.AdInterstitial
+import uk.fernando.advertising.component.AdBanner
 import uk.fernando.memory.R
-import uk.fernando.memory.ads.MyAdBanner
+import uk.fernando.memory.activity.MainActivity
 import uk.fernando.memory.component.MyFlipCard
 import uk.fernando.memory.component.MyResultDialog
 import uk.fernando.memory.config.AppConfig.COUNTDOWN_TIMER
@@ -41,7 +43,6 @@ import uk.fernando.memory.ext.getBackgroundColor
 import uk.fernando.memory.ext.getCellCount
 import uk.fernando.memory.ext.getWidthSize
 import uk.fernando.memory.navigation.Directions
-import uk.fernando.memory.ads.AdInterstitial
 import uk.fernando.memory.util.CardModel
 import uk.fernando.memory.util.CardType
 import uk.fernando.memory.viewmodel.GameViewModel
@@ -64,7 +65,7 @@ fun GamePage(
     }
 
     val coroutine = rememberCoroutineScope()
-    val fullScreenAd = AdInterstitial("Level_Complete")
+    val fullScreenAd = AdInterstitial(LocalContext.current as MainActivity, stringResource(R.string.ad_interstitial_end_level))
     val soundCountDown = MediaPlayer.create(LocalContext.current, R.raw.sound_countdown)
     val prefs: PrefsStore by inject()
     val isSoundEnable = prefs.isSoundEnabled().collectAsState(initial = true)
@@ -208,7 +209,7 @@ private fun CountDownAndAd(isPremium: Boolean, startSoundEffect: () -> Unit, onS
         }
 
         if (countDown == 0 && !isPremium)
-            MyAdBanner("Game_Screen")
+            AdBanner(R.string.ad_banner_level)
     }
 }
 
