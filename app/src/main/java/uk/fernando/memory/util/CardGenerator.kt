@@ -18,15 +18,22 @@ class CardGenerator {
             R.drawable.flag_brazil,
             R.drawable.flag_canada,
             R.drawable.flag_colombia,
+            R.drawable.flag_costa_rica,
             R.drawable.flag_czech_republic,
+            R.drawable.flag_ecuador,
             R.drawable.flag_france,
             R.drawable.flag_germany,
             R.drawable.flag_india,
+            R.drawable.flag_ireland,
             R.drawable.flag_japan,
+            R.drawable.flag_mexico,
             R.drawable.flag_netherlands,
             R.drawable.flag_philippines,
+            R.drawable.flag_saudi_arabia,
+            R.drawable.flag_south_africa,
             R.drawable.flag_south_korea,
             R.drawable.flag_spain,
+            R.drawable.flag_turkey,
             R.drawable.flag_ukraine,
             R.drawable.flag_united_kingdom,
             R.drawable.flag_united_states,
@@ -38,6 +45,7 @@ class CardGenerator {
         mutableListOf(
             R.drawable.animal_bee,
             R.drawable.animal_cat,
+            R.drawable.animal_chameleon,
             R.drawable.animal_crab,
             R.drawable.animal_dog,
             R.drawable.animal_dolphin,
@@ -45,15 +53,22 @@ class CardGenerator {
             R.drawable.animal_frog,
             R.drawable.animal_giraffe,
             R.drawable.animal_hen,
+            R.drawable.animal_horse,
+            R.drawable.animal_kangaroo,
             R.drawable.animal_koala,
             R.drawable.animal_lion,
             R.drawable.animal_meerkat,
             R.drawable.animal_monkey,
+            R.drawable.animal_owl,
             R.drawable.animal_panda_bear,
+            R.drawable.animal_penguin,
             R.drawable.animal_pig,
             R.drawable.animal_rabbit,
             R.drawable.animal_squirrel,
-            R.drawable.animal_toucan
+            R.drawable.animal_toucan,
+            R.drawable.animal_turtle,
+            R.drawable.animal_walrus,
+            R.drawable.animal_whale
         )
     }
 
@@ -91,20 +106,30 @@ class CardGenerator {
 
     private val treeIds by lazy {
         mutableListOf(
+            R.drawable.tree_almond,
             R.drawable.tree_apple,
             R.drawable.tree_apricot,
             R.drawable.tree_ash,
             R.drawable.tree_banana,
+            R.drawable.tree_baobab,
+            R.drawable.tree_beech,
+            R.drawable.tree_bergamot,
             R.drawable.tree_birch,
+            R.drawable.tree_cedar,
             R.drawable.tree_cherry,
             R.drawable.tree_eucalyptus,
+            R.drawable.tree_joshua,
             R.drawable.tree_juniper,
             R.drawable.tree_kalleri_pear,
+            R.drawable.tree_lilac,
             R.drawable.tree_oak,
             R.drawable.tree_olive,
             R.drawable.tree_orange,
+            R.drawable.tree_palm,
             R.drawable.tree_papaya,
+            R.drawable.tree_pine,
             R.drawable.tree_poplar,
+            R.drawable.tree_rowan,
             R.drawable.tree_sakura,
             R.drawable.tree_sequoia,
             R.drawable.tree_tree,
@@ -133,6 +158,14 @@ class CardGenerator {
             R.drawable.tile_17,
             R.drawable.tile_18,
             R.drawable.tile_19,
+            R.drawable.tile_20,
+            R.drawable.tile_21,
+            R.drawable.tile_22,
+            R.drawable.tile_23,
+            R.drawable.tile_24,
+            R.drawable.tile_25,
+            R.drawable.tile_26,
+            R.drawable.tile_27
         )
     }
 
@@ -146,7 +179,12 @@ class CardGenerator {
             questionList.add(CardModel(id = idCreated, type = type))
         }
 
-        return questionList.shuffled()
+        val cardsList = mutableListOf<CardModel>()
+        questionList.chunked(questionList.size / 2).forEach {
+            cardsList.addAll(it.shuffled())
+        }
+
+        return cardsList.shuffled()
     }
 
     /**

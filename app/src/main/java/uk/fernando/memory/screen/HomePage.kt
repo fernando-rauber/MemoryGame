@@ -245,7 +245,7 @@ private fun MapContent(list: List<LevelEntity>, onLevelClick: (LevelEntity) -> U
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        columns = GridCells.Fixed(if (SCREEN_HEIGHT < 700) 5 else 4)
+        columns = GridCells.Fixed(if (SCREEN_HEIGHT < 700) 4 else 3)
     ) {
         items(list) { level ->
             LevelCard(level, onLevelClick)
@@ -296,7 +296,7 @@ private fun LevelCard(level: LevelEntity, onClick: (LevelEntity) -> Unit) {
                                 .padding(top = 10.dp),
                             text = level.id.toString(),
                             color = Color.White,
-                            style = MaterialTheme.typography.titleLarge,
+                            style = MaterialTheme.typography.headlineLarge,
                             fontWeight = FontWeight.Medium
                         )
                     }

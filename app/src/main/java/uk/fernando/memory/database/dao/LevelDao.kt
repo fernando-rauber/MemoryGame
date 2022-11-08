@@ -16,6 +16,9 @@ interface LevelDao {
     @Update
     fun update(level: LevelEntity)
 
+    @Delete
+    fun delete(level: LevelEntity)
+
     @Query("SELECT * FROM ${LevelEntity.NAME} WHERE id = :ID AND category_id = :categoryId")
     fun getLevelById(ID: Int, categoryId: Int) : LevelEntity
 

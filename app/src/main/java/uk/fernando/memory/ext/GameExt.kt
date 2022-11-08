@@ -3,6 +3,7 @@ package uk.fernando.memory.ext
 import androidx.compose.ui.graphics.Color
 import uk.fernando.memory.R
 import uk.fernando.memory.config.AppConfig.MISTAKES_POSSIBLE
+import uk.fernando.memory.config.AppConfig.SCREEN_HEIGHT
 import uk.fernando.memory.theme.*
 import uk.fernando.memory.util.CardType
 
@@ -18,7 +19,9 @@ fun Int.getCellCount(): Int {
     return when (this) {
         in 4..8 -> 2
         12 -> 3
-        30 -> 5
+        24 -> if(SCREEN_HEIGHT > 700) 4 else 5
+        28, 30 -> 5
+        34, 38, 40 -> if(SCREEN_HEIGHT > 700) 5 else 6
         else -> 4
     }
 }
