@@ -179,7 +179,12 @@ class CardGenerator {
             questionList.add(CardModel(id = idCreated, type = type))
         }
 
-        return questionList.shuffled()
+        val cardsList = mutableListOf<CardModel>()
+        questionList.chunked(questionList.size / 2).forEach {
+            cardsList.addAll(it.shuffled())
+        }
+
+        return cardsList.shuffled()
     }
 
     /**

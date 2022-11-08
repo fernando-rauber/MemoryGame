@@ -99,6 +99,6 @@ val TypographySmallScreen = Typography(
     headlineLarge = TextStyle(
         fontFamily = solwayFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 30.sp
+        fontSize = 28.sp
     )
 )

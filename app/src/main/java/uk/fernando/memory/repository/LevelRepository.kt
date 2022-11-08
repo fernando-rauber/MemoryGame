@@ -10,6 +10,8 @@ interface LevelRepository {
 
     suspend fun update(level: LevelEntity)
 
+    suspend fun delete(level: LevelEntity)
+
     suspend fun getLevelById(id: Int, categoryId: Int): LevelEntity
 
     suspend fun getCardTypeByCategory(id: Int): Int

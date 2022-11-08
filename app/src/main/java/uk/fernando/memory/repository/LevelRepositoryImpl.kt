@@ -21,16 +21,18 @@ open class LevelRepositoryImpl(private val dao: LevelDao) : LevelRepository {
     }
 
     override suspend fun update(level: LevelEntity) {
-        withContext(Dispatchers.IO) {
-            dao.update(level)
-        }
+        withContext(Dispatchers.IO) { dao.update(level) }
     }
 
-    override suspend fun getLevelById(id: Int,categoryId: Int) = withContext(Dispatchers.IO) {
+    override suspend fun delete(level: LevelEntity) {
+        withContext(Dispatchers.IO) { dao.delete(level) }
+    }
+
+    override suspend fun getLevelById(id: Int, categoryId: Int) = withContext(Dispatchers.IO) {
         dao.getLevelById(id, categoryId)
     }
 
-    override suspend fun getCardTypeByCategory(id: Int)= withContext(Dispatchers.IO) {
+    override suspend fun getCardTypeByCategory(id: Int) = withContext(Dispatchers.IO) {
         dao.getCardTypeByCategory(id)
     }
 }

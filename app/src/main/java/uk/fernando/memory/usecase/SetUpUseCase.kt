@@ -1,6 +1,7 @@
 package uk.fernando.memory.usecase
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import uk.fernando.logger.MyLogger
 import uk.fernando.memory.config.AppConfig.MAX_CARDS_PER_CATEGORY
@@ -52,13 +53,49 @@ class SetUpUseCase(
                 2 -> 6
                 3 -> 8
                 4 -> 12
-                19, 20 -> 30
-                else -> 20
+                5 -> 16
+                6 -> 20
+                7 -> 24
+                8 -> 28
+                9 -> 30
+                10 -> 34
+                11 -> 38
+                else -> 40
             }
 
-            levelList.add(LevelEntity(id = id, quantity = quantity, categoryID = mapID))
+            levelList.add(LevelEntity(id = id, quantity = quantity, categoryID = mapID, isDisabled = false))
         }
 
         return levelList
+    }
+
+    suspend fun updateVersion2() {
+        withContext(Dispatchers.IO) {
+            runCatching {
+
+                val categoryWithList = mapRepo.getCategoryWithLevelList().first()
+
+                categoryWithList.forEach { category ->
+                    category.levelList.forEach { level ->
+
+                        if (level.id > 12)
+                            levelRepo.delete(level)
+                        else if(level.id in 5..12){
+                            val newQuantity = when (level.id) {
+                                5 -> 16
+                                6 -> 20
+                                7 -> 24
+                                8 -> 28
+                                9 -> 30
+                                10 -> 34
+                                11 -> 38
+                                else -> 40
+                            }
+                            levelRepo.update(level.copy(quantity = newQuantity))
+                        }
+                    }
+                }
+            }
+        }
     }
 }

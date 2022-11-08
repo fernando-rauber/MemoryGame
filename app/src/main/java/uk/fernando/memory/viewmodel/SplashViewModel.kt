@@ -8,10 +8,15 @@ class SplashViewModel(private val prefs: PrefsStore, private val setUpUseCase: S
     fun setUp() {
         launchIO {
             if (prefs.getVersion() == 1) {
-                prefs.storeVersion(2)
+                prefs.storeVersion(3)
 
                 // Create all Levels
                 setUpUseCase.invoke()
+            }
+            if (prefs.getVersion() == 2) {
+                prefs.storeVersion(3)
+
+                setUpUseCase.updateVersion2()
             }
         }
     }
