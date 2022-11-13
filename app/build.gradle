@@ -12,8 +12,8 @@ android {
         applicationId "uk.fernando.memory"
         minSdk 25
         targetSdk 33
-        versionCode 8
-        versionName "1.6"
+        versionCode 9
+        versionName "1.6.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
