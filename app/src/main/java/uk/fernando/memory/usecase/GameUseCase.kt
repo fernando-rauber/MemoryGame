@@ -10,7 +10,7 @@ import uk.fernando.memory.ext.getStarsByMistakes
 import uk.fernando.memory.repository.LevelRepository
 import uk.fernando.memory.util.CardGenerator
 import uk.fernando.memory.util.CardModel
-import uk.fernando.memory.viewmodel.GameViewData
+import uk.fernando.memory.viewmodel.campaign.GameViewData
 import uk.fernando.util.ext.TAG
 
 class GameUseCase(

@@ -1,10 +1,11 @@
-package uk.fernando.memory.viewmodel
+package uk.fernando.memory.viewmodel.campaign
 
 import androidx.compose.runtime.mutableStateOf
 import uk.fernando.memory.database.entity.CategoryWithLevel
 import uk.fernando.memory.usecase.GetCategoryListUseCase
+import uk.fernando.memory.viewmodel.BaseViewModel
 
-class HomeViewModel(
+class LevelViewModel(
     private val getCategoryListUseCase: GetCategoryListUseCase,
 ) : BaseViewModel() {
 

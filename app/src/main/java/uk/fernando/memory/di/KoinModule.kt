@@ -18,8 +18,8 @@ import uk.fernando.memory.repository.CategoryRepositoryImpl
 import uk.fernando.memory.repository.LevelRepository
 import uk.fernando.memory.repository.LevelRepositoryImpl
 import uk.fernando.memory.usecase.*
-import uk.fernando.memory.viewmodel.GameViewModel
-import uk.fernando.memory.viewmodel.HomeViewModel
+import uk.fernando.memory.viewmodel.campaign.GameViewModel
+import uk.fernando.memory.viewmodel.campaign.LevelViewModel
 import uk.fernando.memory.viewmodel.SettingsViewModel
 import uk.fernando.memory.viewmodel.SplashViewModel
 
@@ -68,7 +68,7 @@ object KoinModule {
         get() = module {
 
             viewModel { SplashViewModel(get(), get()) }
-            viewModel { HomeViewModel(get()) }
+            viewModel { LevelViewModel(get()) }
             viewModel { SettingsViewModel(get(), get()) }
             viewModel { GameViewModel(get(), get(), get(), get()) }
         }

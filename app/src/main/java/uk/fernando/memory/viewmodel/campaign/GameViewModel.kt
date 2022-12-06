@@ -1,4 +1,4 @@
-package uk.fernando.memory.viewmodel
+package uk.fernando.memory.viewmodel.campaign
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -12,6 +12,7 @@ import uk.fernando.memory.repository.LevelRepository
 import uk.fernando.memory.usecase.GameUseCase
 import uk.fernando.memory.usecase.UpdateLevelUseCase
 import uk.fernando.memory.util.CardModel
+import uk.fernando.memory.viewmodel.BaseViewModel
 
 interface GameViewData {
     fun updateMistakes(value: Int)

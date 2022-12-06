@@ -1,4 +1,4 @@
-package uk.fernando.memory.screen
+package uk.fernando.memory.screen.campaign
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -48,7 +48,7 @@ import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.theme.gold
 import uk.fernando.memory.theme.greenDark
 import uk.fernando.memory.util.CardType
-import uk.fernando.memory.viewmodel.HomeViewModel
+import uk.fernando.memory.viewmodel.campaign.LevelViewModel
 import uk.fernando.util.component.MyAnimatedVisibility
 import uk.fernando.util.component.MyIconButton
 import uk.fernando.util.ext.clickableSingle
@@ -57,9 +57,9 @@ import uk.fernando.advertising.component.AdBanner
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun HomePage(
+fun LevelPage(
     navController: NavController = NavController(LocalContext.current),
-    viewModel: HomeViewModel = getViewModel()
+    viewModel: LevelViewModel = getViewModel()
 ) {
     val prefs: PrefsStore by inject()
     val starsCount = prefs.getStarCount().collectAsState(initial = 0)
@@ -103,7 +103,7 @@ fun HomePage(
                         if (level.star > 0)
                             currentLevel = level
                         else
-                            navController.safeNav(Directions.game.withArgs("${level.id}", "${level.categoryID}"))
+                            navController.safeNav(Directions.campaignGame.withArgs("${level.id}", "${level.categoryID}"))
                     }
                 )
             }
@@ -147,7 +147,7 @@ fun HomePage(
             level = currentLevel,
             onCancel = { currentLevel = null },
             onReplay = {
-                navController.safeNav(Directions.game.withArgs("${currentLevel?.id}", "${currentLevel?.categoryID}"))
+                navController.safeNav(Directions.campaignGame.withArgs("${currentLevel?.id}", "${currentLevel?.categoryID}"))
                 currentLevel = null
             }
         )

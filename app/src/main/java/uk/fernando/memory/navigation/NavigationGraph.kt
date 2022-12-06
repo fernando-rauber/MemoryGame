@@ -6,10 +6,10 @@ import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
 import uk.fernando.memory.navigation.Directions.CATEGORY_ID
 import uk.fernando.memory.navigation.Directions.LEVEL_ID
-import uk.fernando.memory.screen.GamePage
-import uk.fernando.memory.screen.HomePage
 import uk.fernando.memory.screen.SettingsPage
 import uk.fernando.memory.screen.SplashPage
+import uk.fernando.memory.screen.campaign.GamePage
+import uk.fernando.memory.screen.campaign.LevelPage
 
 
 @ExperimentalAnimationApi
@@ -18,11 +18,11 @@ fun NavGraphBuilder.buildGraph(navController: NavController) {
         SplashPage(navController)
     }
 
-    composable(Directions.home.path) {
-        HomePage(navController)
+    composable(Directions.level.path) {
+        LevelPage(navController)
     }
 
-    composable(Directions.game.withArgsFormat(LEVEL_ID, CATEGORY_ID)) {
+    composable(Directions.campaignGame.withArgsFormat(LEVEL_ID, CATEGORY_ID)) {
         val levelId = it.arguments?.getString(LEVEL_ID)
         val categoryId = it.arguments?.getString(CATEGORY_ID)
 

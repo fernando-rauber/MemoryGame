@@ -8,11 +8,12 @@ import org.koin.test.inject
 import uk.fernando.memory.KoinTestCase
 import uk.fernando.memory.MainCoroutineRule
 import uk.fernando.memory.di.allMockedModules
+import uk.fernando.memory.viewmodel.campaign.LevelViewModel
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeUnitTest : KoinTestCase() {
-    private val homeViewModel: HomeViewModel by inject()
+    private val levelViewModel: LevelViewModel by inject()
 
     @get:Rule
     val coroutineRule = MainCoroutineRule()
@@ -25,16 +26,16 @@ class HomeUnitTest : KoinTestCase() {
     @Test
     fun `fetch categories and levels`() {
 
-        assertEquals(true, homeViewModel.categoryList.value.isNotEmpty())
+        assertEquals(true, levelViewModel.categoryList.value.isNotEmpty())
 
     }
 
     @Test
     fun `check if first level is unlocked`() {
 
-        assertEquals(true, homeViewModel.categoryList.value.isNotEmpty())
+        assertEquals(true, levelViewModel.categoryList.value.isNotEmpty())
 
-        val firstLevel = homeViewModel.categoryList.value.first().levelList.first()
+        val firstLevel = levelViewModel.categoryList.value.first().levelList.first()
         assertEquals(false, firstLevel.isDisabled)
     }
 

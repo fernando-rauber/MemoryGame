@@ -1,4 +1,4 @@
-package uk.fernando.memory.screen
+package uk.fernando.memory.screen.campaign
 
 import android.media.MediaPlayer
 import androidx.compose.animation.AnimatedVisibility
@@ -45,7 +45,7 @@ import uk.fernando.memory.ext.getWidthSize
 import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.util.CardModel
 import uk.fernando.memory.util.CardType
-import uk.fernando.memory.viewmodel.GameViewModel
+import uk.fernando.memory.viewmodel.campaign.GameViewModel
 import uk.fernando.util.component.MyAnimatedVisibility
 import uk.fernando.util.ext.playAudio
 import uk.fernando.util.ext.safeNav
@@ -107,7 +107,7 @@ fun GamePage(
                 val categoryID = if (id > MAX_CARDS_PER_CATEGORY) category + 1 else category
 
                 navController.popBackStack()
-                navController.safeNav(Directions.game.withArgs("$levelID", "$categoryID"))
+                navController.safeNav(Directions.campaignGame.withArgs("$levelID", "$categoryID"))
             }
         )
     }

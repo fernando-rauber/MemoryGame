@@ -37,16 +37,16 @@ object Directions {
             get() = emptyList()
     }
 
-    val home = object : NavigationCommand {
+    val level = object : NavigationCommand {
         override val path: String
-            get() = "home"
+            get() = "level"
         override val arguments: List<NamedNavArgument>
             get() = emptyList()
     }
 
-    val game = object : NavigationCommand {
+    val campaignGame = object : NavigationCommand {
         override val path: String
-            get() = "game"
+            get() = "campaign_game"
         override val arguments: List<NamedNavArgument>
             get() = listOf(
                 navArgument(LEVEL_ID) { type = NavType.StringType },
