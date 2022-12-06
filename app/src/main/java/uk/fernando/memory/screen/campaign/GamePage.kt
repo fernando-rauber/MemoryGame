@@ -45,6 +45,7 @@ import uk.fernando.memory.ext.getWidthSize
 import uk.fernando.memory.navigation.Directions
 import uk.fernando.memory.util.CardModel
 import uk.fernando.memory.util.CardType
+import uk.fernando.memory.viewmodel.BaseGameViewModel
 import uk.fernando.memory.viewmodel.campaign.GameViewModel
 import uk.fernando.util.component.MyAnimatedVisibility
 import uk.fernando.util.ext.playAudio
@@ -171,7 +172,7 @@ private fun TopBar(viewModel: GameViewModel, levelId: Int, onClose: () -> Unit) 
 }
 
 @Composable
-private fun CountDownAndAd(isPremium: Boolean, startSoundEffect: () -> Unit, onStart: () -> Unit) {
+fun CountDownAndAd(isPremium: Boolean, startSoundEffect: () -> Unit, onStart: () -> Unit) {
     var countDown by remember { mutableStateOf(COUNTDOWN_TIMER) }
 
     LaunchedEffect(Unit) {
@@ -213,21 +214,23 @@ private fun CountDownAndAd(isPremium: Boolean, startSoundEffect: () -> Unit, onS
 }
 
 @Composable
-private fun CardList(viewModel: GameViewModel, isSoundEnable: Boolean) {
+fun CardList(viewModel: BaseGameViewModel, isSoundEnable: Boolean, boardSize: Int? = null) {
     val coroutine = rememberCoroutineScope()
     val soundCorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_correct)
-    val soundIncorrect = MediaPlayer.create(LocalContext.current, R.raw.sound_incorrect)
+    val soundIncorrect = MediaPlayer.create(LocalContext.current, R.raw.bip)
+    val width = if (boardSize != null) 1.0f else viewModel.quantity.value.getWidthSize()
+    val cellSize = boardSize ?: viewModel.quantity.value.getCellCount()
 
     Box(Modifier.fillMaxSize()) {
 
         LazyVerticalGrid(
             modifier = Modifier
-                .fillMaxWidth(viewModel.quantity.value.getWidthSize())
+                .fillMaxWidth(width)
                 .align(Alignment.Center),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            columns = GridCells.Fixed(viewModel.quantity.value.getCellCount())
+            columns = GridCells.Fixed(cellSize)
         ) {
             items(viewModel.cardList) { card ->
 

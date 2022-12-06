@@ -4,6 +4,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
+import uk.fernando.memory.navigation.Directions.BOARD_SIZE
 import uk.fernando.memory.navigation.Directions.CATEGORY_ID
 import uk.fernando.memory.navigation.Directions.LEVEL_ID
 import uk.fernando.memory.screen.HomePage
@@ -12,6 +13,7 @@ import uk.fernando.memory.screen.SplashPage
 import uk.fernando.memory.screen.campaign.GamePage
 import uk.fernando.memory.screen.campaign.LevelPage
 import uk.fernando.memory.screen.custom.CreateGamePage
+import uk.fernando.memory.screen.custom.CustomGamePage
 import uk.fernando.memory.screen.custom.ScorePage
 
 
@@ -31,6 +33,15 @@ fun NavGraphBuilder.buildGraph(navController: NavController) {
 
     composable(Directions.createGame.path) {
         CreateGamePage(navController)
+    }
+
+    composable(Directions.customGame.withArgsFormat(BOARD_SIZE)) {
+        val boardSize = it.arguments?.getString(BOARD_SIZE)
+
+        if (boardSize == null)
+            navController.popBackStack()
+        else
+            CustomGamePage(navController, boardSize.toInt())
     }
 
     composable(Directions.level.path) {

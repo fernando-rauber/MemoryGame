@@ -22,6 +22,7 @@ import uk.fernando.memory.viewmodel.campaign.LevelViewModel
 import uk.fernando.memory.viewmodel.SettingsViewModel
 import uk.fernando.memory.viewmodel.SplashViewModel
 import uk.fernando.memory.viewmodel.custom.CreateGameViewModel
+import uk.fernando.memory.viewmodel.custom.CustomGameViewModel
 import uk.fernando.memory.viewmodel.custom.ScoreViewModel
 
 object KoinModule {
@@ -77,6 +78,7 @@ object KoinModule {
 
             viewModel { CreateGameViewModel(get()) }
             viewModel { ScoreViewModel(get()) }
+            viewModel { CustomGameViewModel(get(), get(), get()) }
         }
 
     private const val DB_NAME = "memory_game.db"

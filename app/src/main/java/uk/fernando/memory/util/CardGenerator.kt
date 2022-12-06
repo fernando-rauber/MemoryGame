@@ -169,14 +169,16 @@ class CardGenerator {
         )
     }
 
-    fun generateCards(quantity: Int, type: Int): List<CardModel> {
+    fun generateCards(quantity: Int, categoryList: List<Int>): List<CardModel> {
         val questionList = mutableListOf<CardModel>()
 
-        for (i in 1..quantity / 2) {
-            val idCreated = createCardId(type)
+        for (i in 1..(quantity / 2)) {
+            val category = categoryList.shuffled().first()
 
-            questionList.add(CardModel(id = idCreated, type = type))
-            questionList.add(CardModel(id = idCreated, type = type))
+            val idCreated = createCardId(category)
+
+            questionList.add(CardModel(id = idCreated, type = category))
+            questionList.add(CardModel(id = idCreated, type = category))
         }
 
         val cardsList = mutableListOf<CardModel>()

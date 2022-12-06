@@ -1,47 +1,46 @@
-package uk.fernando.memory.viewmodel.campaign
+package uk.fernando.memory.viewmodel.custom
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import uk.fernando.logger.MyLogger
 import uk.fernando.memory.component.CardFace
 import uk.fernando.memory.database.entity.LevelEntity
 import uk.fernando.memory.database.entity.ScoreEntity
-import uk.fernando.memory.datastore.PrefsStore
-import uk.fernando.memory.repository.LevelRepository
-import uk.fernando.memory.usecase.GameUseCase
-import uk.fernando.memory.usecase.UpdateLevelUseCase
+import uk.fernando.memory.datastore.GamePrefsStore
+import uk.fernando.memory.repository.ScoreRepository
+import uk.fernando.memory.usecase.CustomGameUseCase
 import uk.fernando.memory.util.CardModel
 import uk.fernando.memory.viewmodel.BaseGameViewModel
-import uk.fernando.memory.viewmodel.BaseViewModel
 import uk.fernando.memory.viewmodel.GameViewData
 
-class GameViewModel(
-    updateLevelUseCase: UpdateLevelUseCase,
-    prefsStore: PrefsStore,
-    repository: LevelRepository,
+
+class CustomGameViewModel(
+    private val gamePrefsStore: GamePrefsStore,
+    repository: ScoreRepository,
     logger: MyLogger
 ) : BaseGameViewModel(), GameViewData {
 
-    private val gameUseCase = GameUseCase(this, prefsStore, updateLevelUseCase, repository, logger)
-    val levelResult = mutableStateOf<LevelEntity?>(null)
+    private val gameUseCase = CustomGameUseCase(this, repository, logger)
+    val result = mutableStateOf<ScoreEntity?>(null)
 
-    suspend fun setUpGame(levelID: Int, categoryId: Int) = flow {
-        emit(gameUseCase.createCardList(levelID, categoryId))
+    suspend fun setUpGame() {
+        val boardSize = gamePrefsStore.getBoardSize()
+        val categories = gamePrefsStore.getCategoryList()
+
+        gameUseCase.createCardList(boardSize, categories)
     }
 
     override fun startGame() {
         launchDefault {
             (0 until _cardList.size).forEach { index -> // Hide all cards after some secs
                 _cardList[index] = _cardList[index].copy(status = CardFace.Front)
-                delay(50)
             }
         }
     }
 
     override fun setSelectedCard(card: CardModel) = flow {
         val isCorrect = gameUseCase.setSelectedCard(card)
+
         emit(isCorrect)
 
         if (isCorrect != null)
@@ -53,7 +52,7 @@ class GameViewModel(
     }
 
     override fun endGame(level: LevelEntity?, score: ScoreEntity?) {
-        levelResult.value = level
+        result.value = score
     }
 
     override fun startGame(cards: List<CardModel>) {
