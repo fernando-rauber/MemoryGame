@@ -15,16 +15,14 @@ import uk.fernando.memory.datastore.GamePrefsStore
 import uk.fernando.memory.datastore.GamePrefsStoreImpl
 import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.datastore.PrefsStoreImpl
-import uk.fernando.memory.repository.CategoryRepository
-import uk.fernando.memory.repository.CategoryRepositoryImpl
-import uk.fernando.memory.repository.LevelRepository
-import uk.fernando.memory.repository.LevelRepositoryImpl
+import uk.fernando.memory.repository.*
 import uk.fernando.memory.usecase.*
 import uk.fernando.memory.viewmodel.campaign.GameViewModel
 import uk.fernando.memory.viewmodel.campaign.LevelViewModel
 import uk.fernando.memory.viewmodel.SettingsViewModel
 import uk.fernando.memory.viewmodel.SplashViewModel
 import uk.fernando.memory.viewmodel.custom.CreateGameViewModel
+import uk.fernando.memory.viewmodel.custom.ScoreViewModel
 
 object KoinModule {
 
@@ -52,12 +50,14 @@ object KoinModule {
         single { provideDatabase(androidApplication()) }
         factory { get<MyDatabase>().categoryDAO() }
         factory { get<MyDatabase>().levelDAO() }
+        factory { get<MyDatabase>().scoreDAO() }
     }
 
     private val repositoryModule: Module
         get() = module {
             factory<CategoryRepository> { CategoryRepositoryImpl(get()) }
             factory<LevelRepository> { LevelRepositoryImpl(get()) }
+            factory<ScoreRepository> { ScoreRepositoryImpl(get()) }
         }
 
     private val useCaseModule: Module
@@ -76,6 +76,7 @@ object KoinModule {
             viewModel { GameViewModel(get(), get(), get(), get()) }
 
             viewModel { CreateGameViewModel(get()) }
+            viewModel { ScoreViewModel(get()) }
         }
 
     private const val DB_NAME = "memory_game.db"

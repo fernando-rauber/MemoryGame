@@ -7,6 +7,14 @@
     <string name="levels_action">Níveis</string>
     <string name="custom_action">Personalizado</string>
 
+    // Score
+    <string name="score_title">Pontuação</string>
+    <string name="start_new_game_action">Começar novo jogo</string>
+    <string name="new_game_action">Novo Jogo</string>
+    <string name="empty_history_text">Inicie um novo jogo e teste sua memória</string>
+    <string name="board_size_args">Tamanho do tabuleiro: %1$dX%2$d</string>
+    <string name="attempts_args">Tentativas: %1$d</string>
+
     // Create Game
     <string name="start_action">Começar</string>
     <string name="game_creation_title">Jogo Personalizado</string>

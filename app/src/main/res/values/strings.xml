@@ -10,6 +10,14 @@
     <string name="levels_action">Levels</string>
     <string name="custom_action">Custom</string>
 
+    // Score
+    <string name="score_title">Score</string>
+    <string name="start_new_game_action">Start New Game</string>
+    <string name="new_game_action">New Game</string>
+    <string name="empty_history_text">Start a new game and test your memory skill</string>
+    <string name="board_size_args">Board size: %1$dX%2$d</string>
+    <string name="attempts_args">Attempts: %1$d</string>
+
     // Create Game
     <string name="start_action">Start</string>
     <string name="game_creation_title">Custom Game</string>

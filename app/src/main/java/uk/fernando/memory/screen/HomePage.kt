@@ -51,7 +51,7 @@ fun HomePage(navController: NavController = NavController(LocalContext.current))
                     .fillMaxWidth()
                     .defaultMinSize(minHeight = 50.dp),
                 text = stringResource(R.string.custom_action).uppercase(),
-                onClick = { navController.safeNav(Directions.createGame.path) }
+                onClick = { navController.safeNav(Directions.score.path) }
             )
         }
 

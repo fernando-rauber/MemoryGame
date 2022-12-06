@@ -12,6 +12,7 @@ import uk.fernando.memory.screen.SplashPage
 import uk.fernando.memory.screen.campaign.GamePage
 import uk.fernando.memory.screen.campaign.LevelPage
 import uk.fernando.memory.screen.custom.CreateGamePage
+import uk.fernando.memory.screen.custom.ScorePage
 
 
 @ExperimentalAnimationApi
@@ -22,6 +23,10 @@ fun NavGraphBuilder.buildGraph(navController: NavController) {
 
     composable(Directions.home.path) {
         HomePage(navController)
+    }
+
+    composable(Directions.score.path) {
+        ScorePage(navController)
     }
 
     composable(Directions.createGame.path) {

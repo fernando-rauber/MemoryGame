@@ -61,6 +61,13 @@ object Directions {
             )
     }
 
+    val score = object : NavigationCommand {
+        override val path: String
+            get() = "score"
+        override val arguments: List<NamedNavArgument>
+            get() = emptyList()
+    }
+
     val createGame = object : NavigationCommand {
         override val path: String
             get() = "create_game"
