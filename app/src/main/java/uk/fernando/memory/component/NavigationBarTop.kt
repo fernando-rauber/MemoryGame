@@ -15,7 +15,7 @@ import uk.fernando.util.component.MyIconButton
 @Composable
 fun NavigationBarTop(
     @StringRes title: Int?,
-    onLeftIconClick: (() -> Unit)? = null,
+    onBackClick: (() -> Unit)? = null,
     rightIcon: (@Composable () -> Unit)? = null
 ) {
 
@@ -25,11 +25,11 @@ fun NavigationBarTop(
             .padding(horizontal = 10.dp)
     ) {
 
-        if (onLeftIconClick != null)
+        if (onBackClick != null)
             MyIconButton(
                 icon = R.drawable.ic_arrow_back,
                 modifier = Modifier.align(Alignment.CenterStart),
-                onClick = onLeftIconClick,
+                onClick = onBackClick,
                 tint = MaterialTheme.colorScheme.onBackground
             )
 

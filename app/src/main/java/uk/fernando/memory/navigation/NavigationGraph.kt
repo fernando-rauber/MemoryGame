@@ -6,16 +6,26 @@ import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
 import uk.fernando.memory.navigation.Directions.CATEGORY_ID
 import uk.fernando.memory.navigation.Directions.LEVEL_ID
+import uk.fernando.memory.screen.HomePage
 import uk.fernando.memory.screen.SettingsPage
 import uk.fernando.memory.screen.SplashPage
 import uk.fernando.memory.screen.campaign.GamePage
 import uk.fernando.memory.screen.campaign.LevelPage
+import uk.fernando.memory.screen.custom.CreateGamePage
 
 
 @ExperimentalAnimationApi
 fun NavGraphBuilder.buildGraph(navController: NavController) {
     composable(Directions.splash.path) {
         SplashPage(navController)
+    }
+
+    composable(Directions.home.path) {
+        HomePage(navController)
+    }
+
+    composable(Directions.createGame.path) {
+        CreateGamePage(navController)
     }
 
     composable(Directions.level.path) {

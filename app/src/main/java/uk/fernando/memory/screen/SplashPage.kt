@@ -32,7 +32,7 @@ fun SplashPage(
     }
 
     val currentOnTimeout by rememberUpdatedState {
-        navController.navigate(Directions.level.path) {
+        navController.navigate(Directions.home.path) {
             popUpTo(Directions.splash.path) { inclusive = true }
         }
     }

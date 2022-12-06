@@ -48,7 +48,7 @@ fun SettingsPage(
 
             NavigationBarTop(
                 title = R.string.settings_title,
-                onLeftIconClick = { navController.popBackStack() }
+                onBackClick = { navController.popBackStack() }
             )
 
             Column(

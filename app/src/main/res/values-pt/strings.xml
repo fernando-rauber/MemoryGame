@@ -3,6 +3,17 @@
     <string name="app_name">Jogo da memória</string>
 
     // Home
+    <string name="home_subtext">Escolha seu jogo</string>
+    <string name="levels_action">Níveis</string>
+    <string name="custom_action">Personalizado</string>
+
+    // Create Game
+    <string name="start_action">Começar</string>
+    <string name="game_creation_title">Jogo Personalizado</string>
+    <string name="board_size">Tamanho do tabuleiro</string>
+    <string name="categories">Categorias</string>
+
+    // Level
     <string name="close_action">Fechar</string>
     <string name="completed">Concluído</string>
     <string name="failed">Fracassado</string>

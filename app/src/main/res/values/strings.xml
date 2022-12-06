@@ -6,6 +6,17 @@
     <string name="ad_interstitial_end_level" translatable="false">ca-app-pub-5791754615168338/6144941951</string>
 
     // Home
+    <string name="home_subtext">Choose your game</string>
+    <string name="levels_action">Levels</string>
+    <string name="custom_action">Custom</string>
+
+    // Create Game
+    <string name="start_action">Start</string>
+    <string name="game_creation_title">Custom Game</string>
+    <string name="board_size">Board size</string>
+    <string name="categories">Categories</string>
+
+    // Level
     <string name="close_action">Close</string>
     <string name="completed">Completed</string>
     <string name="failed">Failed</string>

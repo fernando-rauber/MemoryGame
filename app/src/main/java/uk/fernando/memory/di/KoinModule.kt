@@ -11,6 +11,8 @@ import uk.fernando.logger.AndroidLogger
 import uk.fernando.logger.MyLogger
 import uk.fernando.memory.BuildConfig
 import uk.fernando.memory.database.MyDatabase
+import uk.fernando.memory.datastore.GamePrefsStore
+import uk.fernando.memory.datastore.GamePrefsStoreImpl
 import uk.fernando.memory.datastore.PrefsStore
 import uk.fernando.memory.datastore.PrefsStoreImpl
 import uk.fernando.memory.repository.CategoryRepository
@@ -22,6 +24,7 @@ import uk.fernando.memory.viewmodel.campaign.GameViewModel
 import uk.fernando.memory.viewmodel.campaign.LevelViewModel
 import uk.fernando.memory.viewmodel.SettingsViewModel
 import uk.fernando.memory.viewmodel.SplashViewModel
+import uk.fernando.memory.viewmodel.custom.CreateGameViewModel
 
 object KoinModule {
 
@@ -35,6 +38,7 @@ object KoinModule {
 
         single { getAndroidLogger() }
         single<PrefsStore> { PrefsStoreImpl(androidApplication()) }
+        single<GamePrefsStore> { GamePrefsStoreImpl(androidApplication()) }
     }
 
     private val databaseModule = module {
@@ -66,11 +70,12 @@ object KoinModule {
 
     private val viewModelModule: Module
         get() = module {
-
             viewModel { SplashViewModel(get(), get()) }
             viewModel { LevelViewModel(get()) }
             viewModel { SettingsViewModel(get(), get()) }
             viewModel { GameViewModel(get(), get(), get(), get()) }
+
+            viewModel { CreateGameViewModel(get()) }
         }
 
     private const val DB_NAME = "memory_game.db"

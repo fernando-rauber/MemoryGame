@@ -6,6 +6,7 @@ import uk.fernando.memory.config.AppConfig.MISTAKES_POSSIBLE
 import uk.fernando.memory.config.AppConfig.SCREEN_HEIGHT
 import uk.fernando.memory.theme.*
 import uk.fernando.memory.util.CardType
+import uk.fernando.memory.util.CardType.Companion.getByValue
 
 
 fun Int.getWidthSize(): Float {
@@ -51,6 +52,28 @@ fun Int.getBackgroundColor(): Color {
 }
 
 fun Int.getTypeName(): Int {
+    return when (CardType.getByValue(this)) {
+        CardType.ANIMAL -> R.string.animal
+        CardType.FLAG -> R.string.flags
+        CardType.TREE -> R.string.trees
+        CardType.FOOD -> R.string.foods
+        CardType.TILE -> R.string.tiles
+        else -> R.string.numbers
+    }
+}
+
+fun Int.getCategoryIcon(): Int {
+    return when (getByValue(this)) {
+        CardType.ANIMAL -> R.drawable.animal_bee
+        CardType.FLAG -> R.drawable.flag_australia
+        CardType.TREE -> R.drawable.tree_apricot
+        CardType.FOOD -> R.drawable.food_avocado
+        CardType.TILE -> R.drawable.tile_11
+        else -> R.drawable.tile_11
+    }
+}
+
+fun Int.getCategoryName(): Int {
     return when (CardType.getByValue(this)) {
         CardType.ANIMAL -> R.string.animal
         CardType.FLAG -> R.string.flags
